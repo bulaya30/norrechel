@@ -1,0 +1,9 @@
+{
+  "Navigation": {
+    "home": "Accueil",
+    "blogs": "Articles",
+    "projects": "Projets",
+    "about": "À propos",
+    "contact": "Contact"
+  }
+}
