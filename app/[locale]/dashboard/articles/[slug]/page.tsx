@@ -9,7 +9,7 @@ import AuthorCard from "@/features/articles/components/AuthorCard";
 import ArticleCTA from "@/features/articles/components/ArticleCTA";
 import DashboardPageHeader from "@/features/dashboard/components/DashboardPageHeader";
 
-import { requireAuthenticatedUser } from "@/features/auth/lib/requireAuthenticatedUser";
+import { getAuthenticatedUser } from "@/features/auth/lib/getAuthenticatedUser";
 
 import { getCachedArticleBySlug } from "@/features/articles/queries/article.queries";
 import { normalizeDate } from "@/lib/dates/utils";
@@ -72,8 +72,9 @@ export async function generateMetadata({
   params,
 }: ArticlePageProps): Promise<Metadata> {
   const { locale, slug } = await params;
+  const user = await getAuthenticatedUser();
 
-  const article = await getCachedArticleBySlug(slug, locale);
+  const article = await getCachedArticleBySlug(slug, locale, user?.userId ?? null);
 
   if (!article) {
     return {
@@ -136,16 +137,16 @@ export default async function ArticlePage({
 }: ArticlePageProps) {
     const { locale, slug } = await params;
 
-    const { userId } = await requireAuthenticatedUser();
+    const user = await getAuthenticatedUser();
     console.log(slug)
 
-    const article = await getCachedArticleBySlug(slug, locale, userId);
+    const article = await getCachedArticleBySlug(slug, locale, user?.userId ?? null);
 
     if (!article) {
         return (
         <ContentNotFound
             locale={locale}
-            type="article"
+            component="article"
         />
         );
     }
@@ -154,7 +155,7 @@ export default async function ArticlePage({
         return (
         <ContentDeleted
             locale={locale}
-            type="article"
+            component="article"
         />
         );
     }

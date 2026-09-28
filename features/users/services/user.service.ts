@@ -284,8 +284,7 @@ export default class UserService {
         idToken
       );
 
-    const user =
-      await this.userRepository.findById(
+    const user = await this.userRepository.findById(
         decoded.uid
       );
 

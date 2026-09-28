@@ -8,8 +8,14 @@ type SupportedLocale = "en" | "fr";
 interface DashboardLayoutProps {
   children: ReactNode;
   params: Promise<{
-    locale: SupportedLocale;
+    locale: string;
   }>;
+}
+
+function isSupportedLocale(
+  locale: string,
+): locale is SupportedLocale {
+  return locale === "en" || locale === "fr";
 }
 
 export default async function DashboardLayout({
@@ -17,6 +23,10 @@ export default async function DashboardLayout({
   params,
 }: DashboardLayoutProps) {
   const { locale } = await params;
+
+  if (!isSupportedLocale(locale)) {
+    throw new Error(`Unsupported locale: ${locale}`);
+  }
 
   return (
     <div className="min-h-screen bg-slate-100">

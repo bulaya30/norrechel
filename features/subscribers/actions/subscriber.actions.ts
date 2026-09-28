@@ -42,7 +42,7 @@ export async function unsubscribeSubscriberAction(id: string) {
   }
 }
 
-export async function reactivateSubscriberAction(id: string) {
+export async function reactivateSubscriberAction(id: string | null) {
   try {
     await requireAuthenticatedUser();
 

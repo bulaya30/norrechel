@@ -50,7 +50,7 @@ export default function SubscriberRow({
 
     startTransition(async () => {
       const result = await reactivateSubscriberAction(
-        subscriber.id
+        subscriber.id ?? null
       );
 
       if (!result.success) {

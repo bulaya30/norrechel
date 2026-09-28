@@ -1,7 +1,16 @@
 import { visitorService } from "@/lib/container/visitor.container";
 import { success, failure, type Params } from "@/lib/api/response";
 
-export async function DELETE(_request: Request, { params }: Params) {
+interface RouteContext {
+  params: Promise<{
+    id: string;
+  }>;
+}
+
+export async function DELETE(
+    req: Request,
+  { params }: RouteContext,
+) {
     try {
         const { id } = await params;
         await visitorService.deleteVisitor(id);

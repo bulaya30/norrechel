@@ -27,3 +27,13 @@ export async function getCachedViews(): Promise<View[]> {
 
   return serializeFirestore(views);
 }
+
+export async function getCachedViewsByContent(id: string): Promise<View[] | null> {
+  cacheTag(
+    "views",
+    "views:all",
+  );
+  const views = await viewService.getViewsByContent(id)
+
+  return serializeFirestore(views)
+}

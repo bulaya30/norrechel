@@ -3,13 +3,12 @@ import { success, failure, type Params } from "@/lib/api/response";
 
 export async function PATCH(request: Request, { params }: Params) {
     try {
-        const { searchParams } = new URL(request.url);
-        // temporary until auth middleware
-        const uid = searchParams.get("uid");
+        const body = await request.json();
+        const uid = body.uid;
         if (!uid) {
             throw new Error("User id is required");
         }
-        await projectService.deleteAllProjects(uid);
+        await projectService.deleteAllProjectsForUser(uid);
         return success({ status: "reset" }, 200);
     } catch (error) {
         return failure(error, 400);

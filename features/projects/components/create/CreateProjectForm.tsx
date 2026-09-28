@@ -608,7 +608,8 @@ export default function CreateProjectForm({
 
       <FormActions
         locale={locale}
-        mode="create"
+        component={"project"}
+        mode={"create"}
         isSaving={isPending}
         onSaveDraft={
           handleSaveDraft

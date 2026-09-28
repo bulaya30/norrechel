@@ -8,8 +8,7 @@ import EditProjectForm from "@/features/projects/components/edit/EditProjectForm
 import { getCachedProjectBySlug } from "@/features/projects/queries/project.queries";
 import { getCachedCategories } from "@/features/categories/queries/category.queries";
 
-import { requireAuthenticatedUser } from "@/features/auth/lib/requireAuthenticatedUser";
-
+import { getAuthenticatedUser } from "@/features/auth/lib/getAuthenticatedUser";
 type SupportedLocale = "en" | "fr";
 
 interface EditProjectPageProps {
@@ -23,10 +22,10 @@ export default async function EditProjectPage({
   params,
 }: EditProjectPageProps) {
     const { locale, slug } = await params;
-    const { userId } = await requireAuthenticatedUser();
+    const user = await getAuthenticatedUser();
     
     const [project, categories] = await Promise.all([
-      getCachedProjectBySlug(slug, locale, userId),
+      getCachedProjectBySlug(slug, locale, user?.userId ?? null),
       getCachedCategories(),
     ]);
     

@@ -5,8 +5,6 @@ import DashboardPageHeader from "@/features/dashboard/components/DashboardPageHe
 
 import { getCachedCategoryBySlug } from "@/features/categories/queries/category.queries";
 
-import { requireAuthenticatedUser } from "@/features/auth/lib/requireAuthenticatedUser";
-
 import EditCategoryForm from "@/features/categories/components/edit/EditCategoryForm";
 
 type SupportedLocale = "en" | "fr";
@@ -23,14 +21,13 @@ export default async function EditCategoryPage({
 }: EditCategoryPageProps) {
     const { locale, slug } = await params;
 
-    const { userId } = await requireAuthenticatedUser();
     const category = await getCachedCategoryBySlug(slug)
 
     if (!category) {
       return (
         <ContentNotFound
           locale={locale}
-          type="article"
+          component="article"
         />
       );
     }
@@ -39,7 +36,7 @@ export default async function EditCategoryPage({
       return (
         <ContentDeleted
           locale={locale}
-          type="article"
+          component="article"
         />
       );
     }

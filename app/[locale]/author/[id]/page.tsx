@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import Header from "@/components/header/Header";
+
 import AuthorHero from "@/features/authors/components/AuthorHero";
 import AuthorStats from "@/features/authors/components/AuthorStats";
 import AuthorTabs from "@/features/authors/components/AuthorTabs";
@@ -11,6 +12,7 @@ import AuthorAbout from "@/features/authors/components/AuthorAbout";
 
 import { getCachedUserById } from "@/features/users/queries/user.queries";
 import { getCachedArticlesByAuthor } from "@/features/articles/queries/article.queries";
+import { getCachedViewsByContent } from "@/features/views/queries/view.queries";
 import { getCachedProjectsByAuthor } from "@/features/projects/queries/project.queries";
 import { getCachedSubscribers } from "@/features/subscribers/queries/subscriber.queries";
 
@@ -18,7 +20,7 @@ type SupportedLocale = "en" | "fr";
 
 interface AuthorPageProps {
   params: Promise<{
-    locale: SupportedLocale;
+    locale: string;
     id: string;
   }>;
 }
@@ -28,6 +30,12 @@ type LocalizedValue =
   | Record<string, string>
   | null
   | undefined;
+
+function isSupportedLocale(
+  locale: string,
+): locale is SupportedLocale {
+  return locale === "en" || locale === "fr";
+}
 
 function getLocalizedValue(
   value: LocalizedValue,
@@ -60,7 +68,19 @@ function formatNumber(value: number): string {
 export async function generateMetadata({
   params,
 }: AuthorPageProps): Promise<Metadata> {
-  const { locale, id } = await params;
+  const { locale: rawLocale, id } = await params;
+
+  if (!isSupportedLocale(rawLocale)) {
+    return {
+      title: "Author not found",
+      robots: {
+        index: false,
+        follow: false,
+      },
+    };
+  }
+
+  const locale = rawLocale;
 
   const authorResult = await getCachedUserById(id);
 
@@ -120,7 +140,13 @@ export async function generateMetadata({
 export default async function AuthorPage({
   params,
 }: AuthorPageProps) {
-  const { locale, id } = await params;
+  const { locale: rawLocale, id } = await params;
+
+  if (!isSupportedLocale(rawLocale)) {
+    notFound();
+  }
+
+  const locale = rawLocale;
 
   const [
     authorResult,
@@ -138,8 +164,6 @@ export default async function AuthorPage({
     ? authorResult[0]
     : authorResult;
 
-  // console.log(author)
-
   if (!author) {
     notFound();
   }
@@ -148,32 +172,88 @@ export default async function AuthorPage({
     ? articlesResult.filter(Boolean)
     : [];
 
+  const articleViews = await Promise.all(
+    articles.map(async (article) => {
+      if (!article.id) {
+        return {
+          id: "",
+          count: 0,
+        };
+      }
+
+      const views = await getCachedViewsByContent(
+        article.id,
+      );
+
+      return {
+        id: article.id,
+        count: Array.isArray(views)
+          ? views.length
+          : 0,
+      };
+    }),
+  );
+
+  const viewsByArticle = Object.fromEntries(
+    articleViews
+      .filter((item) => item.id)
+      .map((item) => [
+        item.id,
+        item.count,
+      ]),
+  );
+
   const projects = Array.isArray(projectsResult)
     ? projectsResult.filter(Boolean)
     : [];
+  const projectViews = await Promise.all(
+      articles.map(async (article) => {
+        if (!article.id) {
+          return {
+            id: "",
+            count: 0,
+          };
+        }
 
+        const views = await getCachedViewsByContent(
+          article.id,
+        );
+
+        return {
+          id: article.id,
+          count: Array.isArray(views)
+            ? views.length
+            : 0,
+        };
+      }),
+    );
+
+    const viewsByProject = Object.fromEntries(
+      articleViews
+        .filter((item) => item.id)
+        .map((item) => [
+          item.id,
+          item.count,
+        ]),
+    );
   const subscribers = Array.isArray(subscribersResult)
     ? subscribersResult.filter(Boolean)
     : [];
 
-  const totalViews = articles.reduce(
+  /*
+   * Article currently exposes `views?: View[]`,
+   * not an `analytics` property.
+   *
+   * Therefore total views are calculated from the
+   * stored article view records.
+   */
+  const totalArticleViews = articles.reduce(
     (total, article) => {
-      const analyticsViews =
-        article.analytics &&
-        typeof article.analytics === "object" &&
-        "views" in article.analytics &&
-        article.analytics.views &&
-        typeof article.analytics.views === "object" &&
-        "count" in article.analytics.views &&
-        typeof article.analytics.views.count === "number"
-          ? article.analytics.views.count
-          : undefined;
-
-      const storedViews = Array.isArray(article.views)
+      const articleViews = Array.isArray(article.views)
         ? article.views.length
         : 0;
 
-      return total + (analyticsViews ?? storedViews);
+      return total + articleViews;
     },
     0,
   );
@@ -210,6 +290,7 @@ export default async function AuthorPage({
       className="min-h-screen"
     >
       <Header />
+
       <div className="container mx-auto px-4 pb-20 pt-24">
         <div className="mx-auto max-w-7xl">
           <AuthorHero
@@ -231,7 +312,7 @@ export default async function AuthorPage({
           <AuthorStats
             articles={formatNumber(articles.length)}
             projects={formatNumber(projects.length)}
-            views={formatNumber(totalViews)}
+            views={formatNumber(totalArticleViews)}
             subscribers={formatNumber(subscribers.length)}
           />
 
@@ -241,12 +322,14 @@ export default async function AuthorPage({
               <AuthorArticles
                 articles={articles}
                 locale={locale}
+                views={viewsByArticle}
               />
             }
             projectsContent={
               <AuthorProjects
                 projects={projects}
                 locale={locale}
+                views={viewsByProject}
               />
             }
             aboutContent={

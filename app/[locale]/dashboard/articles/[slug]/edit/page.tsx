@@ -34,7 +34,7 @@ export default async function EditArticlePage({
     return (
       <ContentNotFound
         locale={locale}
-        type="article"
+        component="article"
       />
     );
   }
@@ -43,7 +43,7 @@ export default async function EditArticlePage({
     return (
       <ContentDeleted
         locale={locale}
-        type="article"
+        component="article"
       />
     );
   }

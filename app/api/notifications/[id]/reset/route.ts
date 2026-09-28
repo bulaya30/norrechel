@@ -1,12 +1,12 @@
 import { notificationService } from "@/lib/container/notification.container";
 import { success, failure } from "@/lib/api/response";
 
-export async function DELETE(request: Request) {
-    try {
-        const { searchParams } = new URL(request.url);
 
-        // temporary until auth middleware
-        const uid = searchParams.get("uid");
+export async function DELETE(request: Request,) {
+    try {
+
+        const body = await request.json();
+        const uid = body.uid;
 
         if (!uid) {
         throw new Error("User id is required");

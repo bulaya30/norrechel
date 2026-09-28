@@ -14,6 +14,7 @@ type SupportedLocale = "en" | "fr";
 interface AuthorProjectsProps {
   projects: Project[];
   locale: SupportedLocale;
+  views: Record<string, number>;
 }
 
 function createPlainTextPreview(
@@ -38,6 +39,7 @@ function createPlainTextPreview(
 
 export default function AuthorProjects({
   projects,
+  views,
   locale,
 }: AuthorProjectsProps) {
   const safeProjects = Array.isArray(projects)
@@ -127,6 +129,10 @@ export default function AuthorProjects({
                 .filter(Boolean)
             : [];
 
+
+            const viewCount = project.id
+            ? views[project.id] ?? 0
+            : 0;
           const date =
             project.publishedAt ??
             project.createdAt ??
@@ -189,6 +195,14 @@ export default function AuthorProjects({
                 "
               >
                 <div className="flex flex-wrap items-center gap-4 text-sm text-slate-500">
+                  <span>
+                    {viewCount}{" "}
+                    {locale === "fr"
+                      ? "vues"
+                      : viewCount === 1
+                        ? "view"
+                        : "views"}
+                  </span>
                   {date && (
                     <time>
                       {readableDate(

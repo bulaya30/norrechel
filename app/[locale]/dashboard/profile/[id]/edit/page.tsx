@@ -67,7 +67,7 @@ export default async function ProfileEditPage({
       </div>
 
       {/* Profile form */}
-      <UpdateProfile user={user} />
+      <UpdateProfile user={user} locale={locale} />
     </section>
   );
 }

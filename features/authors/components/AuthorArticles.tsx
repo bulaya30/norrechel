@@ -9,11 +9,13 @@ type SupportedLocale = "en" | "fr";
 interface AuthorArticlesProps {
   articles: Article[];
   locale: SupportedLocale;
+  views: Record<string, number>;
 }
 
 export default function AuthorArticles({
   articles,
   locale,
+  views,
 }: AuthorArticlesProps) {
   const safeArticles = Array.isArray(articles)
     ? articles.filter(Boolean)
@@ -56,9 +58,14 @@ export default function AuthorArticles({
         </h3>
 
         <p className="mt-2 text-sm text-slate-600">
+          {safeArticles.length}{" "}
           {locale === "fr"
-            ? `${safeArticles.length} article${safeArticles.length > 1 ? "s" : ""}`
-            : `${safeArticles.length} article${safeArticles.length > 1 ? "s" : ""}`}
+            ? safeArticles.length === 1
+              ? "article"
+              : "articles"
+            : safeArticles.length === 1
+              ? "article"
+              : "articles"}
         </p>
       </header>
 
@@ -68,7 +75,9 @@ export default function AuthorArticles({
             article.title?.[locale] ??
             article.title?.en ??
             article.title?.fr ??
-            (locale === "fr" ? "Article sans titre" : "Untitled article");
+            (locale === "fr"
+              ? "Article sans titre"
+              : "Untitled article");
 
           const slug =
             article.slug?.[locale] ??
@@ -93,8 +102,9 @@ export default function AuthorArticles({
               ? `${plainText.slice(0, 220).trimEnd()}...`
               : plainText;
 
-          const views =
-            article.analytics?.views?.count ?? 0;
+          const viewCount = article.id
+            ? views[article.id] ?? 0
+            : 0;
 
           const date =
             article.publishedAt ??
@@ -128,10 +138,10 @@ export default function AuthorArticles({
               <footer className="mt-6 flex flex-col gap-4 border-t border-slate-100 pt-5 sm:flex-row sm:items-center sm:justify-between">
                 <div className="flex flex-wrap items-center gap-4 text-sm text-slate-500">
                   <span>
-                    {views}{" "}
+                    {viewCount}{" "}
                     {locale === "fr"
                       ? "vues"
-                      : views === 1
+                      : viewCount === 1
                         ? "view"
                         : "views"}
                   </span>
@@ -140,7 +150,9 @@ export default function AuthorArticles({
                     <time>
                       {readableDate(
                         date,
-                        locale === "fr" ? "fr-FR" : "en-US",
+                        locale === "fr"
+                          ? "fr-FR"
+                          : "en-US",
                       )}
                     </time>
                   )}
@@ -164,7 +176,11 @@ export default function AuthorArticles({
                     : "Read article"}
 
                   <ExternalLink
-                    className="size-4 transition-transform duration-200 group-hover:translate-x-0.5"
+                    className="
+                      size-4
+                      transition-transform duration-200
+                      group-hover:translate-x-0.5
+                    "
                     aria-hidden="true"
                   />
                 </Link>
