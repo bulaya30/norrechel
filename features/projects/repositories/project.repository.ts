@@ -105,6 +105,14 @@ export default class ProjectRepository {
         {
           field: "uid",
           value: uid
+        },
+        {
+          field: "active",
+          value: true,
+        }, 
+        {
+          field: 'status',
+          value: "published"
         }
       ],
       orderByField: "createdAt",

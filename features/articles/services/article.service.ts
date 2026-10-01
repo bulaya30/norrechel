@@ -210,16 +210,8 @@ export default class ArticleService {
         uid,
       );
 
-    const publishedArticles =
-      articles.filter(
-        (article) =>
-          article.active !== false &&
-          article.status ===
-            "published",
-      );
-
     return Promise.all(
-      publishedArticles.map(
+      articles.map(
         (article) =>
           this.mapArticle(article),
       ),

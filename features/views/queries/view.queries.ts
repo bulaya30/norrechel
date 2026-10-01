@@ -28,12 +28,26 @@ export async function getCachedViews(): Promise<View[]> {
   return serializeFirestore(views);
 }
 
-export async function getCachedViewsByContent(id: string): Promise<View[] | null> {
+/*
+ * -------------------------------------------
+ * Views by content
+ * -------------------------------------------
+ */
+
+export async function getCachedViewsByContent(
+  id: string,
+): Promise<View[]> {
+  "use cache";
+
+  cacheLife("hours");
+
   cacheTag(
     "views",
     "views:all",
+    `views:content:${id}`,
   );
-  const views = await viewService.getViewsByContent(id)
 
-  return serializeFirestore(views)
+  const views = await viewService.getViewsByContent(id);
+
+  return serializeFirestore(views);
 }

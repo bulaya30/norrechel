@@ -7,7 +7,7 @@ import {
   TabsTrigger,
 } from "@/components/ui/tabs";
 
-import WysiwygEditor from "@/components/form/WysiwygEditor";
+import WysiwygEditor from "@/components/editor/WysiwygEditor";
 
 type SupportedLocale = "en" | "fr";
 

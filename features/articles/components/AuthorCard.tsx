@@ -37,7 +37,7 @@ export default function AuthorCard({
       "
     >
       <div className="flex flex-col gap-5 sm:flex-row sm:items-center">
-        {/* {imageUrl && (
+        {imageUrl && (
           <div className="shrink-0">
             <Image
               src={imageUrl}
@@ -51,7 +51,7 @@ export default function AuthorCard({
               "
             />
           </div>
-        )} */}
+        )}
 
         <div className="min-w-0">
           <p className="text-sm font-semibold uppercase tracking-wide text-orange-600">
@@ -66,12 +66,6 @@ export default function AuthorCard({
           >
             {authorName}
           </h2>
-
-          {role && (
-            <p className="mt-1 text-sm font-medium text-slate-500">
-              {role}
-            </p>
-          )}
 
           {bio && (
             <p className="mt-3 max-w-2xl text-sm leading-7 text-slate-600">

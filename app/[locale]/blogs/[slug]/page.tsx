@@ -175,9 +175,9 @@ export default async function ArticlePage({
           article.category?.name as LocalizedValue,
           locale,
         );
-
+        
   const authorBio = getLocalizedValue(
-    article.author as LocalizedValue,
+    article.author?.title as LocalizedValue,
     locale,
   );
 

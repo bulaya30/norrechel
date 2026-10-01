@@ -95,5 +95,7 @@ export async function getCachedArticlesByAuthor(
     `articles:author:${uid}`
   );
 
-  return serializeFirestore(articleService.getPublishedArticlesByAuthor(uid));
+  const articles = await articleService.getPublishedArticlesByAuthor(uid);
+
+  return serializeFirestore(articles);
 }

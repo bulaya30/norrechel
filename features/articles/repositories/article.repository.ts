@@ -81,7 +81,11 @@ export default class ArticleRepository {
 
   async findByUser(uid: string): Promise<Article[]> {
     return db.get(COLLECTION, {
-      where: [{field: "uid", value: uid},],
+      where: [
+        {field: "uid", value: uid},
+        {field: "active", value: true},
+        {field: "status", value: "published"}
+      ],
       orderByField: "createdAt",
       orderDirection: "desc",
     }
