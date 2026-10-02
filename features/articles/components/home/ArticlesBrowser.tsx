@@ -36,9 +36,6 @@ export default function ArticlesBrowser({
     );
   }, [articles, selectedCategoryId]);
 
-//   const latestArticles = filteredArticles.slice(0, 3);
-//   const remainingArticles = filteredArticles.slice(3);
-
   const articleCount = filteredArticles.length;
 
   return (
@@ -50,9 +47,9 @@ export default function ArticlesBrowser({
       }
       className="
         mx-auto max-w-7xl
-        px-4 py-12
-        sm:px-6 sm:py-16
-        lg:px-8 lg:py-20
+        px-4 py-8
+        sm:px-6 sm:py-14
+        lg:px-8 lg:py-16
       "
     >
       <div

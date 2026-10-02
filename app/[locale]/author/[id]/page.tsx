@@ -160,7 +160,6 @@ export default async function AuthorPage({
     getCachedSubscribers(),
   ]);
 
-  // console.log(articlesResult)
   const author = Array.isArray(authorResult)
     ? authorResult[0]
     : authorResult;

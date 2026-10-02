@@ -18,8 +18,7 @@ export default function ArticleHero({
   return (
     <section
       aria-labelledby="articles-page-heading"
-    //   className="relative overflow-hidden border-b border-slate-200 bg-white"
-      className="relative overflow-hidden border border-orange-600 bg-white"
+      className="relative overflow-hidden border-b border-slate-200 bg-white"
     >
       {/* Decorative background */}
       <div
