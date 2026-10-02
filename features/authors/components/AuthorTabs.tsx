@@ -76,7 +76,7 @@ export default function AuthorTabs({
               focus-visible:ring-2
               focus-visible:ring-blue-600
               focus-visible:ring-offset-2
-              data-[state=active]:border-blue-700
+              data-[state=active]:border-b-blue-700
               data-[state=active]:bg-transparent
               data-[state=active]:text-blue-700
               data-[state=active]:shadow-none
@@ -96,7 +96,7 @@ export default function AuthorTabs({
               focus-visible:ring-2
               focus-visible:ring-blue-600
               focus-visible:ring-offset-2
-              data-[state=active]:border-blue-700
+              data-[state=active]:border-b-blue-700
               data-[state=active]:bg-transparent
               data-[state=active]:text-blue-700
               data-[state=active]:shadow-none
@@ -116,7 +116,7 @@ export default function AuthorTabs({
               focus-visible:ring-2
               focus-visible:ring-blue-600
               focus-visible:ring-offset-2
-              data-[state=active]:border-blue-700
+              data-[state=active]:border-b-blue-700
               data-[state=active]:bg-transparent
               data-[state=active]:text-blue-700
               data-[state=active]:shadow-none
