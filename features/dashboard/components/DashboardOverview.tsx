@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
 
 import {
@@ -269,6 +272,10 @@ function AudienceResponseChart({
   locale: SupportedLocale;
   period: DashboardAnalytics["period"];
 }) {
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(
+    null,
+  );
+
   const width = 900;
   const height = 300;
 
@@ -308,10 +315,14 @@ function AudienceResponseChart({
         (item[key] / maxValue) *
           chartHeight;
 
-      return { x, y };
+      return {
+        x,
+        y,
+      };
     });
 
   const viewPoints = pointsFor("views");
+
   const engagementPoints =
     pointsFor("engagements");
 
@@ -326,6 +337,7 @@ function AudienceResponseChart({
       .join(" ");
 
   const viewPath = toPath(viewPoints);
+
   const engagementPath =
     toPath(engagementPoints);
 
@@ -357,6 +369,43 @@ function AudienceResponseChart({
 
     return true;
   };
+
+  const hoveredItem =
+    hoveredIndex !== null
+      ? data[hoveredIndex]
+      : null;
+
+  const hoveredPoint =
+    hoveredIndex !== null
+      ? viewPoints[hoveredIndex]
+      : null;
+
+  const tooltipWidth = 158;
+  const tooltipHeight = 88;
+
+  const tooltipX =
+    hoveredPoint !== null
+      ? Math.min(
+          Math.max(
+            hoveredPoint.x -
+              tooltipWidth / 2,
+            paddingLeft,
+          ),
+          width -
+            paddingRight -
+            tooltipWidth,
+        )
+      : 0;
+
+  const tooltipY =
+    hoveredPoint !== null
+      ? Math.max(
+          hoveredPoint.y -
+            tooltipHeight -
+            14,
+          paddingTop,
+        )
+      : 0;
 
   return (
     <section className="border border-slate-200 bg-white shadow-[0_8px_30px_rgb(15_23_42_/_0.035)]">
@@ -390,6 +439,7 @@ function AudienceResponseChart({
         <div className="flex items-center gap-5 text-xs font-semibold text-slate-500">
           <span className="inline-flex items-center gap-2">
             <span className="size-2 rounded-full bg-blue-700" />
+
             {locale === "fr"
               ? "Vues"
               : "Views"}
@@ -397,6 +447,7 @@ function AudienceResponseChart({
 
           <span className="inline-flex items-center gap-2">
             <span className="size-2 rounded-full bg-orange-500" />
+
             {locale === "fr"
               ? "Engagements"
               : "Engagements"}
@@ -429,6 +480,7 @@ function AudienceResponseChart({
                     )}`
               }
             >
+              {/* Grid */}
               {gridLines.map((position) => {
                 const y =
                   paddingTop +
@@ -449,6 +501,7 @@ function AudienceResponseChart({
                 );
               })}
 
+              {/* Views line */}
               <path
                 d={viewPath}
                 fill="none"
@@ -459,6 +512,7 @@ function AudienceResponseChart({
                 strokeLinejoin="round"
               />
 
+              {/* Engagement line */}
               <path
                 d={engagementPath}
                 fill="none"
@@ -469,30 +523,82 @@ function AudienceResponseChart({
                 strokeLinejoin="round"
               />
 
+              {/* Hover zones */}
+              {data.map((item, index) => {
+                const x =
+                  data.length <= 1
+                    ? paddingLeft +
+                      chartWidth / 2
+                    : paddingLeft +
+                      (index /
+                        (data.length - 1)) *
+                        chartWidth;
+
+                const step =
+                  data.length <= 1
+                    ? chartWidth
+                    : chartWidth /
+                      Math.max(
+                        data.length - 1,
+                        1,
+                      );
+
+                const hitWidth =
+                  Math.max(step, 40);
+
+                return (
+                  <rect
+                    key={`hover-${item.name}-${index}`}
+                    x={x - hitWidth / 2}
+                    y={paddingTop}
+                    width={hitWidth}
+                    height={chartHeight}
+                    fill="transparent"
+                    onMouseEnter={() =>
+                      setHoveredIndex(index)
+                    }
+                    onMouseLeave={() =>
+                      setHoveredIndex(null)
+                    }
+                  />
+                );
+              })}
+
+              {/* Views points */}
               {viewPoints.map(
                 (point, index) => (
                   <circle
                     key={`view-${data[index]?.name ?? index}`}
                     cx={point.x}
                     cy={point.y}
-                    r="4"
-                    className="fill-blue-700"
+                    r={
+                      hoveredIndex === index
+                        ? 6
+                        : 4
+                    }
+                    className="fill-blue-700 transition-all"
                   />
                 ),
               )}
 
+              {/* Engagement points */}
               {engagementPoints.map(
                 (point, index) => (
                   <circle
                     key={`engagement-${data[index]?.name ?? index}`}
                     cx={point.x}
                     cy={point.y}
-                    r="4"
-                    className="fill-orange-500"
+                    r={
+                      hoveredIndex === index
+                        ? 6
+                        : 4
+                    }
+                    className="fill-orange-500 transition-all"
                   />
                 ),
               )}
 
+              {/* X-axis labels */}
               {data.map((item, index) => {
                 if (
                   !shouldShowLabel(index)
@@ -521,6 +627,118 @@ function AudienceResponseChart({
                   </text>
                 );
               })}
+
+              {/* Active hover guide + tooltip */}
+              {hoveredIndex !== null &&
+                hoveredItem &&
+                hoveredPoint && (
+                  <g
+                    pointerEvents="none"
+                    role="presentation"
+                  >
+                    {/* Vertical guide */}
+                    <line
+                      x1={hoveredPoint.x}
+                      x2={hoveredPoint.x}
+                      y1={paddingTop}
+                      y2={height - paddingBottom}
+                      stroke="currentColor"
+                      className="text-slate-200"
+                      strokeWidth="1"
+                      strokeDasharray="4 4"
+                    />
+
+                    {/* Tooltip shadow/background */}
+                    <rect
+                      x={tooltipX}
+                      y={tooltipY}
+                      width={tooltipWidth}
+                      height={tooltipHeight}
+                      rx="10"
+                      className="fill-white"
+                      stroke="currentColor"
+                      strokeWidth="1"
+                      strokeOpacity="0.08"
+                    />
+
+                    {/* Date */}
+                    <text
+                      x={tooltipX + 12}
+                      y={tooltipY + 19}
+                      className="fill-slate-900 text-[11px] font-bold"
+                    >
+                      {hoveredItem.name}
+                    </text>
+
+                    {/* Views indicator */}
+                    <circle
+                      cx={tooltipX + 14}
+                      cy={tooltipY + 38}
+                      r="3"
+                      className="fill-blue-700"
+                    />
+
+                    <text
+                      x={tooltipX + 23}
+                      y={tooltipY + 42}
+                      className="fill-slate-500 text-[10px]"
+                    >
+                      {locale === "fr"
+                        ? "Vues"
+                        : "Views"}
+                    </text>
+
+                    <text
+                      x={
+                        tooltipX +
+                        tooltipWidth -
+                        12
+                      }
+                      y={tooltipY + 42}
+                      textAnchor="end"
+                      className="fill-slate-900 text-[10px] font-bold"
+                    >
+                      {formatNumber(
+                        hoveredItem.views,
+                        locale,
+                      )}
+                    </text>
+
+                    {/* Engagement indicator */}
+                    <circle
+                      cx={tooltipX + 14}
+                      cy={tooltipY + 60}
+                      r="3"
+                      className="fill-orange-500"
+                    />
+
+                    <text
+                      x={tooltipX + 23}
+                      y={tooltipY + 64}
+                      className="fill-slate-500 text-[10px]"
+                    >
+                      {locale === "fr"
+                        ? "Engagements"
+                        : "Engagements"}
+                    </text>
+
+                    <text
+                      x={
+                        tooltipX +
+                        tooltipWidth -
+                        12
+                      }
+                      y={tooltipY + 64}
+                      textAnchor="end"
+                      className="fill-slate-900 text-[10px] font-bold"
+                    >
+                      {formatNumber(
+                        hoveredItem.engagements,
+                        locale,
+                      )}
+                    </text>
+                  </g>
+                )}
             </svg>
           </div>
         )}
@@ -876,9 +1094,7 @@ function RecentContent({
 
             <div>
               <h3 className="text-sm font-bold text-slate-950">
-                {locale === "fr"
-                  ? "Articles"
-                  : "Articles"}
+                Articles
               </h3>
 
               <p className="text-xs text-slate-500">

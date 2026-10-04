@@ -43,10 +43,6 @@ export default async function DashboardPage({
 
   /*
    * Normalize the query parameter.
-   *
-   * /dashboard?period=30d
-   *              ↓
-   *             "30d"
    */
   const requestedPeriod = Array.isArray(
     periodParam,
