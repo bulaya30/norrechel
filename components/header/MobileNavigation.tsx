@@ -18,6 +18,7 @@ import {
 
 import MyDropdown from "./MyDropdown";
 import NavigationLinks from "./NavigationLinks";
+import LanguageDropdown from "./LanguageDropdown";
 
 interface MobileNavigationProps {
   userName?: string;
@@ -27,6 +28,7 @@ export default function MobileNavigation({
   userName,
 }: MobileNavigationProps) {
   const [open, setOpen] = useState(false);
+
   const t = useTranslations("MobileNavigation");
   const headerT = useTranslations("Header");
 
@@ -77,6 +79,7 @@ export default function MobileNavigation({
             </SheetDescription>
           </SheetHeader>
 
+          {/* Navigation */}
           <nav
             aria-label={t("ariaLabel")}
             className="flex-1 overflow-y-auto px-4 py-6"
@@ -87,6 +90,7 @@ export default function MobileNavigation({
             />
           </nav>
 
+          {/* Account + Language */}
           <div className="border-t border-slate-200 bg-slate-50/70 px-6 py-5">
             {userName ? (
               <MyDropdown userName={userName} />
@@ -109,6 +113,11 @@ export default function MobileNavigation({
                 </Link>
               </Button>
             )}
+
+            {/* Language selector */}
+            <div className="mt-3 border-t border-slate-200 pt-3">
+              <LanguageDropdown />
+            </div>
           </div>
         </SheetContent>
       </Sheet>
