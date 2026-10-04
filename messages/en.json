@@ -5,5 +5,148 @@
     "projects": "Projects",
     "about": "About",
     "contact": "Contact"
+  },
+
+  "Home": {
+    "Hero": {
+      "eyebrow": "Technology · Data · Personal Development",
+      "titleLine1": "Turning ideas into",
+      "titleLine2": "meaningful solutions.",
+      "description": "I build websites, desktop applications, and data-driven solutions—and share practical insights about technology, entrepreneurship, and personal growth.",
+      "projectsButton": "Explore my projects",
+      "articlesButton": "Read my articles",
+      "supportingText": "Building useful digital products",
+      "supportingLabel": "Technology with purpose"
+    },
+
+    "FeaturedTopics": {
+      "practicalInsights": {
+        "title": "Practical Insights",
+        "content": "Discover thoughtful articles on software engineering, entrepreneurship, personal development, and the lessons that turn ideas into meaningful results."
+      },
+      "dataDrivenSolutions": {
+        "title": "Data-Driven Solutions",
+        "content": "Explore analytics projects that transform raw data into meaningful insights, demonstrating how data supports smarter decisions and solves real-world challenges."
+      },
+      "softwareThatSolvesProblems": {
+        "title": "Software That Solves Problems",
+        "content": "Explore modern web applications, desktop software, and digital solutions built to improve productivity, simplify everyday tasks, and create lasting value."
+      }
+    },
+
+    "Capabilities": {
+      "label": "Focus",
+      "title": "Building with purpose",
+
+      "softwareDevelopment": {
+        "title": "Software Development",
+        "description": "Modern applications designed around real problems and practical user needs."
+      },
+
+      "dataAnalytics": {
+        "title": "Data & Analytics",
+        "description": "Turning data into clear information that supports better decisions."
+      },
+
+      "knowledgeWriting": {
+        "title": "Knowledge & Writing",
+        "description": "Practical ideas and lessons from technology, work, and personal development."
+      }
+    },
+
+    "Expertise": {
+      "label": "Expertise",
+      "titleLine1": "What I build,",
+      "titleLine2": "analyze,",
+      "titleLine3": "and share.",
+      "coreDiscipline": "Core discipline",
+      "engineering": "Engineering",
+      "softwareEngineering": {
+        "title": "Software Engineering",
+        "description": "Building modern web applications around real problems, practical user needs, and maintainable architecture.",
+        "additionalDescription": "I combine software engineering, analytical thinking, and practical knowledge to create digital products, turn data into useful information, and share what I learn along the way."
+      },
+      "dataAnalytics": {
+        "title": "Data & Analytics",
+        "description": "Turning raw data into dashboards, reports, and useful information that helps people understand what matters."
+      },
+      "knowledgeWriting": {
+        "title": "Knowledge & Writing",
+        "description": "Sharing practical lessons and ideas from software development, technology, entrepreneurship, and personal growth."
+      },
+      "technologiesLabel": "Technologies I work with"
+    },
+
+    "LatestArticles": {
+      "label": "From the journal",
+      "title": "Latest Articles",
+      "description": "Practical thoughts, lessons, and ideas from technology, entrepreneurship, software development, and personal growth.",
+      "viewAll": "View all articles",
+      "empty": {
+        "title": "No articles published yet.",
+        "description": "New articles will appear here when they are published."
+      }
+    },
+    "SelectedProjects": {
+      "label": "Selected work",
+      "title": "Projects built to solve problems.",
+      "description": "A selection of applications and digital solutions built around practical needs, real-world challenges, and meaningful outcomes.",
+      "viewAll": "View all projects",
+      "empty": {
+        "title": "No projects published yet.",
+        "description": "New projects will appear here when they are published."
+      }
+    },
+
+    "AboutPreview": {
+      "label": "About",
+      "title": "Building practical technology with purpose.",
+      "intro": "I'm Norbert, a software engineer, builder, and entrepreneur focused on turning ideas into meaningful solutions.",
+      "description1": "I believe technology is most valuable when it solves real problems and creates opportunities for people. Through this platform, I document my journey of building software, exploring data, reading great books, and developing ambitious ideas.",
+      "description2": "Along the way, I share practical lessons, honest experiences, and insights that can help others learn, grow, and build with confidence.",
+      "moreAboutMe": "More about me",
+      "focusTitle": "What drives my work",
+      "focusDescription": "Three areas where technology, analytical thinking, and curiosity come together.",
+      "focusAreas": {
+        "buildingSoftware": {
+          "title": "Building Software",
+          "description": "Creating modern web applications while applying practical engineering techniques, sound architecture, and lessons learned from real projects."
+        },
+        "workingWithData": {
+          "title": "Working with Data",
+          "description": "Transforming data into meaningful insights that support better decisions, continuous improvement, and measurable impact."
+        },
+        "buildingIdeas": {
+          "title": "Building Ideas",
+          "description": "Exploring entrepreneurship, solving everyday challenges, and turning promising ideas into useful and meaningful projects."
+        }
+      },
+      "philosophyQuote": "Knowledge becomes truly valuable when it is shared, applied, and used to make a positive difference.",
+      "philosophy": "Philosophy"
+    },
+
+    "Newsletter": {
+      "label": "Newsletter",
+      "title": "Stay informed and inspired",
+      "description": "Receive my latest articles, practical lessons, and project updates directly in your inbox. No unnecessary emails, only useful ideas worth sharing."
+    },
+    
+    "NewsletterForm": {
+      "emailLabel": "Email address",
+      "emailPlaceholder": "Enter your email address",
+      "subscribe": "Subscribe",
+      "subscribing": "Subscribing...",
+      "privacy": "You can unsubscribe at any time. Your email address remains private.",
+      "success": {
+        "title": "You're subscribed!",
+        "description": "Thank you for subscribing. You'll receive my latest updates in your inbox."
+      },
+      "validation": {
+        "required": "Email address is required",
+        "tooLong": "Email address is too long",
+        "invalid": "Please enter a valid email address"
+      }
+    }
   }
+  
 }

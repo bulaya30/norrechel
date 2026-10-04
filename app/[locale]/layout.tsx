@@ -6,6 +6,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 
 import { routing } from "@/i18n/routing";
 import LocaleProvider from "./locale-provider";
+import { Toaster } from "@/components/ui/sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -19,7 +20,7 @@ const geistMono = Geist_Mono({
 
 type SupportedLocale = "en" | "fr";
 
-const siteUrl = "https://www.norrechel.netlify.app";
+const siteUrl = "https://www.norrechel.onrender.com";
 
 const siteMetadata: Record<
   SupportedLocale,

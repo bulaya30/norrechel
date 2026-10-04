@@ -1,36 +1,29 @@
-import Link from "next/link";
-import {
-  ArrowRight,
-  ChartColumn,
-  CodeXml,
-  Lightbulb,
-} from "lucide-react";
+import { ArrowRight, ChartColumn, CodeXml, Lightbulb } from "lucide-react";
+import { getTranslations } from "next-intl/server";
+
+import { Link } from "@/i18n/navigation";
 
 const focusAreas = [
   {
-    title: "Building Software",
-    description:
-      "Creating modern web applications while applying practical engineering techniques, sound architecture, and lessons learned from real projects.",
+    key: "buildingSoftware",
     icon: CodeXml,
     iconClassName: "bg-blue-50 text-blue-700",
   },
   {
-    title: "Working with Data",
-    description:
-      "Transforming data into meaningful insights that support better decisions, continuous improvement, and measurable impact.",
+    key: "workingWithData",
     icon: ChartColumn,
     iconClassName: "bg-cyan-50 text-cyan-700",
   },
   {
-    title: "Building Ideas",
-    description:
-      "Exploring entrepreneurship, solving everyday challenges, and turning promising ideas into useful and meaningful projects.",
+    key: "buildingIdeas",
     icon: Lightbulb,
     iconClassName: "bg-orange-50 text-orange-600",
   },
-];
+] as const;
 
-export default function AboutPreview() {
+export default async function AboutPreview() {
+  const t = await getTranslations("Home.AboutPreview");
+
   return (
     <section
       aria-labelledby="about-heading"
@@ -55,7 +48,7 @@ export default function AboutPreview() {
           {/* Left column */}
           <div>
             <p className="mb-4 text-xs font-bold uppercase tracking-[0.22em] text-blue-700">
-              About
+              {t("label")}
             </p>
 
             <h2
@@ -70,7 +63,7 @@ export default function AboutPreview() {
                 lg:text-5xl
               "
             >
-              Building practical technology with purpose.
+              {t("title")}
             </h2>
 
             <p
@@ -81,21 +74,15 @@ export default function AboutPreview() {
                 text-slate-700
               "
             >
-              I&apos;m Norbert, a software engineer, builder, and
-              entrepreneur focused on turning ideas into meaningful solutions.
+              {t("intro")}
             </p>
 
             <p className="mt-5 max-w-xl text-base leading-8 text-slate-600">
-              I believe technology is most valuable when it solves real
-              problems and creates opportunities for people. Through this
-              platform, I document my journey of building software, exploring
-              data, reading great books, and developing ambitious ideas.
+              {t("description1")}
             </p>
 
             <p className="mt-5 max-w-xl text-base leading-8 text-slate-600">
-              Along the way, I share practical lessons, honest experiences,
-              and insights that can help others learn, grow, and build with
-              confidence.
+              {t("description2")}
             </p>
 
             {/* CTA */}
@@ -121,7 +108,7 @@ export default function AboutPreview() {
                   focus-visible:ring-offset-2
                 "
               >
-                More about me
+                {t("moreAboutMe")}
 
                 <ArrowRight
                   className="
@@ -149,12 +136,11 @@ export default function AboutPreview() {
             >
               <div className="border-b border-slate-200 px-6 py-5 sm:px-7">
                 <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">
-                  What drives my work
+                  {t("focusTitle")}
                 </p>
 
                 <p className="mt-2 text-sm leading-6 text-slate-600">
-                  Three areas where technology, analytical thinking, and
-                  curiosity come together.
+                  {t("focusDescription")}
                 </p>
               </div>
 
@@ -164,7 +150,7 @@ export default function AboutPreview() {
 
                   return (
                     <article
-                      key={area.title}
+                      key={area.key}
                       className="
                         group
                         flex gap-4
@@ -196,11 +182,11 @@ export default function AboutPreview() {
                             text-slate-950
                           "
                         >
-                          {area.title}
+                          {t(`focusAreas.${area.key}.title`)}
                         </h3>
 
                         <p className="mt-2 text-sm leading-7 text-slate-600">
-                          {area.description}
+                          {t(`focusAreas.${area.key}.description`)}
                         </p>
                       </div>
                     </article>
@@ -217,33 +203,33 @@ export default function AboutPreview() {
         <div className="mt-4">
           <div
             className="
-              relative overflow-hidden
+              relative mx-auto
+              overflow-hidden
               rounded-sm
               border border-slate-200
               bg-blue-500/[0.08]
-              px-2 mx-auto items-center
+              px-2
             "
           >
-            
             <div className="relative mx-auto">
-             
               <blockquote>
                 <p
                   className="
-                    text-xl text-center
+                    text-center
+                    text-xl
                     font-sm
-                    leading-8 italic
+                    leading-8
+                    italic
                     text-slate-500
                     sm:leading-9
                   "
                 >
-                  “ Knowledge becomes truly valuable when it is shared,
-                  applied, and used to make a positive difference. ”
+                  “ {t("philosophyQuote")} ”
                 </p>
               </blockquote>
 
-              <p className="text-xs text-center font-semibold uppercase tracking-[0.2em] text-slate-500">
-                Philosophy
+              <p className="text-center text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
+                {t("philosophy")}
               </p>
             </div>
           </div>

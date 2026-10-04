@@ -4,41 +4,60 @@ import {
   ChartColumnIncreasing,
   CodeXml,
 } from "lucide-react";
+import { getTranslations } from "next-intl/server";
 
-const expertiseAreas = [
-  {
-    number: "01",
-    title: "Software Engineering",
-    description:
-      "Building modern web applications around real problems, practical user needs, and maintainable architecture.",
-    technologies: ["React", "Next.js", "TypeScript", "Node.js", "Firebase"],
-    icon: CodeXml,
-  },
-  {
-    number: "02",
-    title: "Data & Analytics",
-    description:
-      "Turning raw data into dashboards, reports, and useful information that helps people understand what matters.",
-    icon: ChartColumnIncreasing,
-  },
-  {
-    number: "03",
-    title: "Knowledge & Writing",
-    description:
-      "Sharing practical lessons and ideas from software development, technology, entrepreneurship, and personal growth.",
-    icon: BookOpen,
-  },
+import type { LucideIcon } from "lucide-react";
+
+interface ExpertiseArea {
+  number: string;
+  title: string;
+  description: string;
+  additionalDescription?: string;
+  technologies?: string[];
+  icon: LucideIcon;
+}
+
+const technologies = [
+  "React",
+  "Next.js",
+  "TypeScript",
+  "Node.js",
+  "Firebase",
+  "Tailwind CSS",
 ];
 
-export default function Expertise() {
-  const software = expertiseAreas[0];
-  const analytics = expertiseAreas[1];
-  const writing = expertiseAreas[2];
+export default async function Expertise() {
+  const t = await getTranslations("Home.Expertise");
+
+  const software: ExpertiseArea = {
+    number: "01",
+    title: t("softwareEngineering.title"),
+    description: t("softwareEngineering.description"),
+    additionalDescription: t(
+      "softwareEngineering.additionalDescription"
+    ),
+    technologies,
+    icon: CodeXml,
+  };
+
+  const analytics: ExpertiseArea = {
+    number: "02",
+    title: t("dataAnalytics.title"),
+    description: t("dataAnalytics.description"),
+    icon: ChartColumnIncreasing,
+  };
+
+  const writing: ExpertiseArea = {
+    number: "03",
+    title: t("knowledgeWriting.title"),
+    description: t("knowledgeWriting.description"),
+    icon: BookOpen,
+  };
 
   return (
     <section
-        aria-labelledby="expertise-heading"
-        className="border-t border-slate-200/80 bg-white/50 px-4 py-14 backdrop-blur-[2px] sm:px-6 lg:px-8 lg:py-7"
+      aria-labelledby="expertise-heading"
+      className="border-t border-slate-200/80 bg-white/50 px-4 py-14 backdrop-blur-[2px] sm:px-6 lg:px-8 lg:py-7"
     >
       <div className="mx-auto max-w-7xl">
         {/* Section introduction */}
@@ -48,7 +67,7 @@ export default function Expertise() {
               <span className="h-px w-10 bg-blue-600" />
 
               <p className="text-xs font-bold uppercase tracking-[0.24em] text-blue-700">
-                Expertise
+                {t("label")}
               </p>
 
               <span className="text-xs font-medium tracking-widest text-slate-400">
@@ -60,16 +79,14 @@ export default function Expertise() {
               id="expertise-heading"
               className="max-w-3xl text-4xl font-bold leading-[0.98] tracking-[-0.045em] text-slate-950 sm:text-4xl lg:text-5xl"
             >
-              What I build,
+              {t("titleLine1")}
               <br />
-              analyze,{" "}
+              {t("titleLine2")}{" "}
               <span className="text-blue-600">
-                and share.
+                {t("titleLine3")}
               </span>
             </h2>
           </div>
-
-        
         </header>
 
         {/* Expertise grid */}
@@ -103,7 +120,7 @@ export default function Expertise() {
 
               <div className="mt-10 max-w-2xl">
                 <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-blue-400">
-                  Core discipline
+                  {t("coreDiscipline")}
                 </p>
 
                 <h3 className="text-3xl font-bold tracking-[-0.035em] sm:text-4xl">
@@ -113,10 +130,9 @@ export default function Expertise() {
                 <p className="mt-4 max-w-xl text-sm leading-7 text-slate-300 sm:text-base">
                   {software.description}
                 </p>
+
                 <p className="max-w-xl text-sm leading-7 text-slate-300 sm:text-base">
-                    I combine software engineering, analytical thinking, and practical
-                    knowledge to create digital products, turn data into useful
-                    information, and share what I learn along the way.
+                  {software.additionalDescription}
                 </p>
 
                 <div className="mt-7 flex flex-wrap gap-2">
@@ -132,15 +148,20 @@ export default function Expertise() {
               </div>
 
               <div className="absolute bottom-0 right-0 flex items-center gap-2 text-xs font-medium uppercase tracking-[0.18em] text-white/30">
-                <span>Engineering</span>
-                <ArrowUpRight className="size-4" aria-hidden="true" />
+                <span>{t("engineering")}</span>
+
+                <ArrowUpRight
+                  className="size-4"
+                  aria-hidden="true"
+                />
               </div>
             </div>
           </article>
 
           {/* Secondary expertise */}
           <div className="grid gap-4">
-            <article className="group flex min-h-[225px] flex-col justify-between bg-stale-500 shadow-md rounded-md border border-slate-200 p-4 transition-all duration-300 hover:-translate-y-1 hover:border-slate-300 hover:bg-white hover:shadow-xl hover:shadow-slate-900/[0.06] sm:p-8">
+            {/* Data & Analytics */}
+            <article className="group flex min-h-[225px] flex-col justify-between rounded-md border border-slate-200 p-4 shadow-md transition-all duration-300 hover:-translate-y-1 hover:border-slate-300 bg-white hover:shadow-xl hover:shadow-slate-900/[0.06] sm:p-8">
               <div className="flex items-start justify-between">
                 <div className="flex size-11 items-center justify-center rounded-xl border border-blue-100 bg-blue-50 text-blue-700">
                   <ChartColumnIncreasing
@@ -165,7 +186,8 @@ export default function Expertise() {
               </div>
             </article>
 
-            <article className="group flex min-h-[225px] flex-col bg-stale-500 shadow-md justify-between rounded-md border border-slate-200 p-4 transition-all duration-300 hover:-translate-y-1 hover:border-slate-300 hover:bg-white hover:shadow-xl hover:shadow-slate-900/[0.06] sm:p-8">
+            {/* Knowledge & Writing */}
+            <article className="group flex min-h-[225px] flex-col justify-between rounded-md border border-slate-200 p-4 shadow-md transition-all duration-300 hover:-translate-y-1 hover:border-slate-300 bg-white hover:shadow-xl hover:shadow-slate-900/[0.06] sm:p-8">
               <div className="flex items-start justify-between">
                 <div className="flex size-11 items-center justify-center rounded-xl border border-orange-100 bg-orange-50 text-orange-600">
                   <BookOpen
@@ -193,21 +215,14 @@ export default function Expertise() {
         </div>
 
         {/* Technology strip */}
-        <div className="mt-4 border-y border-slate-200 py-4 bg-blue-500/[0.08]">
-          <div className="flex flex-col px-4 gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-4 border-y border-slate-200 bg-blue-500/[0.08] py-4">
+          <div className="flex flex-col gap-4 px-4 sm:flex-row sm:items-center sm:justify-between">
             <p className="shrink-0 text-xs font-bold uppercase tracking-[0.2em] text-slate-600">
-              Technologies I work with
+              {t("technologiesLabel")}
             </p>
 
             <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm font-medium text-slate-600">
-              {[
-                "React",
-                "Next.js",
-                "TypeScript",
-                "Node.js",
-                "Firebase",
-                "Tailwind CSS",
-              ].map((technology) => (
+              {technologies.map((technology) => (
                 <span key={technology}>{technology}</span>
               ))}
             </div>

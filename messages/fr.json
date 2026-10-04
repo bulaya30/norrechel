@@ -5,5 +5,160 @@
     "projects": "Projets",
     "about": "À propos",
     "contact": "Contact"
+  },
+
+  "Home": {
+    "Hero": {
+      "eyebrow": "Technologie · Données · Développement personnel",
+      "titleLine1": "Transformer les idées en",
+      "titleLine2": "solutions concrètes.",
+      "description": "Je crée des sites web, des applications de bureau et des solutions basées sur les données, tout en partageant des réflexions pratiques sur la technologie, l'entrepreneuriat et le développement personnel.",
+      "projectsButton": "Découvrir mes projets",
+      "articlesButton": "Lire mes articles",
+      "supportingText": "Créer des produits numériques utiles",
+      "supportingLabel": "La technologie avec un objectif"
+    },
+
+    "FeaturedTopics": {
+      "practicalInsights": {
+        "title": "Conseils pratiques",
+        "content": "Découvrez des articles réfléchis sur le développement logiciel, l'entrepreneuriat, le développement personnel et les leçons qui transforment les idées en résultats concrets."
+      },
+      "dataDrivenSolutions": {
+        "title": "Solutions basées sur les données",
+        "content": "Découvrez des projets analytiques qui transforment les données brutes en informations utiles et montrent comment les données permettent de prendre de meilleures décisions et de résoudre des problèmes réels."
+      },
+      "softwareThatSolvesProblems": {
+        "title": "Des logiciels qui résolvent des problèmes",
+        "content": "Découvrez des applications web modernes, des logiciels de bureau et des solutions numériques conçus pour améliorer la productivité, simplifier les tâches quotidiennes et créer une valeur durable."
+      }
+    },
+
+    "Capabilities": {
+      "label": "Domaines d'action",
+      "title": "Créer avec un objectif",
+
+      "softwareDevelopment": {
+        "title": "Développement logiciel",
+        "description": "Des applications modernes conçues autour de problèmes réels et des besoins pratiques des utilisateurs."
+      },
+
+      "dataAnalytics": {
+        "title": "Données & analyse",
+        "description": "Transformer les données en informations claires pour favoriser de meilleures décisions."
+      },
+
+      "knowledgeWriting": {
+        "title": "Connaissances & écriture",
+        "description": "Des idées et des enseignements pratiques issus de la technologie, du travail et du développement personnel."
+      }
+    },
+
+    "Expertise": {
+      "label": "Expertise",
+      "titleLine1": "Ce que je crée,",
+      "titleLine2": "analyse,",
+      "titleLine3": "et partage.",
+      "coreDiscipline": "Domaine principal",
+      "engineering": "Ingénierie",
+
+      "softwareEngineering": {
+        "title": "Ingénierie logicielle",
+        "description": "Création d'applications web modernes basées sur des problèmes réels, les besoins pratiques des utilisateurs et une architecture maintenable.",
+        "additionalDescription": "Je combine l'ingénierie logicielle, la réflexion analytique et les connaissances pratiques pour créer des produits numériques, transformer les données en informations utiles et partager ce que j'apprends au fil du temps."
+      },
+
+      "dataAnalytics": {
+        "title": "Données & analyse",
+        "description": "Transformer les données brutes en tableaux de bord, rapports et informations utiles qui permettent de mieux comprendre ce qui compte."
+      },
+
+      "knowledgeWriting": {
+        "title": "Connaissances & écriture",
+        "description": "Partager des enseignements et des idées pratiques issus du développement logiciel, de la technologie, de l'entrepreneuriat et du développement personnel."
+      },
+
+      "technologiesLabel": "Technologies avec lesquelles je travaille"
+    },
+
+    "LatestArticles": {
+      "label": "Du journal",
+      "title": "Derniers articles",
+      "description": "Réflexions pratiques, leçons et idées sur la technologie, l'entrepreneuriat, le développement logiciel et le développement personnel.",
+      "viewAll": "Voir tous les articles",
+
+      "empty": {
+        "title": "Aucun article publié pour le moment.",
+        "description": "De nouveaux articles apparaîtront ici lorsqu'ils seront publiés."
+      }
+    },
+
+    "SelectedProjects": {
+      "label": "Projets sélectionnés",
+      "title": "Des projets conçus pour résoudre des problèmes.",
+      "description": "Une sélection d'applications et de solutions numériques conçues autour de besoins pratiques, de défis réels et de résultats significatifs.",
+      "viewAll": "Voir tous les projets",
+
+      "empty": {
+        "title": "Aucun projet publié pour le moment.",
+        "description": "De nouveaux projets apparaîtront ici lorsqu'ils seront publiés."
+      }
+    },
+
+    "AboutPreview": {
+      "label": "À propos",
+      "title": "Créer une technologie pratique avec un objectif.",
+      "intro": "Je suis Norbert, ingénieur logiciel, créateur et entrepreneur, passionné par la transformation des idées en solutions concrètes.",
+      "description1": "Je crois que la technologie a le plus de valeur lorsqu'elle résout de vrais problèmes et crée des opportunités pour les personnes. À travers cette plateforme, je documente mon parcours dans la création de logiciels, l'exploration des données, la lecture et le développement d'idées ambitieuses.",
+      "description2": "Au fil de ce parcours, je partage des leçons pratiques, des expériences honnêtes et des réflexions qui peuvent aider les autres à apprendre, progresser et créer avec confiance.",
+      "moreAboutMe": "En savoir plus sur moi",
+      "focusTitle": "Ce qui guide mon travail",
+      "focusDescription": "Trois domaines où la technologie, la réflexion analytique et la curiosité se rencontrent.",
+
+      "focusAreas": {
+        "buildingSoftware": {
+          "title": "Créer des logiciels",
+          "description": "Créer des applications web modernes en appliquant des techniques d'ingénierie pratiques, une architecture solide et les leçons tirées de projets réels."
+        },
+
+        "workingWithData": {
+          "title": "Travailler avec les données",
+          "description": "Transformer les données en informations pertinentes qui favorisent de meilleures décisions, l'amélioration continue et un impact mesurable."
+        },
+
+        "buildingIdeas": {
+          "title": "Développer des idées",
+          "description": "Explorer l'entrepreneuriat, résoudre les défis du quotidien et transformer des idées prometteuses en projets utiles et significatifs."
+        }
+      },
+
+      "philosophyQuote": "La connaissance devient véritablement précieuse lorsqu'elle est partagée, appliquée et utilisée pour apporter une contribution positive.",
+      "philosophy": "Philosophie"
+    },
+
+    "Newsletter": {
+      "label": "Newsletter",
+      "title": "Restez informé et inspiré",
+      "description": "Recevez mes derniers articles, mes conseils pratiques et les actualités de mes projets directement dans votre boîte de réception. Aucun e-mail inutile, seulement des idées utiles qui méritent d'être partagées."
+    },
+
+    "NewsletterForm": {
+      "emailLabel": "Adresse e-mail",
+      "emailPlaceholder": "Entrez votre adresse e-mail",
+      "subscribe": "S'abonner",
+      "subscribing": "Inscription...",
+      "privacy": "Vous pouvez vous désabonner à tout moment. Votre adresse e-mail reste privée.",
+
+      "success": {
+        "title": "Vous êtes inscrit !",
+        "description": "Merci pour votre inscription. Vous recevrez mes dernières actualités dans votre boîte de réception."
+      },
+
+      "validation": {
+        "required": "L'adresse e-mail est obligatoire",
+        "tooLong": "L'adresse e-mail est trop longue",
+        "invalid": "Veuillez saisir une adresse e-mail valide"
+      }
+    }
   }
 }

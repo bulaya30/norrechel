@@ -1,6 +1,7 @@
-import Link from "next/link";
 import { ArrowRight, CodeXml } from "lucide-react";
+import { getTranslations } from "next-intl/server";
 
+import { Link } from "@/i18n/navigation";
 import type { Project } from "@/features/interfaces/project";
 import ProjectPreviewCard from "./ProjectPreviewCard";
 
@@ -12,7 +13,10 @@ interface SelectedProjectsProps {
 }
 
 function getLocalizedValue(
-  value: Project["title"] | Project["slug"] | Project["details"],
+  value:
+    | Project["title"]
+    | Project["slug"]
+    | Project["details"],
   locale: SupportedLocale,
 ): string {
   return value?.[locale] ?? value?.en ?? value?.fr ?? "";
@@ -26,15 +30,15 @@ function getLocalizedCategoryName(
     return undefined;
   }
 
-  return (
-    category.name ?? undefined
-  );
+  return category.name ?? undefined;
 }
 
-export default function SelectedProjects({
+export default async function SelectedProjects({
   projects,
   locale,
 }: SelectedProjectsProps) {
+  const t = await getTranslations("Home.SelectedProjects");
+
   const visibleProjects = projects.slice(0, 3);
 
   return (
@@ -45,7 +49,7 @@ export default function SelectedProjects({
         bg-slate-50/70
         px-4 py-10
         sm:px-6 sm:py-8
-        lg:px-8 lg:py-10      
+        lg:px-8 lg:py-10
       "
     >
       <div className="mx-auto max-w-7xl">
@@ -77,7 +81,7 @@ export default function SelectedProjects({
               </span>
 
               <p className="text-xs font-bold uppercase tracking-[0.22em] text-orange-600">
-                Selected work
+                {t("label")}
               </p>
             </div>
 
@@ -90,18 +94,17 @@ export default function SelectedProjects({
                 sm:text-4xl
               "
             >
-              Projects built to solve problems.
+              {t("title")}
             </h2>
 
             <p className="mt-4 max-w-2xl text-base leading-7 text-slate-600">
-              A selection of applications and digital solutions built around
-              practical needs, real-world challenges, and meaningful outcomes.
+              {t("description")}
             </p>
           </div>
 
           {/* View all */}
           <Link
-            href={`/${locale}/projects`}
+            href="/projects"
             className="
               group inline-flex shrink-0
               items-center gap-2
@@ -113,7 +116,7 @@ export default function SelectedProjects({
               sm:self-auto
             "
           >
-            View all projects
+            {t("viewAll")}
 
             <ArrowRight
               className="
@@ -148,15 +151,11 @@ export default function SelectedProjects({
               />
 
               <p className="mt-4 text-sm font-semibold text-slate-700">
-                {locale === "fr"
-                  ? "Aucun projet publié pour le moment."
-                  : "No projects published yet."}
+                {t("empty.title")}
               </p>
 
               <p className="mt-1 text-sm text-slate-500">
-                {locale === "fr"
-                  ? "De nouveaux projets seront bientôt disponibles."
-                  : "New projects will appear here when they are published."}
+                {t("empty.description")}
               </p>
             </div>
           </div>
@@ -190,7 +189,7 @@ export default function SelectedProjects({
                 <ProjectPreviewCard
                   key={project.id}
                   title={title}
-                  href={`/${locale}/projects/${slug}`}
+                  href={`/projects/${slug}`}
                   coverImage={project.cover_image}
                   description={description}
                   technologies={project.tech_stack}

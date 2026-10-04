@@ -1,6 +1,7 @@
-import Link from "next/link";
 import { ArrowRight, BookOpen } from "lucide-react";
+import { getTranslations } from "next-intl/server";
 
+import { Link } from "@/i18n/navigation";
 import type { Article } from "@/features/interfaces/article";
 import ArticlePreviewCard from "./ArticlePreviewCard";
 import { readableDate } from "@/lib/dates/utils";
@@ -16,12 +17,7 @@ function getLocalizedValue(
   value: Article["title"] | Article["slug"],
   locale: SupportedLocale,
 ): string {
-  return (
-    value?.[locale] ??
-    value?.en ??
-    value?.fr ??
-    ""
-  );
+  return value?.[locale] ?? value?.en ?? value?.fr ?? "";
 }
 
 function getLocalizedCategoryName(
@@ -32,9 +28,7 @@ function getLocalizedCategoryName(
     return undefined;
   }
 
-  return (
-    category.name ?? undefined
-  );
+  return category.name ?? undefined;
 }
 
 function getArticleExcerpt(
@@ -71,10 +65,12 @@ function getArticleExcerpt(
     : plainText;
 }
 
-export default function LatestArticles({
+export default async function LatestArticles({
   articles,
   locale,
 }: LatestArticlesProps) {
+  const t = await getTranslations("Home.LatestArticles");
+
   const visibleArticles = articles.slice(0, 3);
 
   return (
@@ -117,7 +113,7 @@ export default function LatestArticles({
               </span>
 
               <p className="text-xs font-bold uppercase tracking-[0.22em] text-blue-700">
-                From the journal
+                {t("label")}
               </p>
             </div>
 
@@ -130,18 +126,17 @@ export default function LatestArticles({
                 sm:text-4xl
               "
             >
-              Latest Articles
+              {t("title")}
             </h2>
 
             <p className="mt-4 max-w-xl text-base leading-7 text-slate-600">
-              Practical thoughts, lessons, and ideas from technology,
-              entrepreneurship, software development, and personal growth.
+              {t("description")}
             </p>
           </div>
 
           {/* View all */}
           <Link
-            href={`/${locale}/blogs`}
+            href="/blogs"
             className="
               group inline-flex shrink-0
               items-center gap-2
@@ -153,7 +148,7 @@ export default function LatestArticles({
               sm:self-auto
             "
           >
-            View all articles
+            {t("viewAll")}
 
             <ArrowRight
               className="
@@ -188,15 +183,11 @@ export default function LatestArticles({
               />
 
               <p className="mt-4 text-sm font-semibold text-slate-700">
-                {locale === "fr"
-                  ? "Aucun article publié pour le moment."
-                  : "No articles published yet."}
+                {t("empty.title")}
               </p>
 
               <p className="mt-1 text-sm text-slate-500">
-                {locale === "fr"
-                  ? "De nouveaux articles seront bientôt disponibles."
-                  : "New articles will appear here when they are published."}
+                {t("empty.description")}
               </p>
             </div>
           </div>
@@ -237,7 +228,7 @@ export default function LatestArticles({
                 <ArticlePreviewCard
                   key={article.id}
                   title={title}
-                  href={`/${locale}/blogs/${slug}`}
+                  href={`/blogs/${slug}`}
                   coverImage={article.cover_image}
                   author={authorName || undefined}
                   date={
