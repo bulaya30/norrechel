@@ -1,7 +1,6 @@
 "use client";
 
-import Link from "next/link";
-import { useLocale } from "next-intl";
+import { useTranslations } from "next-intl";
 import {
   BookOpen,
   ChevronDown,
@@ -9,6 +8,8 @@ import {
   LayoutDashboard,
   LogOut,
 } from "lucide-react";
+
+import { Link } from "@/i18n/navigation";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -27,7 +28,7 @@ interface MyDropdownProps {
 export default function MyDropdown({
   userName,
 }: MyDropdownProps) {
-  const locale = useLocale();
+  const t = useTranslations("AccountMenu");
 
   const menuItemClass = `
     cursor-pointer rounded-lg
@@ -60,7 +61,7 @@ export default function MyDropdown({
             data-[state=open]:bg-slate-50
             data-[state=open]:text-blue-700
           "
-          aria-label={`Open account menu for ${userName}`}
+          aria-label={t("openMenu", { userName })}
         >
           <span className="max-w-36 truncate">
             {userName}
@@ -89,8 +90,9 @@ export default function MyDropdown({
           <span className="block truncate text-sm font-semibold text-slate-950">
             {userName}
           </span>
+
           <span className="mt-0.5 block text-xs font-normal text-slate-500">
-            Account menu
+            {t("label")}
           </span>
         </DropdownMenuLabel>
 
@@ -98,40 +100,40 @@ export default function MyDropdown({
 
         <DropdownMenuItem asChild>
           <Link
-            href={`/${locale}/dashboard`}
+            href="/dashboard"
             className={menuItemClass}
           >
             <LayoutDashboard
               className="size-4"
               aria-hidden="true"
             />
-            <span>Dashboard</span>
+            <span>{t("dashboard")}</span>
           </Link>
         </DropdownMenuItem>
 
         <DropdownMenuItem asChild>
           <Link
-            href={`/${locale}/blogs`}
+            href="/blogs"
             className={menuItemClass}
           >
             <BookOpen
               className="size-4"
               aria-hidden="true"
             />
-            <span>Articles</span>
+            <span>{t("articles")}</span>
           </Link>
         </DropdownMenuItem>
 
         <DropdownMenuItem asChild>
           <Link
-            href={`/${locale}/projects`}
+            href="/projects"
             className={menuItemClass}
           >
             <FolderKanban
               className="size-4"
               aria-hidden="true"
             />
-            <span>Projects</span>
+            <span>{t("projects")}</span>
           </Link>
         </DropdownMenuItem>
 
@@ -154,7 +156,7 @@ export default function MyDropdown({
             className="size-4"
             aria-hidden="true"
           />
-          <span>Logout</span>
+          <span>{t("logout")}</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

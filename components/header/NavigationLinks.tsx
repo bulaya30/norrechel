@@ -1,8 +1,7 @@
 "use client";
 
-import Link from "next/link";
-import { useLocale } from "next-intl";
-import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
+import { Link, usePathname } from "@/i18n/navigation";
 
 import { navItems } from "./navigation";
 
@@ -15,11 +14,8 @@ export default function NavigationLinks({
   mobile = false,
   onNavigate,
 }: NavigationLinksProps) {
+  const t = useTranslations("Navigation");
   const pathname = usePathname();
-  const locale = useLocale();
-
-  const normalizedPathname =
-    pathname.replace(new RegExp(`^/${locale}(?=/|$)`), "") || "/";
 
   return (
     <ul
@@ -32,19 +28,14 @@ export default function NavigationLinks({
       {navItems.map((item) => {
         const isActive =
           item.path === "/"
-            ? normalizedPathname === "/"
-            : normalizedPathname === item.path ||
-              normalizedPathname.startsWith(`${item.path}/`);
-
-        const href =
-          item.path === "/"
-            ? `/${locale}`
-            : `/${locale}${item.path}`;
+            ? pathname === "/"
+            : pathname === item.path ||
+              pathname.startsWith(`${item.path}/`);
 
         return (
           <li key={item.path}>
             <Link
-              href={href}
+              href={item.path}
               onClick={onNavigate}
               aria-current={isActive ? "page" : undefined}
               className={[
@@ -64,9 +55,8 @@ export default function NavigationLinks({
                     : "text-slate-600 hover:text-slate-950",
               ].join(" ")}
             >
-              {item.name}
+              {t(item.translationKey)}
 
-              {/* Desktop active indicator */}
               {!mobile && (
                 <span
                   aria-hidden="true"

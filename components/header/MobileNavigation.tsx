@@ -2,8 +2,9 @@
 
 import { useState } from "react";
 import { Menu } from "lucide-react";
-import Link from "next/link";
-import { useLocale } from "next-intl";
+import { useTranslations } from "next-intl";
+
+import { Link } from "@/i18n/navigation";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -26,7 +27,8 @@ export default function MobileNavigation({
   userName,
 }: MobileNavigationProps) {
   const [open, setOpen] = useState(false);
-  const locale = useLocale();
+  const t = useTranslations("MobileNavigation");
+  const headerT = useTranslations("Header");
 
   const closeMenu = () => {
     setOpen(false);
@@ -40,7 +42,7 @@ export default function MobileNavigation({
             type="button"
             variant="ghost"
             size="icon"
-            aria-label="Open navigation menu"
+            aria-label={t("openMenu")}
             className="
               size-10 rounded-lg
               text-slate-700
@@ -67,16 +69,16 @@ export default function MobileNavigation({
         >
           <SheetHeader className="border-b border-slate-200 px-6 pb-5 pt-6 text-left">
             <SheetTitle className="text-lg font-bold tracking-tight text-slate-950">
-              Navigation
+              {t("title")}
             </SheetTitle>
 
             <SheetDescription className="max-w-xs text-sm leading-6 text-slate-500">
-              Browse Norrechel pages and account options.
+              {t("description")}
             </SheetDescription>
           </SheetHeader>
 
           <nav
-            aria-label="Mobile navigation"
+            aria-label={t("ariaLabel")}
             className="flex-1 overflow-y-auto px-4 py-6"
           >
             <NavigationLinks
@@ -102,8 +104,8 @@ export default function MobileNavigation({
                   hover:shadow-md
                 "
               >
-                <Link href={`/${locale}/login`}>
-                  Login
+                <Link href="/login">
+                  {headerT("login")}
                 </Link>
               </Button>
             )}

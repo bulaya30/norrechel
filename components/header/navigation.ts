@@ -1,12 +1,12 @@
 export interface NavItem {
-  name: string;
+  translationKey: "home" | "blogs" | "projects" | "about" | "contact";
   path: string;
 }
 
 export const navItems: NavItem[] = [
-  { name: "Home", path: "/" },
-  { name: "Blogs", path: "/blogs" },
-  { name: "Projects", path: "/projects" },
-  { name: "About", path: "/about" },
-  { name: "Contact", path: "/contact" },
+  { translationKey: "home", path: "/" },
+  { translationKey: "blogs", path: "/blogs" },
+  { translationKey: "projects", path: "/projects" },
+  { translationKey: "about", path: "/about" },
+  { translationKey: "contact", path: "/contact" },
 ];

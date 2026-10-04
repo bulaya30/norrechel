@@ -1,7 +1,7 @@
 "use client";
 
 import { ChevronDown, Globe } from "lucide-react";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 import { usePathname, useRouter } from "@/i18n/navigation";
 
@@ -16,12 +16,12 @@ import {
 const languages = [
   {
     code: "en",
-    label: "English",
+    translationKey: "english",
     shortLabel: "EN",
   },
   {
     code: "fr",
-    label: "Français",
+    translationKey: "french",
     shortLabel: "FR",
   },
 ] as const;
@@ -29,6 +29,7 @@ const languages = [
 type Locale = (typeof languages)[number]["code"];
 
 export default function LanguageDropdown() {
+  const t = useTranslations("LanguageDropdown");
   const locale = useLocale() as Locale;
   const pathname = usePathname();
   const router = useRouter();
@@ -64,15 +65,23 @@ export default function LanguageDropdown() {
             data-[state=open]:text-orange-600
             md:w-auto
           "
-          aria-label={`Change language. Current language: ${currentLanguage.label}`}
+          aria-label={t("changeLanguage", {
+            language: t(currentLanguage.translationKey),
+          })}
         >
-          <Globe className="size-4" aria-hidden="true" />
+          <Globe
+            className="size-4"
+            aria-hidden="true"
+          />
 
           <span className="text-sm font-semibold">
             {currentLanguage.shortLabel}
           </span>
 
-          <ChevronDown className="size-4" aria-hidden="true" />
+          <ChevronDown
+            className="size-4"
+            aria-hidden="true"
+          />
         </Button>
       </DropdownMenuTrigger>
 
@@ -95,14 +104,21 @@ export default function LanguageDropdown() {
                 data-[highlighted]:bg-slate-100
                 data-[highlighted]:text-orange-600
                 data-[disabled]:opacity-100
-                ${isActive ? "text-orange-600": "text-blue-900" }
+                ${
+                  isActive
+                    ? "text-orange-600"
+                    : "text-blue-900"
+                }
               `}
               disabled={isActive}
             >
-              <span>{language.label}</span>
+              <span>{t(language.translationKey)}</span>
 
               {isActive && (
-                <span className="ml-auto text-orange-600">
+                <span
+                  className="ml-auto text-orange-600"
+                  aria-hidden="true"
+                >
                   ✓
                 </span>
               )}

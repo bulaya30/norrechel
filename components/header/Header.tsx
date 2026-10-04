@@ -1,7 +1,7 @@
-import Link from "next/link";
-import { getLocale } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
 
 import { Button } from "@/components/ui/button";
+import { Link } from "@/i18n/navigation";
 
 import Logo from "./Logo";
 import MobileNavigation from "./MobileNavigation";
@@ -11,10 +11,8 @@ import LanguageDropdown from "./LanguageDropdown";
 
 import { getAuthenticatedUser } from "@/features/auth/lib/getAuthenticatedUser";
 
-type SupportedLocale = "en" | "fr";
-
 export default async function Header() {
-  const locale = (await getLocale()) as SupportedLocale;
+  const t = await getTranslations("Header");
   const user = await getAuthenticatedUser();
 
   const userName = user
@@ -48,7 +46,7 @@ export default async function Header() {
         {/* Desktop navigation */}
         <div className="hidden items-center md:flex">
           <nav
-            aria-label="Primary navigation"
+            aria-label={t("primaryNavigation")}
             className="flex items-center"
           >
             <NavigationLinks />
@@ -75,8 +73,8 @@ export default async function Header() {
                   hover:bg-orange-600
                 "
               >
-                <Link href={`/${locale}/login`}>
-                  Login
+                <Link href="/login">
+                  {t("login")}
                 </Link>
               </Button>
             )}

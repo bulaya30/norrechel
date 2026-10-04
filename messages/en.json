@@ -7,6 +7,33 @@
     "contact": "Contact"
   },
 
+  "Header": {
+    "primaryNavigation": "Primary navigation",
+    "login": "Login"
+  },
+
+  "MobileNavigation": {
+    "openMenu": "Open navigation menu",
+    "title": "Navigation",
+    "description": "Browse Norrechel pages and account options.",
+    "ariaLabel": "Mobile navigation"
+  },
+
+  "AccountMenu": {
+    "openMenu": "Open account menu for {userName}",
+    "label": "Account menu",
+    "dashboard": "Dashboard",
+    "articles": "Articles",
+    "projects": "Projects",
+    "logout": "Logout"
+  },
+
+  "LanguageDropdown": {
+    "changeLanguage": "Change language. Current language: {language}",
+    "english": "English",
+    "french": "French"
+  },
+
   "Home": {
     "Hero": {
       "eyebrow": "Technology · Data · Personal Development",
@@ -130,7 +157,7 @@
       "title": "Stay informed and inspired",
       "description": "Receive my latest articles, practical lessons, and project updates directly in your inbox. No unnecessary emails, only useful ideas worth sharing."
     },
-    
+
     "NewsletterForm": {
       "emailLabel": "Email address",
       "emailPlaceholder": "Enter your email address",

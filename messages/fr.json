@@ -7,6 +7,33 @@
     "contact": "Contact"
   },
 
+  "Header": {
+    "primaryNavigation": "Navigation principale",
+    "login": "Connexion"
+  },
+
+  "MobileNavigation": {
+    "openMenu": "Ouvrir le menu de navigation",
+    "title": "Navigation",
+    "description": "Parcourez les pages de Norrechel et les options du compte.",
+    "ariaLabel": "Navigation mobile"
+  },
+
+  "AccountMenu": {
+    "openMenu": "Ouvrir le menu du compte de {userName}",
+    "label": "Menu du compte",
+    "dashboard": "Tableau de bord",
+    "articles": "Articles",
+    "projects": "Projets",
+    "logout": "Déconnexion"
+  },
+
+  "LanguageDropdown": {
+    "changeLanguage": "Changer de langue. Langue actuelle : {language}",
+    "english": "Anglais",
+    "french": "Français"
+  },
+
   "Home": {
     "Hero": {
       "eyebrow": "Technologie · Données · Développement personnel",
