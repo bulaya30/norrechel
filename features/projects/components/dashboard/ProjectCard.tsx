@@ -155,7 +155,7 @@ export default function ProjectCard({
   const githubUrl = project.github_url ?? null;
 
   const projectHref = slug
-    ? `/${locale}/dashboard/articles/${slug}`
+    ? `/${locale}/dashboard/projects/${slug}`
     : "#";
 
   const labels =

@@ -138,7 +138,6 @@ export default async function ArticlePage({
     const { locale, slug } = await params;
 
     const user = await getAuthenticatedUser();
-    console.log(slug)
 
     const article = await getCachedArticleBySlug(slug, locale, user?.userId ?? null);
 

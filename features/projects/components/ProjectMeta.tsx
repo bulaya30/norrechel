@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { AppTimestamp } from "../../interfaces/article";
 import { normalizeDate, readableDate } from "@/lib/dates/utils";
+import { AppTimestamp } from "@/features/interfaces/article";
 
 interface Author {
   id?: string;
@@ -8,28 +8,30 @@ interface Author {
   lastName?: string;
 }
 
-interface ArticleMetaProps {
+interface ProjectMetaProps {
   author?: Author;
   publishedAt: AppTimestamp;
   readingTime?: number;
   locale?: string;
+  status?: string;
 }
 
-export default function ArticleMeta({
+export default function ProjectMeta({
   author,
   publishedAt,
   readingTime,
   locale = "en",
-}: ArticleMetaProps) {
+  status,
+}: ProjectMetaProps) {
   const authorName = [author?.firstName, author?.lastName]
       .filter(Boolean)
       .join(" ") || "Unknown Author";
 
- 
+//   const normalizedPublishedAt = normalizeDate(publishedAt);
 
   return (
     <section
-      aria-label="Article information"
+      aria-label="Project information"
       className="
         mb-10
         flex flex-col gap-3
@@ -49,8 +51,8 @@ export default function ArticleMeta({
             href={`/${locale}/author/${author.id}`}
             className="
               font-semibold
-              text-blue-700
-              hover:text-blue-900
+              text-orange-700
+              hover:text-orange-900
               hover:underline
             "
           >
@@ -70,13 +72,38 @@ export default function ArticleMeta({
           gap-4
         "
       >
-        <time dateTime={readableDate(publishedAt, locale)}>
-          {readableDate(publishedAt)}
+        <time
+          dateTime={
+            readableDate(publishedAt) ??
+            undefined
+          }
+        >
+          {readableDate(
+            publishedAt,
+            locale,
+          )}
         </time>
 
         {readingTime !== undefined && (
           <span>
             {readingTime} min read
+          </span>
+        )}
+
+        {status && (
+          <span
+            className="
+              rounded-full
+              border border-slate-200
+              bg-slate-50
+              px-2.5 py-1
+              text-xs
+              font-semibold
+              capitalize
+              text-slate-600
+            "
+          >
+            {status}
           </span>
         )}
       </div>

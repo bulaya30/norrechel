@@ -9,6 +9,17 @@ import type { Project } from "@/features/interfaces/project";
 
 type SupportedLocale = "en" | "fr";
 
+export async function getCachedProjects(): Promise<Project[]> {
+  "use cache";
+
+  cacheLife("hours");
+  cacheTag("projects");
+
+  const projects = await projectService.getProjects();
+
+  return serializeFirestore(projects);
+}
+
 /*
  * -------------------------------------------
  * Published projects

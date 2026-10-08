@@ -1,7 +1,7 @@
 import DashboardPageHeader from "@/features/dashboard/components/DashboardPageHeader";
 import ProjectManager from "@/features/projects/components/dashboard/ProjectManager";
 
-import { getCachedProjectsByAuthor } from "@/features/projects/queries/project.queries";
+import { getCachedProjects } from "@/features/projects/queries/project.queries";
 import { getCachedCategories } from "@/features/categories/queries/category.queries";
 
 import { requireAuthenticatedUser } from "@/features/auth/lib/requireAuthenticatedUser";
@@ -23,7 +23,7 @@ export default async function ProjectsPage({
   const { userId } = await requireAuthenticatedUser();
 
   const [projects, categories] = await Promise.all([
-    getCachedProjectsByAuthor(userId),
+    getCachedProjects(),
     getCachedCategories(),
   ]);
 
