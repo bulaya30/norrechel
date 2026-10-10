@@ -1,14 +1,21 @@
 import DOMPurify from "isomorphic-dompurify";
 import { decode } from "html-entities";
+import { getTranslations } from "next-intl/server";
 
 interface ArticleContentProps {
   content: string;
+  locale?: "en" | "fr";
 }
 
-export default function ArticleContent({
+export default async function ArticleContent({
   content,
+  locale = "en",
 }: ArticleContentProps) {
-  const arr = [content]
+  const t = await getTranslations({
+    locale,
+    namespace: "Blogs.ArticleContent",
+  });
+
   const decodedContent = decode(content);
 
   const sanitizedContent = DOMPurify.sanitize(decodedContent, {
@@ -20,7 +27,7 @@ export default function ArticleContent({
   if (!sanitizedContent.trim()) {
     return (
       <p className="text-sm italic text-slate-500">
-        No content is available for this article.
+        {t("emptyContent")}
       </p>
     );
   }

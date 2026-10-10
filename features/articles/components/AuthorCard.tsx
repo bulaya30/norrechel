@@ -1,5 +1,8 @@
 import Image from "next/image";
-import Link from "next/link";
+import { getTranslations } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
+
+type SupportedLocale = "en" | "fr";
 
 interface AuthorCardProps {
   id?: string;
@@ -8,25 +11,25 @@ interface AuthorCardProps {
   bio?: string;
   imageUrl?: string;
   role?: string;
-  locale?: string;
+  locale?: SupportedLocale;
 }
 
-export default function AuthorCard({
+export default async function AuthorCard({
   id,
   firstName,
   lastName,
   bio,
   imageUrl,
-  role,
   locale = "en",
 }: AuthorCardProps) {
+  const t = await getTranslations({
+    locale,
+    namespace: "Blogs.AuthorCard",
+  });
+
   const authorName =
     [firstName, lastName].filter(Boolean).join(" ") ||
-    (locale === "fr" ? "Auteur inconnu" : "Unknown author");
-
-  const authorUrl = id
-    ? `/${locale}/author/${id}`
-    : null;
+    t("unknownAuthor");
 
   return (
     <aside
@@ -55,9 +58,7 @@ export default function AuthorCard({
 
         <div className="min-w-0">
           <p className="text-sm font-semibold uppercase tracking-wide text-orange-600">
-            {locale === "fr"
-              ? "À propos de l’auteur"
-              : "About the author"}
+            {t("eyebrow")}
           </p>
 
           <h2
@@ -67,15 +68,16 @@ export default function AuthorCard({
             {authorName}
           </h2>
 
+
           {bio && (
             <p className="mt-3 max-w-2xl text-sm leading-7 text-slate-600">
               {bio}
             </p>
           )}
 
-          {authorUrl && (
+          {id && (
             <Link
-              href={authorUrl}
+              href={`/author/${id}`}
               className="
                 mt-4 inline-flex items-center
                 text-sm font-semibold text-blue-700
@@ -87,9 +89,7 @@ export default function AuthorCard({
                 focus-visible:ring-offset-2
               "
             >
-              {locale === "fr"
-                ? "Voir le profil"
-                : "View profile"}
+              {t("viewProfile")}
 
               <span aria-hidden="true" className="ml-2">
                 →

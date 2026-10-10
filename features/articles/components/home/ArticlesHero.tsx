@@ -1,19 +1,16 @@
+import { getTranslations } from "next-intl/server";
 import { BookOpen, ArrowDown } from "lucide-react";
 
-type SupportedLocale = "en" | "fr";
-
 interface ArticleHeroProps {
-  locale: SupportedLocale;
   articleCount: number;
   categoryCount: number;
 }
 
-export default function ArticleHero({
-  locale,
+export default async function ArticleHero({
   articleCount,
   categoryCount,
 }: ArticleHeroProps) {
-  const isFrench = locale === "fr";
+  const t = await getTranslations("Blogs.Hero");
 
   return (
     <section
@@ -61,11 +58,7 @@ export default function ArticleHero({
               className="h-4 w-4"
             />
 
-            <span>
-              {isFrench
-                ? "Bibliothèque d’articles"
-                : "Article Library"}
-            </span>
+            <span>{t("eyebrow")}</span>
           </div>
 
           {/* Main heading */}
@@ -79,9 +72,7 @@ export default function ArticleHero({
               lg:leading-[1.05]
             "
           >
-            {isFrench
-              ? "Des idées à explorer. Des leçons à partager."
-              : "Ideas worth exploring. Lessons worth sharing."}
+            {t("title")}
           </h1>
 
           {/* Description */}
@@ -92,9 +83,7 @@ export default function ArticleHero({
               sm:text-lg sm:leading-8
             "
           >
-            {isFrench
-              ? "Découvrez des articles pratiques sur le développement logiciel, les données, l’entrepreneuriat, la productivité et les enseignements tirés de projets réels."
-              : "Explore practical writing on software development, data, entrepreneurship, productivity, and lessons learned from building real projects."}
+            {t("description")}
           </p>
 
           {/* Metadata */}
@@ -111,14 +100,9 @@ export default function ArticleHero({
               />
 
               <span>
-                {articleCount}{" "}
-                {isFrench
-                  ? articleCount === 1
-                    ? "article publié"
-                    : "articles publiés"
-                  : articleCount === 1
-                    ? "published article"
-                    : "published articles"}
+                {t("publishedArticles", {
+                  count: articleCount,
+                })}
               </span>
             </div>
 
@@ -134,14 +118,9 @@ export default function ArticleHero({
               />
 
               <span>
-                {categoryCount}{" "}
-                {isFrench
-                  ? categoryCount === 1
-                    ? "catégorie"
-                    : "catégories"
-                  : categoryCount === 1
-                    ? "category"
-                    : "categories"}
+                {t("categories", {
+                  count: categoryCount,
+                })}
               </span>
             </div>
           </div>
@@ -157,9 +136,7 @@ export default function ArticleHero({
             sm:flex
           "
         >
-          <span>
-            {isFrench ? "Explorer les articles" : "Explore articles"}
-          </span>
+          <span>{t("exploreArticles")}</span>
 
           <ArrowDown className="h-3.5 w-3.5" />
         </div>

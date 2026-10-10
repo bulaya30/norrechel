@@ -1,9 +1,9 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { useTranslations } from "next-intl";
 
 import ArticleCategoryNav from "@/features/articles/components/home/ArticleCategoryNav";
-import FeaturedArticle from "@/features/articles/components/home/FeaturedArticle";
 import ArticleGrid from "@/features/articles/components/home/ArticleGrid";
 
 import type { Article } from "@/features/interfaces/article";
@@ -22,6 +22,8 @@ export default function ArticlesBrowser({
   categories,
   locale,
 }: ArticlesBrowserProps) {
+  const t = useTranslations("Blogs.Browser");
+
   const [selectedCategoryId, setSelectedCategoryId] =
     useState<string | null>(null);
 
@@ -40,11 +42,7 @@ export default function ArticlesBrowser({
 
   return (
     <section
-      aria-label={
-        locale === "fr"
-          ? "Bibliothèque d’articles"
-          : "Article library"
-      }
+      aria-label={t("ariaLabel")}
       className="
         mx-auto max-w-7xl
         px-4 py-8
@@ -60,44 +58,15 @@ export default function ArticlesBrowser({
         "
       >
         <ArticleCategoryNav
-          locale={locale}
           categories={categories}
           articleCount={articleCount}
-          selectedCategoryId={selectedCategoryId ?? undefined}
+          selectedCategoryId={
+            selectedCategoryId ?? undefined
+          }
           onCategoryChange={setSelectedCategoryId}
         />
 
         <div className="min-w-0 space-y-14">
-          {/* {latestArticles.length > 0 ? (
-            <FeaturedArticle
-              articles={latestArticles}
-              locale={locale}
-            />
-          ) : (
-            <section
-              aria-live="polite"
-              className="
-                rounded-2xl
-                border border-slate-200
-                bg-white
-                px-6 py-12
-                text-center
-              "
-            >
-              <h2 className="text-lg font-bold text-slate-900">
-                {locale === "fr"
-                  ? "Aucun article trouvé"
-                  : "No articles found"}
-              </h2>
-
-              <p className="mt-2 text-sm text-slate-500">
-                {locale === "fr"
-                  ? "Cette catégorie ne contient actuellement aucun article publié."
-                  : "This category currently has no published articles."}
-              </p>
-            </section>
-          )} */}
-
           {articleCount > 0 ? (
             <ArticleGrid
               articles={filteredArticles}

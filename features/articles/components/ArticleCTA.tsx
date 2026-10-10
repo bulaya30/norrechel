@@ -1,6 +1,7 @@
 "use client";
 
-import Link from "next/link";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 
 interface ArticleCTAProps {
   title?: string;
@@ -11,12 +12,18 @@ interface ArticleCTAProps {
 }
 
 export default function ArticleCTA({
-  title = "Interested in this article?",
-  description = "Let’s work together to build something practical and meaningful.",
-  buttonLabel = "Let’s Collaborate",
+  title,
+  description,
+  buttonLabel,
   href = "/contact",
   onClick,
 }: ArticleCTAProps) {
+  const t = useTranslations("Blogs.ArticleCTA");
+
+  const ctaTitle = title ?? t("title");
+  const ctaDescription = description ?? t("description");
+  const ctaButtonLabel = buttonLabel ?? t("buttonLabel");
+
   return (
     <section
       aria-labelledby="article-cta-heading"
@@ -32,11 +39,11 @@ export default function ArticleCTA({
           id="article-cta-heading"
           className="text-2xl font-bold tracking-tight text-slate-900"
         >
-          {title}
+          {ctaTitle}
         </h2>
 
         <p className="mt-3 leading-7 text-slate-600">
-          {description}
+          {ctaDescription}
         </p>
 
         <Link
@@ -54,7 +61,7 @@ export default function ArticleCTA({
             focus-visible:ring-offset-2
           "
         >
-          {buttonLabel}
+          {ctaButtonLabel}
         </Link>
       </div>
     </section>

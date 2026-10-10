@@ -1,23 +1,25 @@
+"use client";
+
+import { useTranslations } from "next-intl";
+
 import ArticleCard from "@/features/articles/components/home/ArticleCard";
 
 import type { Article } from "@/features/interfaces/article";
 
-type SupportedLocale = "en" | "fr";
-
 interface ArticleGridProps {
   articles: Article[];
-  locale: SupportedLocale;
+  locale: "en" | "fr";
 }
 
 export default function ArticleGrid({
   articles,
   locale,
 }: ArticleGridProps) {
+  const t = useTranslations("Blogs.Grid");
+
   if (articles.length === 0) {
     return null;
   }
-
-  const isFrench = locale === "fr";
 
   return (
     <section
@@ -32,9 +34,7 @@ export default function ArticleGrid({
             text-orange-600
           "
         >
-          {isFrench
-            ? "Bibliothèque"
-            : "Library"}
+          {t("eyebrow")}
         </p>
 
         <h2
@@ -47,15 +47,11 @@ export default function ArticleGrid({
             sm:text-3xl
           "
         >
-          {isFrench
-            ? "Tous les articles"
-            : "All articles"}
+          {t("title")}
         </h2>
 
         <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-500">
-          {isFrench
-            ? "Explorez les autres articles de la bibliothèque."
-            : "Explore the rest of the articles in the library."}
+          {t("description")}
         </p>
       </header>
 

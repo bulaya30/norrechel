@@ -26,7 +26,6 @@ export default async function Page() {
       <Header />
 
       <ArticleHero
-        locale={locale}
         articleCount={articles.length}
         categoryCount={categories.length}
       />

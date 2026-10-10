@@ -187,5 +187,67 @@
         "invalid": "Veuillez saisir une adresse e-mail valide"
       }
     }
+  },
+
+  "Blogs": {
+    "Hero": {
+      "eyebrow": "Bibliothèque d’articles",
+      "title": "Des idées à explorer. Des leçons à partager.",
+      "description": "Découvrez des articles pratiques sur le développement logiciel, les données, l’entrepreneuriat, la productivité et les enseignements tirés de projets réels.",
+      "publishedArticles": "{count, plural, =1 {article publié} other {articles publiés}}",
+      "categories": "{count, plural, =1 {catégorie} other {catégories}}",
+      "exploreArticles": "Explorer les articles"
+    },
+    "Browser": {
+      "ariaLabel": "Bibliothèque d’articles"
+    },
+    "CategoryNav": {
+      "title": "Explorer",
+      "description": "Parcourir par sujet",
+      "ariaLabel": "Catégories d’articles",
+      "allArticles": "Tous les articles"
+    },
+    "Grid": {
+      "eyebrow": "Bibliothèque",
+      "title": "Tous les articles",
+      "description": "Explorez les autres articles de la bibliothèque."
+    },
+    "Card": {
+      "untitled": "Article sans titre",
+      "noCoverImage": "Aucune image de couverture",
+      "readArticle": "Lire l’article",
+      "readArticleAria": "Lire l’article : {title}",
+      "readingTime": "{minutes} min"
+    },
+    "ArticlePage": {
+      "notFoundTitle": "Article introuvable",
+      "notFoundDescription": "L’article que vous recherchez est introuvable.",
+      "metaDescription": "Lire {title}",
+      "ctaTitle": "Cet article vous a intéressé ?",
+      "ctaDescription": "Collaborons pour construire une solution pratique et utile.",
+      "ctaButton": "Collaborons"
+    },
+    "ArticleHeader": {
+      "label": "Article"
+    },
+    "ArticleMeta": {
+      "ariaLabel": "Informations sur l’article",
+      "by": "Par",
+      "unknownAuthor": "Auteur inconnu",
+      "readingTime": "{minutes} min de lecture"
+    },
+    "ArticleContent": {
+      "emptyContent": "Aucun contenu n’est disponible pour cet article."
+    },
+    "AuthorCard": {
+      "unknownAuthor": "Auteur inconnu",
+      "eyebrow": "À propos de l’auteur",
+      "viewProfile": "Voir le profil"
+    },
+    "ArticleCTA": {
+      "title": "Cet article vous a intéressé ?",
+      "description": "Collaborons pour construire une solution pratique et utile.",
+      "buttonLabel": "Collaborons"
+    }
   }
 }

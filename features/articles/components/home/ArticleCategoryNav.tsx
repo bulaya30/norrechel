@@ -1,13 +1,11 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { FolderOpen } from "lucide-react";
 
 import type { Category } from "@/features/interfaces/category";
 
-type SupportedLocale = "en" | "fr";
-
 interface ArticleCategoryNavProps {
-  locale: SupportedLocale;
   categories: Category[];
   articleCount: number;
   selectedCategoryId?: string;
@@ -15,13 +13,13 @@ interface ArticleCategoryNavProps {
 }
 
 export default function ArticleCategoryNav({
-  locale,
   categories,
   articleCount,
   selectedCategoryId,
   onCategoryChange,
 }: ArticleCategoryNavProps) {
-  const isFrench = locale === "fr";
+  const t = useTranslations("Blogs.CategoryNav");
+
   const allArticlesSelected = !selectedCategoryId;
 
   return (
@@ -50,25 +48,17 @@ export default function ArticleCategoryNav({
                 id="article-categories-heading"
                 className="text-sm font-bold text-slate-900"
               >
-                {isFrench ? "Explorer" : "Explore"}
+                {t("title")}
               </h2>
 
               <p className="mt-0.5 text-xs text-slate-500">
-                {isFrench
-                  ? "Parcourir par sujet"
-                  : "Browse by topic"}
+                {t("description")}
               </p>
             </div>
           </div>
         </div>
 
-        <nav
-          aria-label={
-            isFrench
-              ? "Catégories d’articles"
-              : "Article categories"
-          }
-        >
+        <nav aria-label={t("ariaLabel")}>
           <ul className="space-y-1">
             {/* All articles */}
             <li>
@@ -101,9 +91,7 @@ export default function ArticleCategoryNav({
                     ].join(" ")}
                   />
 
-                  {isFrench
-                    ? "Tous les articles"
-                    : "All articles"}
+                  {t("allArticles")}
                 </span>
 
                 <span
@@ -132,10 +120,9 @@ export default function ArticleCategoryNav({
                   <button
                     type="button"
                     aria-pressed={isSelected}
-                    onClick={() => {
-                        if (!category.id) return;
-                        onCategoryChange(category.id);
-                    }}
+                    onClick={() =>
+                      onCategoryChange(category.id!)
+                    }
                     className={[
                       "group flex w-full items-center",
                       "rounded-xl px-3.5 py-2.5",
@@ -179,13 +166,11 @@ export default function ArticleCategoryNav({
               id="article-categories-heading-mobile"
               className="text-sm font-bold text-slate-900"
             >
-              {isFrench ? "Explorer" : "Explore"}
+              {t("title")}
             </h2>
 
             <p className="mt-0.5 text-xs text-slate-500">
-              {isFrench
-                ? "Parcourir par sujet"
-                : "Browse by topic"}
+              {t("description")}
             </p>
           </div>
 
@@ -196,11 +181,7 @@ export default function ArticleCategoryNav({
         </div>
 
         <nav
-          aria-label={
-            isFrench
-              ? "Catégories d’articles"
-              : "Article categories"
-          }
+          aria-label={t("ariaLabel")}
           className="-mx-4 overflow-x-auto px-4 pb-1"
         >
           <ul className="flex min-w-max items-center gap-2">
@@ -224,9 +205,7 @@ export default function ArticleCategoryNav({
                     : "border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 hover:text-slate-950",
                 ].join(" ")}
               >
-                {isFrench
-                  ? "Tous les articles"
-                  : "All articles"}
+                {t("allArticles")}
 
                 <span
                   className={[
@@ -254,10 +233,9 @@ export default function ArticleCategoryNav({
                   <button
                     type="button"
                     aria-pressed={isSelected}
-                    onClick={() => {
-                        if (!category.id) return;
-                        onCategoryChange(category.id);
-                    }}
+                    onClick={() =>
+                      onCategoryChange(category.id!)
+                    }
                     className={[
                       "inline-flex items-center",
                       "rounded-full px-3.5 py-2",

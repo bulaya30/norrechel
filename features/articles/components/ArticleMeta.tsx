@@ -1,6 +1,9 @@
-import Link from "next/link";
-import { AppTimestamp } from "../../interfaces/article";
+import { getTranslations } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
+import type { AppTimestamp } from "@/features/interfaces/article";
 import { normalizeDate, readableDate } from "@/lib/dates/utils";
+
+type SupportedLocale = "en" | "fr";
 
 interface Author {
   id?: string;
@@ -12,24 +15,30 @@ interface ArticleMetaProps {
   author?: Author;
   publishedAt: AppTimestamp;
   readingTime?: number;
-  locale?: string;
+  locale?: SupportedLocale;
 }
 
-export default function ArticleMeta({
+export default async function ArticleMeta({
   author,
   publishedAt,
   readingTime,
   locale = "en",
 }: ArticleMetaProps) {
-  const authorName = [author?.firstName, author?.lastName]
-      .filter(Boolean)
-      .join(" ") || "Unknown Author";
+  const t = await getTranslations({
+    locale,
+    namespace: "Blogs.ArticleMeta",
+  });
 
- 
+  const authorName =
+    [author?.firstName, author?.lastName]
+      .filter(Boolean)
+      .join(" ") || t("unknownAuthor");
+
+  const normalizedDate = normalizeDate(publishedAt);
 
   return (
     <section
-      aria-label="Article information"
+      aria-label={t("ariaLabel")}
       className="
         mb-10
         flex flex-col gap-3
@@ -42,11 +51,11 @@ export default function ArticleMeta({
       "
     >
       <div className="flex flex-wrap items-center gap-2">
-        <span>By</span>
+        <span>{t("by")}</span>
 
         {author?.id ? (
           <Link
-            href={`/${locale}/author/${author.id}`}
+            href={`/author/${author.id}`}
             className="
               font-semibold
               text-blue-700
@@ -63,20 +72,14 @@ export default function ArticleMeta({
         )}
       </div>
 
-      <div
-        className="
-          flex flex-wrap
-          items-center
-          gap-4
-        "
-      >
-        <time dateTime={readableDate(publishedAt, locale)}>
-          {readableDate(publishedAt)}
+      <div className="flex flex-wrap items-center gap-4">
+        <time dateTime={readableDate(publishedAt, locale) ?? undefined}>
+          {readableDate(publishedAt, locale)}
         </time>
 
         {readingTime !== undefined && (
           <span>
-            {readingTime} min read
+            {t("readingTime", { minutes: readingTime })}
           </span>
         )}
       </div>

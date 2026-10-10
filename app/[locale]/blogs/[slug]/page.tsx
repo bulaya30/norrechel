@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
 
 import Header from "@/components/header/Header";
 import ArticleHeader from "@/features/articles/components/ArticleHeader";
@@ -66,21 +67,38 @@ function calculateReadingTime(html: string): number {
   return Math.max(1, Math.ceil(wordCount / 200));
 }
 
+function createMetaDescription(
+  html: string,
+  fallback: string,
+): string {
+  const plainText = html
+    .replace(/<[^>]*>/g, " ")
+    .replace(/&nbsp;/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
 
+  return plainText.slice(0, 160) || fallback;
+}
 
 export async function generateMetadata({
   params,
 }: ArticlePageProps): Promise<Metadata> {
   const { locale, slug } = await params;
 
-  const article = await getCachedArticleBySlug(slug, locale, null);
+  const t = await getTranslations({
+    locale,
+    namespace: "Blogs.ArticlePage",
+  });
+
+  const article = await getCachedArticleBySlug(
+    slug,
+    locale,
+    null,
+  );
 
   if (!article) {
     return {
-      title:
-        locale === "fr"
-          ? "Article introuvable"
-          : "Article not found",
+      title: t("notFoundTitle"),
       robots: {
         index: false,
         follow: false,
@@ -93,32 +111,34 @@ export async function generateMetadata({
     locale,
   );
 
-  const description = getLocalizedValue(
+  const content = getLocalizedValue(
     article.content as LocalizedValue,
     locale,
   );
 
-  const imageUrl = typeof article.cover_image === "string"
+  const description = createMetaDescription(
+    content,
+    t("metaDescription", { title }),
+  );
+
+  const imageUrl =
+    typeof article.cover_image === "string"
       ? article.cover_image
       : undefined;
 
+  const canonical = `/${locale}/blogs/${slug}`;
+
   return {
     title,
-    description:
-      description ||
-      (locale === "fr"
-        ? `Lire ${title}`
-        : `Read ${title}`),
-
+    description,
     alternates: {
-      canonical: `/${locale}/blogs/${slug}`,
+      canonical,
     },
-
     openGraph: {
       type: "article",
       title,
       description,
-      url: `/${locale}/blogs/${slug}`,
+      url: canonical,
       images: imageUrl
         ? [
             {
@@ -136,25 +156,38 @@ export default async function ArticlePage({
 }: ArticlePageProps) {
   const { locale, slug } = await params;
 
+  const t = await getTranslations({
+    locale,
+    namespace: "Blogs.ArticlePage",
+  });
+
   const user = await getAuthenticatedUser();
+  const uid = user?.userId ?? null;
 
-  const uid = user?.userId ?? null
-
-  const article = await getCachedArticleBySlug(slug, locale, uid);
+  const article = await getCachedArticleBySlug(
+    slug,
+    locale,
+    uid,
+  );
 
   if (!article) {
     return (
-        <main
-        id="main"
-        className="min-h-screen"
-        >
-          <Header />
-            <div className="container mx-auto px-4 pb-20 pt-24">
-                <p>Article Not found</p>
-            </div>
-        </main>
+      <main id="main" className="min-h-screen">
+        <Header />
 
-    )
+        <div className="container mx-auto px-4 pb-20 pt-24">
+          <div className="mx-auto max-w-4xl">
+            <h1 className="text-3xl font-bold tracking-tight text-slate-950">
+              {t("notFoundTitle")}
+            </h1>
+
+            <p className="mt-3 text-slate-600">
+              {t("notFoundDescription")}
+            </p>
+          </div>
+        </div>
+      </main>
+    );
   }
 
   const title = getLocalizedValue(
@@ -167,7 +200,6 @@ export default async function ArticlePage({
     locale,
   );
 
-  
   const category =
     typeof article.category === "string"
       ? article.category
@@ -175,7 +207,7 @@ export default async function ArticlePage({
           article.category?.name as LocalizedValue,
           locale,
         );
-        
+
   const authorBio = getLocalizedValue(
     article.author?.title as LocalizedValue,
     locale,
@@ -183,15 +215,12 @@ export default async function ArticlePage({
 
   const publishedAt =
     normalizeDate(
-      article.publishedAt ??
-        article.createdAt,
+      article.publishedAt ?? article.createdAt,
     ) ?? new Date().toISOString();
 
-  const readingTime =
-    calculateReadingTime(content);
+  const readingTime = calculateReadingTime(content);
 
-  const authorId =
-    article.author?.id ;
+  const authorId = article.author?.id;
 
   const imageUrl =
     typeof article.cover_image === "string"
@@ -199,21 +228,20 @@ export default async function ArticlePage({
       : undefined;
 
   return (
-    <main
-      id="main"
-      className="min-h-screen"
-    >
+    <main id="main" className="min-h-screen">
       <Header />
-     <ContentViewTracker
-      contentId={article.id}
-      contentType="article"
-      slug={slug}
-    />
 
-    <ContentEngagementTracker
-      contentId={article.id}
-      contentType="article"
-    />
+      <ContentViewTracker
+        contentId={article.id}
+        contentType="article"
+        slug={slug}
+      />
+
+      <ContentEngagementTracker
+        contentId={article.id}
+        contentType="article"
+      />
+
       <div className="container mx-auto px-4 pb-20 pt-24">
         <div className="mx-auto max-w-4xl">
           <ArticleHeader
@@ -242,30 +270,15 @@ export default async function ArticlePage({
             lastName={article.author?.lastName}
             bio={authorBio}
             imageUrl={article.author?.photo}
-            role={article.author?.role}
             locale={locale}
           />
 
           <ArticleCTA
-            title={
-              locale === "fr"
-                ? "Cet article vous a intéressé ?"
-                : "Interested in this article?"
-            }
-            description={
-              locale === "fr"
-                ? "Collaborons pour construire une solution pratique et utile."
-                : "Let’s work together to build something practical and meaningful."
-            }
-            buttonLabel={
-              locale === "fr"
-                ? "Collaborons"
-                : "Let’s Collaborate"
-            }
+            title={t("ctaTitle")}
+            description={t("ctaDescription")}
+            buttonLabel={t("ctaButton")}
             href={`/${locale}/contact`}
           />
-
-          
         </div>
       </div>
     </main>

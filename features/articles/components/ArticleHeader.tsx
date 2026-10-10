@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { ArrowDown } from "lucide-react";
+import { getTranslations } from "next-intl/server";
 
 interface ArticleHeaderProps {
   title: string;
@@ -9,19 +10,19 @@ interface ArticleHeaderProps {
   imageAlt?: string;
 }
 
-export default function ArticleHeader({
+export default async function ArticleHeader({
   title,
   category,
   excerpt,
   imageUrl,
   imageAlt,
 }: ArticleHeaderProps) {
+  const t = await getTranslations("Blogs.ArticleHeader");
+
   return (
     <header className="mx-auto w-full max-w-6xl">
-      {/* Editorial header */}
       <div className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
         <div className="max-w-4xl">
-          {/* Category */}
           {category && (
             <div className="mb-7 flex items-center gap-3">
               <span
@@ -35,7 +36,6 @@ export default function ArticleHeader({
             </div>
           )}
 
-          {/* Title */}
           <h1
             className="
               max-w-4xl
@@ -51,7 +51,6 @@ export default function ArticleHeader({
             {title}
           </h1>
 
-          {/* Excerpt */}
           {excerpt && (
             <p
               className="
@@ -69,10 +68,9 @@ export default function ArticleHeader({
           )}
         </div>
 
-        {/* Small editorial marker */}
         <div className="hidden lg:flex lg:flex-col lg:items-center lg:gap-3">
           <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-slate-400">
-            Article
+            {t("label")}
           </span>
 
           <div className="flex size-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500">
@@ -84,7 +82,6 @@ export default function ArticleHeader({
         </div>
       </div>
 
-      {/* Cover image */}
       {imageUrl && (
         <figure className="group relative mt-12 overflow-hidden rounded-md bg-slate-100 sm:mt-16 lg:rounded-md">
           <div className="relative aspect-[16/9] w-full">
@@ -93,11 +90,7 @@ export default function ArticleHeader({
               alt={imageAlt ?? title}
               fill
               priority
-              sizes="
-                (max-width: 640px) 100vw,
-                (max-width: 1024px) 90vw,
-                1152px
-              "
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 1152px"
               className="
                 object-cover
                 transition-transform
@@ -107,7 +100,6 @@ export default function ArticleHeader({
               "
             />
 
-            {/* Subtle image overlay */}
             <div
               aria-hidden="true"
               className="
