@@ -13,10 +13,8 @@ export default async function LoginPage({
   const { locale } = await params;
 
   return (
-    <main
-      id="main"
-    >
-        <Header />
+    <main id="main">
+      <Header />
       <LoginForm locale={locale} />
     </main>
   );

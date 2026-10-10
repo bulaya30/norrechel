@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
+import { useRouter } from "@/i18n/navigation";
 
 import {
   ArrowRight,
@@ -31,82 +31,41 @@ import { auth } from "@/lib/firebase/client";
 import { loginAction } from "@/features/auth/actions/auth.actions";
 
 import { Button } from "@/components/ui/button";
+
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 import {
-  loginSchema,
+  createLoginSchema,
   type LoginFormValues,
 } from "../schema/auth.schema";
 
-type SupportedLocale = "en" | "fr";
-
 interface LoginFormProps {
-  locale: SupportedLocale;
+  locale: "en" | "fr";
 }
 
-export default function LoginForm({
-  locale,
-}: LoginFormProps) {
+export default function LoginForm({ locale }: LoginFormProps) {
+  const t = useTranslations("LoginForm");
   const router = useRouter();
 
-  const [showPassword, setShowPassword] =
-    useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [serverError, setServerError] = useState<string | null>(null);
 
-  const [serverError, setServerError] =
-    useState<string | null>(null);
-
-  const labels =
-    locale === "fr"
-      ? {
-          eyebrow: "Espace sécurisé",
-          welcome: "Bienvenue",
-          description:
-            "Connectez-vous pour accéder à votre tableau de bord et gérer votre contenu.",
-          email: "Adresse e-mail",
-          emailPlaceholder: "nom@exemple.com",
-          password: "Mot de passe",
-          passwordPlaceholder:
-            "Entrez votre mot de passe",
-          login: "Se connecter",
-          loggingIn: "Connexion...",
-          noAccount: "Vous n’avez pas de compte ?",
-          register: "Créer un compte",
-          showPassword: "Afficher le mot de passe",
-          hidePassword: "Masquer le mot de passe",
-          genericError:
-            "Impossible de vous connecter. Vérifiez vos identifiants.",
-          privacy:
-            "Votre connexion est protégée et vos identifiants ne sont jamais stockés dans le navigateur.",
-        }
-      : {
-          eyebrow: "Secure access",
-          welcome: "Welcome back",
-          description:
-            "Sign in to access your dashboard and manage your content.",
-          email: "Email address",
-          emailPlaceholder: "name@example.com",
-          password: "Password",
-          passwordPlaceholder: "Enter your password",
-          login: "Sign in",
-          loggingIn: "Signing in...",
-          noAccount: "Don’t have an account?",
-          register: "Create an account",
-          showPassword: "Show password",
-          hidePassword: "Hide password",
-          genericError:
-            "Unable to sign in. Check your credentials.",
-          privacy:
-            "Your connection is protected and your credentials are never stored in the browser.",
-        };
+  // Build the validation schema using the current language.
+  const loginSchema = createLoginSchema({
+    emailRequired: t("emailRequired"),
+    emailInvalid: t("emailInvalid"),
+    passwordRequired: t("passwordRequired"),
+    passwordMinLength: t("passwordMinLength"),
+  });
 
   const {
     register,
@@ -121,55 +80,56 @@ export default function LoginForm({
       email: "",
       password: "",
     },
+    mode: "onSubmit",
   });
 
-  const onSubmit: SubmitHandler<
-    LoginFormValues
-  > = async ({ email, password }) => {
+  const onSubmit: SubmitHandler<LoginFormValues> = async ({
+    email,
+    password,
+  }) => {
     setServerError(null);
 
     try {
-      const credential =
-        await signInWithEmailAndPassword(
-          auth,
-          email.trim(),
-          password,
-        );
+      // Authenticate with Firebase.
+      const credential = await signInWithEmailAndPassword(
+        auth,
+        email.trim(),
+        password
+      );
 
+      // Obtain the Firebase ID token.
       const idToken = await credential.user.getIdToken();
 
+      // Create the application session on the server.
       const result = await loginAction(idToken);
 
       if (!result.success) {
-        await signOut(auth);
-
-        setServerError(
-          result.message || labels.genericError,
-        );
-
+        await signOut(auth).catch(() => undefined);
+        setServerError(t("genericError"));
         return;
       }
 
-      router.replace(`/${locale}/dashboard`);
+      // Redirect using locale-aware navigation.
+      router.replace("/dashboard");
       router.refresh();
-    } catch (error) {
-
+    } catch {
       await signOut(auth).catch(() => undefined);
-
-      setServerError(labels.genericError);
+      setServerError(t("genericError"));
     }
   };
 
   return (
     <section
+      lang={locale}
       aria-labelledby="login-heading"
       className="
-        relative isolate flex min-h-[calc(100vh-4rem)]
+        relative isolate mt-5 flex min-h-[calc(100vh-4rem)]
         w-full items-center justify-center
         overflow-hidden bg-slate-950 px-4 py-16
-        text-white sm:px-6 mt-5
+        text-white sm:px-6
       "
     >
+      {/* Background effects */}
       <div
         aria-hidden="true"
         className="
@@ -187,6 +147,7 @@ export default function LoginForm({
         "
       />
 
+      {/* Login card */}
       <Card
         className="
           w-full max-w-md overflow-hidden
@@ -205,10 +166,7 @@ export default function LoginForm({
               ring-1 ring-orange-200
             "
           >
-            <LogIn
-              className="size-7"
-              aria-hidden="true"
-            />
+            <LogIn className="size-7" aria-hidden="true" />
           </div>
 
           <div>
@@ -218,7 +176,7 @@ export default function LoginForm({
                 tracking-[0.22em] text-orange-600
               "
             >
-              {labels.eyebrow}
+              {t("eyebrow")}
             </p>
 
             <CardTitle
@@ -228,7 +186,7 @@ export default function LoginForm({
                 tracking-tight text-slate-950
               "
             >
-              {labels.welcome}
+              {t("welcome")}
             </CardTitle>
 
             <CardDescription
@@ -237,7 +195,7 @@ export default function LoginForm({
                 text-sm leading-6 text-slate-600
               "
             >
-              {labels.description}
+              {t("description")}
             </CardDescription>
           </div>
         </CardHeader>
@@ -249,6 +207,7 @@ export default function LoginForm({
             noValidate
             className="space-y-5"
           >
+            {/* Authentication error */}
             {serverError && (
               <div
                 role="alert"
@@ -263,12 +222,13 @@ export default function LoginForm({
               </div>
             )}
 
+            {/* Email */}
             <div className="space-y-2">
               <Label
                 htmlFor="email"
                 className="font-semibold text-slate-800"
               >
-                {labels.email}
+                {t("email")}
               </Label>
 
               <div className="relative">
@@ -286,14 +246,10 @@ export default function LoginForm({
                   type="email"
                   inputMode="email"
                   autoComplete="email"
-                  placeholder={labels.emailPlaceholder}
-                  aria-invalid={
-                    errors.email ? "true" : "false"
-                  }
+                  placeholder={t("emailPlaceholder")}
+                  aria-invalid={Boolean(errors.email)}
                   aria-describedby={
-                    errors.email
-                      ? "email-error"
-                      : undefined
+                    errors.email ? "email-error" : undefined
                   }
                   className="
                     h-12 border-slate-300
@@ -317,12 +273,13 @@ export default function LoginForm({
               )}
             </div>
 
+            {/* Password */}
             <div className="space-y-2">
               <Label
                 htmlFor="password"
                 className="font-semibold text-slate-800"
               >
-                {labels.password}
+                {t("password")}
               </Label>
 
               <div className="relative">
@@ -337,22 +294,12 @@ export default function LoginForm({
 
                 <Input
                   id="password"
-                  type={
-                    showPassword
-                      ? "text"
-                      : "password"
-                  }
+                  type={showPassword ? "text" : "password"}
                   autoComplete="current-password"
-                  placeholder={labels.passwordPlaceholder}
-                  aria-invalid={
-                    errors.password
-                      ? "true"
-                      : "false"
-                  }
+                  placeholder={t("passwordPlaceholder")}
+                  aria-invalid={Boolean(errors.password)}
                   aria-describedby={
-                    errors.password
-                      ? "password-error"
-                      : undefined
+                    errors.password ? "password-error" : undefined
                   }
                   className="
                     h-12 border-slate-300
@@ -367,14 +314,12 @@ export default function LoginForm({
                 <button
                   type="button"
                   onClick={() =>
-                    setShowPassword(
-                      (current) => !current,
-                    )
+                    setShowPassword((current) => !current)
                   }
                   aria-label={
                     showPassword
-                      ? labels.hidePassword
-                      : labels.showPassword
+                      ? t("hidePassword")
+                      : t("showPassword")
                   }
                   aria-pressed={showPassword}
                   className="
@@ -416,6 +361,7 @@ export default function LoginForm({
               )}
             </div>
 
+            {/* Submit button */}
             <Button
               type="submit"
               disabled={isSubmitting}
@@ -440,7 +386,7 @@ export default function LoginForm({
                     className="size-4 animate-spin"
                     aria-hidden="true"
                   />
-                  {labels.loggingIn}
+                  {t("loggingIn")}
                 </>
               ) : (
                 <>
@@ -448,9 +394,7 @@ export default function LoginForm({
                     className="size-4"
                     aria-hidden="true"
                   />
-
-                  {labels.login}
-
+                  {t("login")}
                   <ArrowRight
                     className="
                       size-4 transition-transform
@@ -463,6 +407,7 @@ export default function LoginForm({
               )}
             </Button>
 
+            {/* Security notice */}
             <div
               className="
                 flex items-start gap-3
@@ -471,48 +416,19 @@ export default function LoginForm({
               "
             >
               <ShieldCheck
-                className="
-                  mt-0.5 size-4 shrink-0
-                  text-blue-700
-                "
+                className="mt-0.5 size-4 shrink-0 text-blue-700"
                 aria-hidden="true"
               />
 
               <p className="text-left text-xs leading-5 text-slate-500">
-                {labels.privacy}
+                {t("privacy")}
               </p>
             </div>
           </form>
         </CardContent>
-
-        {/* <CardFooter
-          className="
-            justify-center border-t
-            border-slate-200 bg-slate-50/70
-            px-6 py-5 sm:px-8
-          "
-        >
-          <p className="text-center text-sm text-slate-600">
-            {labels.noAccount}{" "}
-            <Link
-              href={`/${locale}/register`}
-              className="
-                font-semibold text-blue-700
-                transition-colors
-                hover:text-orange-600
-                hover:underline
-                focus-visible:outline-none
-                focus-visible:ring-2
-                focus-visible:ring-blue-700
-                focus-visible:ring-offset-2
-              "
-            >
-              {labels.register}
-            </Link>
-          </p>
-        </CardFooter> */}
       </Card>
 
+      {/* Bottom accent */}
       <div
         aria-hidden="true"
         className="

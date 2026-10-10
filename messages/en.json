@@ -237,6 +237,31 @@
       "buttonLabel": "Let’s Collaborate"
     }
 
+  },
+
+
+
+
+  "LoginForm": {
+    "eyebrow": "Secure access",
+    "welcome": "Welcome back",
+    "description": "Sign in to access your dashboard and manage your content.",
+    "email": "Email address",
+    "emailPlaceholder": "name@example.com",
+    "password": "Password",
+    "passwordPlaceholder": "Enter your password",
+    "login": "Sign in",
+    "loggingIn": "Signing in...",
+    "showPassword": "Show password",
+    "hidePassword": "Hide password",
+    "genericError": "Unable to sign in. Check your credentials.",
+    "privacy": "Your connection is protected and your credentials are never stored in the browser.",
+    "noAccount": "Don't have an account?",
+    "register": "Create an account",
+    "emailRequired": "Email address is required.",
+    "emailInvalid": "Please enter a valid email address.",
+    "passwordRequired": "Password is required.",
+    "passwordMinLength": "Password must contain at least 6 characters."
   }
   
 }

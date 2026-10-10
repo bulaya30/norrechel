@@ -249,5 +249,31 @@
       "description": "Collaborons pour construire une solution pratique et utile.",
       "buttonLabel": "Collaborons"
     }
+  },
+
+
+
+
+
+  "LoginForm": {
+    "eyebrow": "Espace sécurisé",
+    "welcome": "Bienvenue",
+    "description": "Connectez-vous pour accéder à votre tableau de bord et gérer votre contenu.",
+    "email": "Adresse e-mail",
+    "emailPlaceholder": "nom@exemple.com",
+    "password": "Mot de passe",
+    "passwordPlaceholder": "Entrez votre mot de passe",
+    "login": "Se connecter",
+    "loggingIn": "Connexion...",
+    "showPassword": "Afficher le mot de passe",
+    "hidePassword": "Masquer le mot de passe",
+    "genericError": "Impossible de vous connecter. Vérifiez vos identifiants.",
+    "privacy": "Votre connexion est protégée et vos identifiants ne sont jamais stockés dans le navigateur.",
+    "noAccount": "Vous n’avez pas de compte ?",
+    "register": "Créer un compte",
+    "emailRequired": "L’adresse e-mail est obligatoire.",
+    "emailInvalid": "Veuillez saisir une adresse e-mail valide.",
+    "passwordRequired": "Le mot de passe est obligatoire.",
+    "passwordMinLength": "Le mot de passe doit contenir au moins 6 caractères."
   }
 }
