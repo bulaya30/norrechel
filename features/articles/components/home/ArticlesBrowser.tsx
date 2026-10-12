@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
 
-import ArticleCategoryNav from "@/features/articles/components/home/ArticleCategoryNav";
+import CategoryNav from "@/features/categories/components/CategoryNav";
 import ArticleGrid from "@/features/articles/components/home/ArticleGrid";
 
 import type { Article } from "@/features/interfaces/article";
@@ -57,9 +57,9 @@ export default function ArticlesBrowser({
           lg:grid-cols-[220px_minmax(0,1fr)]
         "
       >
-        <ArticleCategoryNav
+        <CategoryNav
           categories={categories}
-          articleCount={articleCount}
+          itemCount={articleCount}
           selectedCategoryId={
             selectedCategoryId ?? undefined
           }

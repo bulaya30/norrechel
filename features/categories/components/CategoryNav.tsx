@@ -7,14 +7,14 @@ import type { Category } from "@/features/interfaces/category";
 
 interface ArticleCategoryNavProps {
   categories: Category[];
-  articleCount: number;
+  itemCount: number;
   selectedCategoryId?: string;
   onCategoryChange: (categoryId: string | null) => void;
 }
 
 export default function ArticleCategoryNav({
   categories,
-  articleCount,
+  itemCount,
   selectedCategoryId,
   onCategoryChange,
 }: ArticleCategoryNavProps) {
@@ -91,7 +91,7 @@ export default function ArticleCategoryNav({
                     ].join(" ")}
                   />
 
-                  {t("allArticles")}
+                  {t("all")}
                 </span>
 
                 <span
@@ -103,7 +103,7 @@ export default function ArticleCategoryNav({
                       : "bg-slate-100 text-slate-500",
                   ].join(" ")}
                 >
-                  {articleCount}
+                  {itemCount}
                 </span>
               </button>
             </li>
@@ -205,7 +205,7 @@ export default function ArticleCategoryNav({
                     : "border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 hover:text-slate-950",
                 ].join(" ")}
               >
-                {t("allArticles")}
+                {t("all")}
 
                 <span
                   className={[
@@ -216,7 +216,7 @@ export default function ArticleCategoryNav({
                       : "bg-slate-100 text-slate-500",
                   ].join(" ")}
                 >
-                  {articleCount}
+                  {itemCount}
                 </span>
               </button>
             </li>

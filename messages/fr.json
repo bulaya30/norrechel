@@ -205,7 +205,7 @@
       "title": "Explorer",
       "description": "Parcourir par sujet",
       "ariaLabel": "Catégories d’articles",
-      "allArticles": "Tous les articles"
+      "all": "Toutes les catégories"
     },
     "Grid": {
       "eyebrow": "Bibliothèque",
@@ -248,6 +248,42 @@
       "title": "Cet article vous a intéressé ?",
       "description": "Collaborons pour construire une solution pratique et utile.",
       "buttonLabel": "Collaborons"
+    }
+  },
+  "Projects": {
+    "Hero": {
+      "eyebrow": "Portfolio de projets",
+      "title": "Projets, systèmes et produits numériques",
+      "description": "Une collection de projets conçus pour résoudre des problèmes pratiques et explorer des idées à travers la technologie.",
+      "publishedProjects": "{count, plural, =0 {Aucun projet publié} one {# projet publié} other {# projets publiés}}",
+      "availableCategories": "{count, plural, =0 {Aucune catégorie disponible} one {# catégorie disponible} other {# catégories disponibles}}",
+      "explore": "Explorer les projets"
+    },
+    "Browser": {
+      "ariaLabel": "Parcourir et filtrer les projets",
+      "emptyTitle": "Aucun projet trouvé",
+      "emptyDescription": "Il n’y a pas encore de projets publiés dans cette catégorie. Essayez de sélectionner une autre catégorie.",
+      "clearFilter": "Afficher tous les projets"
+    },
+    "Grid": {
+      "title": "Projets publiés",
+      "description": "Découvrez les projets et les technologies utilisées."
+    },
+    "Summary": {
+      "emptyState": "Aucun projet publié pour le moment.",
+      "projectList": "Liste des projets",
+      "untitled": "Projet sans titre",
+      "viewProject": "Voir le projet",
+      "viewProjectAria": "Voir le projet : {title}",
+      "openLiveAria": "Ouvrir la démonstration du projet {title}",
+      "viewSourceAria": "Voir le code source de {title}",
+      "moreTechnologies": "{count, plural, one {# technologie supplémentaire} other {# technologies supplémentaires}}",
+      "status": {
+        "completed": "Terminé",
+        "draft": "Brouillon",
+        "archived": "Archivé",
+        "inProgress": "En cours"
+      }
     }
   },
 

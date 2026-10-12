@@ -192,7 +192,7 @@
       "title": "Explore",
       "description": "Browse by topic",
       "ariaLabel": "Article categories",
-      "allArticles": "All articles"
+      "all": "All categories"
     },
     "Grid": {
       "eyebrow": "Library",
@@ -237,6 +237,42 @@
       "buttonLabel": "Let’s Collaborate"
     }
 
+  },
+  "Projects": {
+    "Hero": {
+      "eyebrow": "Project Portfolio",
+      "title": "Projects, systems and digital products",
+      "description": "A collection of projects built to solve practical problems and explore ideas through technology.",
+      "publishedProjects": "{count, plural, =0 {No published projects} one {# published project} other {# published projects}}",
+      "availableCategories": "{count, plural, =0 {No categories available} one {# category available} other {# categories available}}",
+      "explore": "Explore projects"
+    },
+    "Browser": {
+      "ariaLabel": "Browse and filter projects",
+      "emptyTitle": "No projects found",
+      "emptyDescription": "There are no published projects in this category yet. Try selecting another category.",
+      "clearFilter": "Show all projects"
+    },
+    "Grid": {
+      "title": "Published Projects",
+      "description": "Explore the projects and technologies behind them."
+    },
+    "Summary": {
+      "emptyState": "No published projects are currently available.",
+      "projectList": "Project list",
+      "untitled": "Untitled project",
+      "viewProject": "View project",
+      "viewProjectAria": "View project: {title}",
+      "openLiveAria": "Open live demo for {title}",
+      "viewSourceAria": "View source code for {title}",
+      "moreTechnologies": "{count, plural, one {# more technology} other {# more technologies}}",
+      "status": {
+        "completed": "Completed",
+        "draft": "Draft",
+        "archived": "Archived",
+        "inProgress": "In progress"
+      }
+    }
   },
 
 

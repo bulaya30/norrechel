@@ -1,8 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 
 import {
   ArrowUpRight,
@@ -27,18 +27,13 @@ function getLocalizedValue(
   value: Project["title"],
   locale: SupportedLocale,
 ): string {
-  return (
-    value?.[locale] ??
-    value?.en ??
-    value?.fr ??
-    ""
-  );
+  return value?.[locale] ?? value?.en ?? value?.fr ?? "";
 }
 
 function stripHtml(html: string): string {
   return html
-    .replace(/<script[\s\S]*?>[\s\S]*?<\/script>/gi, "")
-    .replace(/<style[\s\S]*?>[\s\S]*?<\/style>/gi, "")
+    .replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, "")
+    .replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi, "")
     .replace(/<[^>]+>/g, " ")
     .replace(/&nbsp;/gi, " ")
     .replace(/&amp;/gi, "&")
@@ -56,9 +51,7 @@ function createDescription(
 ): string {
   const plainText = stripHtml(content);
 
-  if (!plainText) {
-    return "";
-  }
+  if (!plainText) return "";
 
   if (plainText.length <= maximumLength) {
     return plainText;
@@ -67,53 +60,21 @@ function createDescription(
   return `${plainText.slice(0, maximumLength).trimEnd()}…`;
 }
 
-function getCategoryName(
-  category: Project["category"],
-  locale: SupportedLocale,
-): string {
-  if (!category) {
-    return "";
-  }
+function getCategoryName(category: Project["category"]): string {
+  if (!category) return "";
 
   if (typeof category === "string") {
     return category;
   }
 
-  return (
-    category.name ?? ""
-  );
-}
-
-function getStatusLabel(
-  status: Project["status"],
-  locale: SupportedLocale,
-): string {
-  const value = String(status ?? "").toLowerCase();
-
-  switch (value) {
-    case "published":
-    case "completed":
-      return locale === "fr" ? "Terminé" : "Completed";
-
-    case "draft":
-      return locale === "fr" ? "Brouillon" : "Draft";
-
-    case "archived":
-      return locale === "fr" ? "Archivé" : "Archived";
-
-    case "in_progress":
-    case "in-progress":
-      return locale === "fr" ? "En cours" : "In progress";
-
-    default:
-      return status ? String(status) : "";
-  }
+  return category.name ?? "";
 }
 
 export default function ProjectSummary({
   projects,
 }: ProjectSummaryProps) {
   const locale = useLocale() as SupportedLocale;
+  const t = useTranslations("Projects.Summary");
 
   const safeProjects: Project[] = Array.isArray(projects)
     ? projects
@@ -133,16 +94,11 @@ export default function ProjectSummary({
         "
       >
         <div className="flex size-12 items-center justify-center rounded-xl bg-slate-100 text-slate-500">
-          <FolderOpen
-            className="size-5"
-            aria-hidden="true"
-          />
+          <FolderOpen className="size-5" aria-hidden="true" />
         </div>
 
         <p className="mt-4 text-sm font-medium text-slate-600">
-          {locale === "fr"
-            ? "Aucun projet publié pour le moment."
-            : "No published projects are currently available."}
+          {t("emptyState")}
         </p>
       </div>
     );
@@ -153,59 +109,57 @@ export default function ProjectSummary({
       aria-labelledby="project-summary-heading"
       className="w-full"
     >
-      <h2
-        id="project-summary-heading"
-        className="sr-only"
-      >
-        {locale === "fr"
-          ? "Liste des projets"
-          : "Project list"}
+      <h2 id="project-summary-heading" className="sr-only">
+        {t("projectList")}
       </h2>
 
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
         {safeProjects.map((project) => {
           const title =
             getLocalizedValue(project.title, locale) ||
-            (locale === "fr"
-              ? "Projet sans titre"
-              : "Untitled project");
+            t("untitled");
 
-          const content = getLocalizedValue(
-            project.content,
-            locale,
-          );
-
+          const content = getLocalizedValue(project.content, locale);
           const description = createDescription(content);
 
-          const slug = getLocalizedValue(
-            project.slug,
-            locale,
-          );
+          const slug = getLocalizedValue(project.slug, locale);
 
           const projectUrl = slug
-            ? `/${locale}/projects/${slug}`
-            : `/${locale}/projects/${project.id}`;
+            ? `/projects/${slug}`
+            : `/projects/${project.id}`;
 
-          const category = getCategoryName(
-            project.category,
-            locale,
-          );
+          const category = getCategoryName(project.category);
 
-          const status = getStatusLabel(
-            project.status,
-            locale,
-          );
+          const statusValue = String(project.status ?? "").toLowerCase();
+
+          const statusKey: Record<string, string> = {
+            published: "status.completed",
+            completed: "status.completed",
+            draft: "status.draft",
+            archived: "status.archived",
+            in_progress: "status.inProgress",
+            "in-progress": "status.inProgress",
+          };
+
+          const statusTranslationKey = statusKey[statusValue];
+          const status = statusTranslationKey
+            ? t(statusTranslationKey)
+            : project.status
+              ? String(project.status)
+              : "";
 
           const technologies = Array.isArray(project.tech_stack)
             ? project.tech_stack.slice(0, MAX_TECHNOLOGIES)
             : [];
 
-          const remainingTechnologies =
-            Math.max(
-              0,
-              project.tech_stack.length -
-                MAX_TECHNOLOGIES,
-            );
+          const totalTechnologies = Array.isArray(project.tech_stack)
+            ? project.tech_stack.length
+            : 0;
+
+          const remainingTechnologies = Math.max(
+            0,
+            totalTechnologies - MAX_TECHNOLOGIES,
+          );
 
           return (
             <article
@@ -214,8 +168,7 @@ export default function ProjectSummary({
                 group flex h-full flex-col
                 overflow-hidden rounded-2xl
                 border border-slate-200
-                bg-white
-                shadow-sm
+                bg-white shadow-sm
                 transition-all duration-300
                 hover:-translate-y-1
                 hover:border-slate-300
@@ -226,11 +179,7 @@ export default function ProjectSummary({
               {/* Cover */}
               <Link
                 href={projectUrl}
-                aria-label={
-                  locale === "fr"
-                    ? `Voir le projet : ${title}`
-                    : `View project: ${title}`
-                }
+                aria-label={t("viewProjectAria", { title })}
               >
                 <div className="relative aspect-[16/10] overflow-hidden bg-slate-100">
                   {project.cover_image ? (
@@ -245,10 +194,8 @@ export default function ProjectSummary({
                           520px
                         "
                         className="
-                          object-cover
-                          transition-transform
-                          duration-700
-                          ease-out
+                          object-cover transition-transform
+                          duration-700 ease-out
                           group-hover:scale-[1.035]
                         "
                       />
@@ -259,8 +206,7 @@ export default function ProjectSummary({
                           absolute inset-0
                           bg-gradient-to-t
                           from-slate-950/30
-                          via-transparent
-                          to-transparent
+                          via-transparent to-transparent
                         "
                       />
                     </>
@@ -277,13 +223,10 @@ export default function ProjectSummary({
                     <span
                       className="
                         absolute left-4 top-4
-                        rounded-full
-                        border border-white/20
-                        bg-slate-950/75
-                        px-3 py-1.5
-                        text-[11px] font-bold
-                        uppercase tracking-[0.12em]
-                        text-white
+                        rounded-full border border-white/20
+                        bg-slate-950/75 px-3 py-1.5
+                        text-[11px] font-bold uppercase
+                        tracking-[0.12em] text-white
                         backdrop-blur-md
                       "
                     >
@@ -295,10 +238,9 @@ export default function ProjectSummary({
                     aria-hidden="true"
                     className="
                       absolute bottom-4 right-4
-                      flex size-10
-                      translate-y-2 items-center
-                      justify-center rounded-full
-                      bg-white text-slate-950
+                      flex size-10 translate-y-2
+                      items-center justify-center
+                      rounded-full bg-white text-slate-950
                       opacity-0 shadow-lg
                       transition-all duration-300
                       group-hover:translate-y-0
@@ -310,7 +252,7 @@ export default function ProjectSummary({
                 </div>
               </Link>
 
-              {/* Content */}
+              {/* Project details */}
               <div className="flex flex-1 flex-col p-6">
                 <div className="flex items-start justify-between gap-4">
                   <h3 className="min-w-0">
@@ -333,9 +275,8 @@ export default function ProjectSummary({
                       className="
                         shrink-0 rounded-full
                         bg-slate-100 px-2.5 py-1
-                        text-[10px] font-bold
-                        uppercase tracking-[0.1em]
-                        text-slate-500
+                        text-[10px] font-bold uppercase
+                        tracking-[0.1em] text-slate-500
                       "
                     >
                       {status}
@@ -356,12 +297,9 @@ export default function ProjectSummary({
                       <span
                         key={technology}
                         className="
-                          rounded-full
-                          border border-slate-200
-                          bg-slate-50
-                          px-2.5 py-1
-                          text-[11px] font-medium
-                          text-slate-600
+                          rounded-full border border-slate-200
+                          bg-slate-50 px-2.5 py-1
+                          text-[11px] font-medium text-slate-600
                         "
                       >
                         {technology}
@@ -371,13 +309,13 @@ export default function ProjectSummary({
                     {remainingTechnologies > 0 && (
                       <span
                         className="
-                          rounded-full
-                          border border-slate-200
-                          bg-white
-                          px-2.5 py-1
-                          text-[11px] font-medium
-                          text-slate-400
+                          rounded-full border border-slate-200
+                          bg-white px-2.5 py-1
+                          text-[11px] font-medium text-slate-400
                         "
+                        aria-label={t("moreTechnologies", {
+                          count: remainingTechnologies,
+                        })}
                       >
                         +{remainingTechnologies}
                       </span>
@@ -385,22 +323,17 @@ export default function ProjectSummary({
                   </div>
                 )}
 
-                {/* Footer */}
+                {/* Footer links */}
                 <footer className="mt-auto flex items-center justify-between gap-4 border-t border-slate-100 pt-5">
                   <Link
                     href={projectUrl}
                     className="
                       inline-flex items-center gap-1.5
-                      text-sm font-semibold
-                      text-slate-900
-                      transition-colors
-                      hover:text-blue-700
+                      text-sm font-semibold text-slate-900
+                      transition-colors hover:text-blue-700
                     "
                   >
-                    {locale === "fr"
-                      ? "Voir le projet"
-                      : "View project"}
-
+                    {t("viewProject")}
                     <ArrowUpRight
                       className="size-4"
                       aria-hidden="true"
@@ -413,19 +346,12 @@ export default function ProjectSummary({
                         href={project.live_url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        aria-label={
-                          locale === "fr"
-                            ? `Ouvrir ${title}`
-                            : `Open ${title}`
-                        }
+                        aria-label={t("openLiveAria", { title })}
                         className="
-                          flex size-9 items-center
-                          justify-center rounded-full
-                          border border-slate-200
-                          text-slate-500
-                          transition-all
-                          hover:border-slate-300
-                          hover:bg-slate-50
+                          flex size-9 items-center justify-center
+                          rounded-full border border-slate-200
+                          text-slate-500 transition-all
+                          hover:border-slate-300 hover:bg-slate-50
                           hover:text-slate-950
                         "
                       >
@@ -441,19 +367,12 @@ export default function ProjectSummary({
                         href={project.github_url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        aria-label={
-                          locale === "fr"
-                            ? `Voir le code source de ${title}`
-                            : `View source code for ${title}`
-                        }
+                        aria-label={t("viewSourceAria", { title })}
                         className="
-                          flex size-9 items-center
-                          justify-center rounded-full
-                          border border-slate-200
-                          text-slate-500
-                          transition-all
-                          hover:border-slate-300
-                          hover:bg-slate-50
+                          flex size-9 items-center justify-center
+                          rounded-full border border-slate-200
+                          text-slate-500 transition-all
+                          hover:border-slate-300 hover:bg-slate-50
                           hover:text-slate-950
                         "
                       >
