@@ -279,7 +279,107 @@
       "metaDescription": "Explore {title}, a project from my portfolio."
     }
   },
-
+  "About": {
+    "eyebrow": "About Me",
+    "hero": {
+      "title": "Technology, Data, and Solutions Built for Real Needs",
+      "description": "I bring together telecommunications engineering, software development, and data analysis to create practical, accessible systems that deliver lasting value.",
+      "cta": "Explore my articles"
+    },
+    "profile": {
+      "imageAlt": "Portrait of Norbert Bulaya",
+      "eyebrow": "My Background",
+      "title": "Who I Am",
+      "paragraph1": "I am a telecommunications engineer, web developer, and data analyst. I design digital solutions that address real problems and improve how people and organizations work.",
+      "paragraph2": "My experience across software, networks, and data allows me to combine analytical thinking, creativity, and technical expertise to build useful, reliable, and sustainable products."
+    },
+    "mission": {
+      "eyebrow": "My Mission",
+      "title": "Connecting Innovation to Real Needs",
+      "description": "My mission is to use technology as a tool for solving problems, creating opportunities, and sharing knowledge. I aim to build practical, accessible solutions centered on genuine user needs."
+    },
+    "services": {
+      "eyebrow": "Areas of Expertise",
+      "title": "How I Create Value",
+      "description": "My work combines software development, data analysis, and knowledge sharing to turn real needs into useful solutions.",
+      "items": {
+        "writing": {
+          "title": "Technical Writing & Insights",
+          "description": "I turn technical concepts, project experiences, and lessons learned into practical content that helps people understand and apply technology with confidence.",
+          "highlights": [
+            "Software engineering lessons",
+            "Practical development guides",
+            "Project reflections"
+          ],
+          "linkLabel": "Explore articles"
+        },
+        "data": {
+          "title": "Data Analysis & Decision Support",
+          "description": "I organize, analyze, and interpret data to reveal patterns, measure performance, and support clearer, evidence-based decisions.",
+          "highlights": [
+            "Performance analysis",
+            "Dashboards and reporting",
+            "Actionable insights"
+          ],
+          "linkLabel": "View data projects"
+        },
+        "web": {
+          "title": "Web Applications & Digital Systems",
+          "description": "I design and build maintainable digital products focused on usability, accessibility, performance, and real operational needs.",
+          "highlights": [
+            "Modern web applications",
+            "Accessible user interfaces",
+            "Scalable application architecture"
+          ],
+          "linkLabel": "Explore software projects"
+        }
+      }
+    },
+    "approach": {
+      "eyebrow": "Working Principles",
+      "title": "My Approach",
+      "description": "These principles guide how I learn, collaborate, and build solutions.",
+      "itemLabel": "Principle {number}",
+      "items": {
+        "curiosity": {
+          "title": "Curiosity & Learning",
+          "description": "I approach every project with curiosity, ask the right questions, and remain open to better ways of solving the problem."
+        },
+        "collaboration": {
+          "title": "Collaboration & Sharing",
+          "description": "I value clear communication, shared knowledge, and teamwork because strong solutions are rarely built in isolation."
+        },
+        "impact": {
+          "title": "Impact-Driven Work",
+          "description": "I focus on solutions that address real needs, create practical value, and remain useful beyond their initial implementation."
+        },
+        "growth": {
+          "title": "Continuous Growth",
+          "description": "Every challenge is an opportunity to improve my technical judgment, refine my process, and build with greater confidence."
+        }
+      }
+    },
+    "collaboration": {
+      "title": "Let’s Build Something Useful Together",
+      "description": "I am open to collaboration, ambitious projects, professional opportunities, and constructive conversations about technology, data, and innovation.",
+      "cta": "Contact me"
+    }
+  },
+  "Authors": {
+    "Page": {
+      "notFoundTitle": "Author not found",
+      "metaDescription": "Explore articles and projects by {name}.",
+      "defaultTitle": "Software Engineer · Builder · Entrepreneur",
+      "skills": [
+        "Next.js",
+        "TypeScript",
+        "React",
+        "Node.js",
+        "Firebase",
+        "Data Analytics"
+      ]
+    }
+  },
 
 
 

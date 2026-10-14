@@ -1,4 +1,6 @@
+
 import type { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 
 import Header from "@/components/header/Header";
@@ -58,8 +60,11 @@ function getLocalizedValue(
   );
 }
 
-function formatNumber(value: number): string {
-  return new Intl.NumberFormat("en", {
+function formatNumber(
+  value: number,
+  locale: SupportedLocale,
+): string {
+  return new Intl.NumberFormat(locale, {
     notation: value >= 1_000 ? "compact" : "standard",
     maximumFractionDigits: 1,
   }).format(value);
@@ -82,6 +87,11 @@ export async function generateMetadata({
 
   const locale = rawLocale;
 
+  const t = await getTranslations({
+    locale,
+    namespace: "Authors.Page",
+  });
+
   const authorResult = await getCachedUserById(id);
 
   const author = Array.isArray(authorResult)
@@ -90,10 +100,7 @@ export async function generateMetadata({
 
   if (!author) {
     return {
-      title:
-        locale === "fr"
-          ? "Auteur introuvable"
-          : "Author not found",
+      title: t("notFoundTitle"),
       robots: {
         index: false,
         follow: false,
@@ -109,18 +116,14 @@ export async function generateMetadata({
     .join(" ");
 
   const description =
-    getLocalizedValue(
-      author.bio as LocalizedValue,
-      locale,
-    ) ||
-    (locale === "fr"
-      ? `Découvrez les articles et les projets de ${fullName}.`
-      : `Explore articles and projects by ${fullName}.`);
+    getLocalizedValue(author.bio, locale) ||
+    t("metaDescription", {
+      name: fullName,
+    });
 
   return {
     title: fullName,
     description,
-
     openGraph: {
       type: "profile",
       title: fullName,
@@ -148,6 +151,11 @@ export default async function AuthorPage({
 
   const locale = rawLocale;
 
+  const t = await getTranslations({
+    locale,
+    namespace: "Authors.Page",
+  });
+
   const [
     authorResult,
     articlesResult,
@@ -172,24 +180,25 @@ export default async function AuthorPage({
     ? articlesResult.filter(Boolean)
     : [];
 
+  const projects = Array.isArray(projectsResult)
+    ? projectsResult.filter(Boolean)
+    : [];
+
+  const subscribers = Array.isArray(subscribersResult)
+    ? subscribersResult.filter(Boolean)
+    : [];
+
   const articleViews = await Promise.all(
     articles.map(async (article) => {
       if (!article.id) {
-        return {
-          id: "",
-          count: 0,
-        };
+        return { id: "", count: 0 };
       }
 
-      const views = await getCachedViewsByContent(
-        article.id,
-      );
+      const views = await getCachedViewsByContent(article.id);
 
       return {
         id: article.id,
-        count: Array.isArray(views)
-          ? views.length
-          : 0,
+        count: Array.isArray(views) ? views.length : 0,
       };
     }),
   );
@@ -197,98 +206,52 @@ export default async function AuthorPage({
   const viewsByArticle = Object.fromEntries(
     articleViews
       .filter((item) => item.id)
-      .map((item) => [
-        item.id,
-        item.count,
-      ]),
+      .map((item) => [item.id, item.count]),
   );
 
-  const projects = Array.isArray(projectsResult)
-    ? projectsResult.filter(Boolean)
-    : [];
   const projectViews = await Promise.all(
-      articles.map(async (article) => {
-        if (!article.id) {
-          return {
-            id: "",
-            count: 0,
-          };
-        }
+    projects.map(async (project) => {
+      if (!project.id) {
+        return { id: "", count: 0 };
+      }
 
-        const views = await getCachedViewsByContent(
-          article.id,
-        );
+      const views = await getCachedViewsByContent(project.id);
 
-        return {
-          id: article.id,
-          count: Array.isArray(views)
-            ? views.length
-            : 0,
-        };
-      }),
-    );
+      return {
+        id: project.id,
+        count: Array.isArray(views) ? views.length : 0,
+      };
+    }),
+  );
 
-    const viewsByProject = Object.fromEntries(
-      articleViews
-        .filter((item) => item.id)
-        .map((item) => [
-          item.id,
-          item.count,
-        ]),
-    );
-  const subscribers = Array.isArray(subscribersResult)
-    ? subscribersResult.filter(Boolean)
-    : [];
+  const viewsByProject = Object.fromEntries(
+    projectViews
+      .filter((item) => item.id)
+      .map((item) => [item.id, item.count]),
+  );
 
-  /*
-   * Article currently exposes `views?: View[]`,
-   * not an `analytics` property.
-   *
-   * Therefore total views are calculated from the
-   * stored article view records.
-   */
   const totalArticleViews = articles.reduce(
     (total, article) => {
-      const articleViews = Array.isArray(article.views)
+      const count = Array.isArray(article.views)
         ? article.views.length
         : 0;
 
-      return total + articleViews;
+      return total + count;
     },
     0,
   );
 
-  const fullName = [
-    author.firstName,
-    author.lastName,
-  ]
-    .filter(Boolean)
-    .join(" ");
-
-  const bio = getLocalizedValue(
-    author.bio as LocalizedValue,
-    locale,
-  );
+  const bio = getLocalizedValue(author.bio, locale);
 
   const authorTitle = getLocalizedValue(
-    author.title as LocalizedValue,
+    author.title,
     locale,
   );
 
-  const skills = [
-    "Next.js",
-    "TypeScript",
-    "React",
-    "Node.js",
-    "Firebase",
-    "Data Analytics",
-  ];
+  const skills = t.raw("skills") as string[];
 
   return (
-    <main
-      id="main"
-      className="min-h-screen"
-    >
+    <main id="main" className="min-h-screen">
       <Header />
 
       <div className="container mx-auto px-4 pb-20 pt-24">
@@ -296,10 +259,7 @@ export default async function AuthorPage({
           <AuthorHero
             firstName={author.firstName ?? ""}
             lastName={author.lastName ?? ""}
-            title={
-              authorTitle ||
-              "Software Engineer · Builder · Entrepreneur"
-            }
+            title={authorTitle || t("defaultTitle")}
             description={bio}
             photo={author.photo}
             email={author.email}
@@ -310,10 +270,10 @@ export default async function AuthorPage({
           />
 
           <AuthorStats
-            articles={formatNumber(articles.length)}
-            projects={formatNumber(projects.length)}
-            views={formatNumber(totalArticleViews)}
-            subscribers={formatNumber(subscribers.length)}
+            articles={formatNumber(articles.length, locale)}
+            projects={formatNumber(projects.length, locale)}
+            views={formatNumber(totalArticleViews, locale)}
+            subscribers={formatNumber(subscribers.length, locale)}
           />
 
           <AuthorTabs

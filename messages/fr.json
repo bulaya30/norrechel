@@ -291,8 +291,107 @@
       "metaDescription": "Découvrez {title}, un projet de mon portfolio."
     }
   },
-
-
+  "About": {
+    "eyebrow": "À propos de moi",
+    "hero": {
+      "title": "Technologie, données et solutions conçues pour des besoins réels",
+      "description": "Je réunis l’ingénierie des télécommunications, le développement logiciel et l’analyse de données pour créer des systèmes pratiques, accessibles et capables de produire une valeur durable.",
+      "cta": "Explorer mes articles"
+    },
+    "profile": {
+      "imageAlt": "Portrait de Norbert Bulaya",
+      "eyebrow": "Mon parcours",
+      "title": "Qui suis-je ?",
+      "paragraph1": "Je suis ingénieur en télécommunications, développeur web et analyste de données. Je conçois des solutions numériques qui répondent à des problèmes concrets et améliorent la manière dont les personnes et les organisations travaillent.",
+      "paragraph2": "Mon expérience dans les logiciels, les réseaux et les données me permet de combiner raisonnement analytique, créativité et expertise technique afin de construire des produits utiles, fiables et durables."
+    },
+    "mission": {
+      "eyebrow": "Ma mission",
+      "title": "Relier l’innovation aux besoins réels",
+      "description": "Ma mission est d’utiliser la technologie comme un outil de résolution de problèmes, de création d’opportunités et de partage des connaissances. Je cherche à développer des solutions pratiques, accessibles et centrées sur les besoins réels des utilisateurs."
+    },
+    "services": {
+      "eyebrow": "Domaines d’expertise",
+      "title": "Comment je crée de la valeur",
+      "description": "Mon travail combine développement logiciel, analyse de données et partage de connaissances pour transformer des besoins réels en solutions utiles.",
+      "items": {
+        "writing": {
+          "title": "Rédaction technique et réflexions",
+          "description": "Je transforme des concepts techniques, des expériences de projet et des leçons apprises en contenus pratiques qui aident chacun à comprendre et à utiliser la technologie avec confiance.",
+          "highlights": [
+            "Leçons de génie logiciel",
+            "Guides pratiques de développement",
+            "Retours d’expérience sur les projets"
+          ],
+          "linkLabel": "Explorer les articles"
+        },
+        "data": {
+          "title": "Analyse de données et aide à la décision",
+          "description": "J’organise, j’analyse et j’interprète les données afin de révéler des tendances, mesurer les performances et soutenir des décisions plus claires fondées sur des faits.",
+          "highlights": [
+            "Analyse des performances",
+            "Tableaux de bord et rapports",
+            "Informations exploitables"
+          ],
+          "linkLabel": "Voir les projets de données"
+        },
+        "web": {
+          "title": "Applications web et systèmes numériques",
+          "description": "Je conçois et développe des produits numériques maintenables, axés sur la facilité d’utilisation, l’accessibilité, la performance et les besoins opérationnels réels.",
+          "highlights": [
+            "Applications web modernes",
+            "Interfaces utilisateur accessibles",
+            "Architecture applicative évolutive"
+          ],
+          "linkLabel": "Explorer les projets logiciels"
+        }
+      }
+    },
+    "approach": {
+      "eyebrow": "Principes de travail",
+      "title": "Mon approche",
+      "description": "Ces principes guident la manière dont j’apprends, collabore et construis des solutions.",
+      "itemLabel": "Principe {number}",
+      "items": {
+        "curiosity": {
+          "title": "Curiosité et apprentissage",
+          "description": "J’aborde chaque projet avec curiosité, je pose les bonnes questions et je reste ouvert à de meilleures manières de résoudre le problème."
+        },
+        "collaboration": {
+          "title": "Collaboration et partage",
+          "description": "J’accorde de l’importance à une communication claire, au partage des connaissances et au travail d’équipe, car les bonnes solutions sont rarement construites seules."
+        },
+        "impact": {
+          "title": "Travail axé sur l’impact",
+          "description": "Je me concentre sur des solutions qui répondent à des besoins réels, créent une valeur pratique et restent utiles au-delà de leur mise en œuvre initiale."
+        },
+        "growth": {
+          "title": "Progression continue",
+          "description": "Chaque défi est une occasion d’améliorer mon jugement technique, d’affiner ma méthode et de construire avec davantage de confiance."
+        }
+      }
+    },
+    "collaboration": {
+      "title": "Construisons quelque chose d’utile ensemble",
+      "description": "Je suis ouvert aux collaborations, aux projets ambitieux, aux opportunités professionnelles et aux échanges constructifs autour de la technologie, des données et de l’innovation.",
+      "cta": "Me contacter"
+    }
+  },
+  "Authors": {
+    "Page": {
+      "notFoundTitle": "Auteur introuvable",
+      "metaDescription": "Découvrez les articles et les projets de {name}.",
+      "defaultTitle": "Ingénieur logiciel · Créateur · Entrepreneur",
+      "skills": [
+        "Next.js",
+        "TypeScript",
+        "React",
+        "Node.js",
+        "Firebase",
+        "Analyse de données"
+      ]
+    }
+  },
 
 
 
