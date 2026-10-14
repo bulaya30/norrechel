@@ -284,6 +284,11 @@
         "archived": "Archivé",
         "inProgress": "En cours"
       }
+    },
+     "ProjectPage": {
+      "notFoundTitle": "Projet introuvable",
+      "notFoundDescription": "Le projet que vous recherchez n’existe pas ou n’est plus disponible.",
+      "metaDescription": "Découvrez {title}, un projet de mon portfolio."
     }
   },
 

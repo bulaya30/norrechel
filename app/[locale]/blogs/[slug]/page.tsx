@@ -154,6 +154,7 @@ export async function generateMetadata({
 export default async function ArticlePage({
   params,
 }: ArticlePageProps) {
+  
   const { locale, slug } = await params;
 
   const t = await getTranslations({
