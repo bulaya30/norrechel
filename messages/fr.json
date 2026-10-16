@@ -392,7 +392,56 @@
       ]
     }
   },
-
+  "ContactForm": {
+    "badge": "Contact",
+    "title": "Discutons de votre prochaine idée",
+    "introduction": "Vous avez un projet, une proposition de collaboration ou une question sur la technologie, les données ou le développement logiciel ? Envoyez-moi un message et je vous répondrai.",
+    "informationLabel": "Coordonnées",
+    "informationTitle": "Commençons une conversation",
+    "informationDescription": "Utilisez le formulaire de contact ou contactez-moi directement par l’un des moyens ci-dessous.",
+    "addressLabel": "Localisation",
+    "address": "Kansanga, Kampala, Ouganda",
+    "phoneLabel": "Téléphone",
+    "emailLabel": "E-mail",
+    "availabilityLabel": "Disponibilité",
+    "availability": "Ouvert aux projets et aux collaborations",
+    "formLabel": "Envoyer un message",
+    "formTitle": "Comment puis-je vous aider ?",
+    "formDescription": "Donnez quelques informations sur votre question, votre projet ou votre proposition de collaboration.",
+    "nameLabel": "Nom complet",
+    "namePlaceholder": "Entrez votre nom complet",
+    "emailFieldLabel": "Adresse e-mail",
+    "emailPlaceholder": "vous@exemple.com",
+    "messageLabel": "Message",
+    "messagePlaceholder": "Présentez votre projet, votre question ou votre idée de collaboration...",
+    "submit": "Envoyer le message",
+    "submitting": "Envoi en cours...",
+    "successTitle": "Message reçu",
+    "successMessage": "Merci de m’avoir contacté. Je vous répondrai dès que possible.",
+    "privacy": "Vos coordonnées seront uniquement utilisées pour répondre à votre message.",
+    "alternateAction": "En savoir plus sur moi",
+    "submissionError": "Votre message n’a pas pu être envoyé. Veuillez réessayer."
+  },
+  "ContentContactForm": {
+    "eyebrow": "Poursuivons la conversation",
+    "title": "Parlons de ce contenu",
+    "description": "Vous avez une question, un commentaire ou une idée de collaboration concernant ce contenu ? Envoyez-moi un message.",
+    "articleReference": "Article concerné",
+    "projectReference": "Projet concerné",
+    "referenceDescription": "Votre message sera associé à ce contenu.",
+    "nameLabel": "Nom complet",
+    "namePlaceholder": "Entrez votre nom complet",
+    "emailLabel": "Adresse e-mail",
+    "emailPlaceholder": "vous@exemple.com",
+    "messageLabel": "Votre message",
+    "messagePlaceholder": "Dites-moi ce que vous souhaitez aborder...",
+    "submit": "Envoyer le message",
+    "submitting": "Envoi en cours...",
+    "successTitle": "Message reçu",
+    "successMessage": "Merci de m’avoir contacté. Je vous répondrai dès que possible.",
+    "submissionError": "Votre message n’a pas pu être envoyé. Veuillez réessayer.",
+    "privacy": "Vos coordonnées seront uniquement utilisées pour répondre à votre message."
+  },
 
 
   "LoginForm": {

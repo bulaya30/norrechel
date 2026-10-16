@@ -380,7 +380,56 @@
       ]
     }
   },
-
+  "ContactForm": {
+    "badge": "Contact",
+    "title": "Let’s Discuss Your Next Idea",
+    "introduction": "Have a project, collaboration opportunity, or question about technology, data, or software development? Send me a message and I will get back to you.",
+    "informationLabel": "Contact information",
+    "informationTitle": "Let’s Start a Conversation",
+    "informationDescription": "Use the contact form or reach me directly through one of the channels below.",
+    "addressLabel": "Location",
+    "address": "Kansanga, Kampala, Uganda",
+    "phoneLabel": "Phone",
+    "emailLabel": "Email",
+    "availabilityLabel": "Availability",
+    "availability": "Open to projects and collaboration",
+    "formLabel": "Send a message",
+    "formTitle": "How Can I Help?",
+    "formDescription": "Provide a few details about your question, project, or collaboration proposal.",
+    "nameLabel": "Full name",
+    "namePlaceholder": "Enter your full name",
+    "emailFieldLabel": "Email address",
+    "emailPlaceholder": "you@example.com",
+    "messageLabel": "Message",
+    "messagePlaceholder": "Tell me about your project, question, or collaboration idea...",
+    "submit": "Send message",
+    "submitting": "Sending...",
+    "successTitle": "Message received",
+    "successMessage": "Thank you for reaching out. I will respond as soon as possible.",
+    "privacy": "Your contact details will only be used to respond to your message.",
+    "alternateAction": "Learn more about me",
+    "submissionError": "Your message could not be sent. Please try again."
+  },
+  "ContentContactForm": {
+    "eyebrow": "Continue the conversation",
+    "title": "Let's Talk About This",
+    "description": "Have a question, feedback, or collaboration idea related to this content? Send me a message.",
+    "articleReference": "Article reference",
+    "projectReference": "Project reference",
+    "referenceDescription": "Your message will be associated with this content.",
+    "nameLabel": "Full name",
+    "namePlaceholder": "Enter your full name",
+    "emailLabel": "Email address",
+    "emailPlaceholder": "you@example.com",
+    "messageLabel": "Your message",
+    "messagePlaceholder": "Tell me what you would like to discuss...",
+    "submit": "Send message",
+    "submitting": "Sending...",
+    "successTitle": "Message received",
+    "successMessage": "Thank you for reaching out. I will respond as soon as possible.",
+    "submissionError": "Your message could not be sent. Please try again.",
+    "privacy": "Your contact details will only be used to respond to your message."
+  },
 
 
   "LoginForm": {

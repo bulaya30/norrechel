@@ -1,7 +1,7 @@
 import "server-only";
 
 import ContactRepository from "@/features/contacts/repositories/contact.repository";
-import type { Contact, ContactInput, Status } from "@/features/interfaces/contact";
+import type { Contact, CreateContactInput, Status } from "@/features/interfaces/contact";
 
 import { Timestamp } from "firebase-admin/firestore";
 
@@ -20,12 +20,51 @@ export default class ContactService {
     return await this.contactRepository.findById(id);
   }
 
-  async createContact(contact: ContactInput): Promise<Contact> {
-    if (!contact || Object.keys(contact).length === 0) {
+  
+  
+  async createContact(input: CreateContactInput): Promise<Contact> {
+    if (!input) {
       throw new Error("Contact data is required");
     }
 
-    const {
+    const name = input.name?.trim();
+    const email = input.email?.trim().toLowerCase();
+    const message = input.message?.trim();
+    const subject = input.subject?.trim() || "No subject";
+
+    if (!name || !email || !message) {
+      throw new Error("Name, email, and message are required");
+    }
+
+    let source_page = "/contact";
+    let content_id = "";
+    let content_type: Contact["content_type"] = "general";
+
+    if (
+      "source_page" in input &&
+      "content_id" in input &&
+      "content_type" in input
+    ) {
+      const sourcePage = input.source_page?.trim();
+      const contentId = input.content_id?.trim();
+      const contentType = input.content_type;
+
+      if (
+        !sourcePage ||
+        !contentId ||
+        (contentType !== "article" && contentType !== "project")
+      ) {
+        throw new Error("Invalid content reference");
+      }
+
+      source_page = sourcePage;
+      content_id = contentId;
+      content_type = contentType;
+    }
+
+    const now = Timestamp.now();
+
+    const payload: Omit<Contact, "id"> = {
       name,
       email,
       subject,
@@ -33,29 +72,15 @@ export default class ContactService {
       source_page,
       content_id,
       content_type,
-    } = contact;
-
-    if (!name || !email || !message || !source_page || !content_type) {
-      throw new Error("Name, email, message, source page, and content type are required");
-    }
-
-    const status: Status = "new";
-
-    const payload: Omit<Contact, "id"> = {
-      name,
-      email,
-      subject: subject || "No subject",
-      message,
-      source_page,
-      content_id: content_id ?? "",
-      content_type,
-      status,
-      submittedAt: Timestamp.now(),
-      date: Timestamp.now(),
+      status: "new",
+      submittedAt: now,
+      date: now,
     };
 
-    return await this.contactRepository.create(payload);
+    return this.contactRepository.create(payload);
   }
+
+
 
   async updateContact(id: string, data: Partial<Contact>): Promise<boolean> {
     if (!id) {

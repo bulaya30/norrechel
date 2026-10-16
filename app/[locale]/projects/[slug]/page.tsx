@@ -6,6 +6,7 @@ import Header from "@/components/header/Header";
 
 import ProjectHeader from "@/features/projects/components/ProjectHeader";
 import ProjectMeta from "@/features/projects/components/ProjectMeta";
+import ProjectContent from "@/features/projects/components/ProjectContent";
 import AuthorCard from "@/features/articles/components/AuthorCard";
 
 import ContentViewTracker from "@/features/views/components/ContentViewTracker";
@@ -227,8 +228,7 @@ export default async function ProjectPage({
             locale={locale}
           />
 
-          {/* Render your project content component here. */}
-          {/* <ProjectContent content={content} /> */}
+          <ProjectContent content={content} />
 
           <AuthorCard
             id={authorId}

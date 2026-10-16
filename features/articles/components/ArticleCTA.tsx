@@ -1,7 +1,10 @@
+
 "use client";
 
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
+
+type ContentType = "article" | "project";
 
 interface ArticleCTAProps {
   title?: string;
@@ -9,14 +12,24 @@ interface ArticleCTAProps {
   buttonLabel?: string;
   href?: string;
   onClick?: () => void;
+
+  // Provide these when the CTA refers to a specific article or project.
+  contentType?: ContentType;
+  contentId?: string;
+  contentTitle?: string;
+  sourcePage?: string;
 }
 
 export default function ArticleCTA({
   title,
   description,
   buttonLabel,
-  href = "/contact",
+  href,
   onClick,
+  contentType,
+  contentId,
+  contentTitle,
+  sourcePage,
 }: ArticleCTAProps) {
   const t = useTranslations("Blogs.ArticleCTA");
 
@@ -24,15 +37,27 @@ export default function ArticleCTA({
   const ctaDescription = description ?? t("description");
   const ctaButtonLabel = buttonLabel ?? t("buttonLabel");
 
+  const hasContentReference =
+    Boolean(contentType && contentId && contentTitle && sourcePage);
+
+  const contactHref =
+    href ??
+    (hasContentReference
+      ? {
+          pathname: "/contact" as const,
+          query: {
+            type: contentType!,
+            id: contentId!,
+            title: contentTitle!,
+            source: sourcePage!,
+          },
+        }
+      : "/contact");
+
   return (
     <section
       aria-labelledby="article-cta-heading"
-      className="
-        my-12 rounded-2xl
-        border border-orange-200
-        bg-orange-50 px-6 py-10
-        text-center
-      "
+      className="my-12 rounded-2xl border border-orange-200 bg-orange-50 px-6 py-10 text-center"
     >
       <div className="mx-auto max-w-2xl">
         <h2
@@ -47,19 +72,9 @@ export default function ArticleCTA({
         </p>
 
         <Link
-          href={href}
+          href={contactHref}
           onClick={onClick}
-          className="
-            mt-6 inline-flex items-center justify-center
-            rounded-md bg-orange-600 px-5 py-3
-            text-sm font-semibold text-white
-            transition-colors
-            hover:bg-orange-700
-            focus-visible:outline-none
-            focus-visible:ring-2
-            focus-visible:ring-orange-600
-            focus-visible:ring-offset-2
-          "
+          className="mt-6 inline-flex items-center justify-center rounded-md bg-orange-600 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-orange-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-600 focus-visible:ring-offset-2"
         >
           {ctaButtonLabel}
         </Link>

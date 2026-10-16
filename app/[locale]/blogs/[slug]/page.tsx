@@ -275,10 +275,10 @@ export default async function ArticlePage({
           />
 
           <ArticleCTA
-            title={t("ctaTitle")}
-            description={t("ctaDescription")}
-            buttonLabel={t("ctaButton")}
-            href={`/${locale}/contact`}
+            contentType="article"
+            contentId={article.id}
+            contentTitle={article.title[locale]}
+            sourcePage={`/blogs/${article.slug}`}
           />
         </div>
       </div>

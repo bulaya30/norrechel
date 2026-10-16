@@ -5,6 +5,79 @@ import { updateTag } from "next/cache";
 import { requireAuthenticatedUser } from "@/features/auth/lib/requireAuthenticatedUser";
 import { contactService } from "@/lib/container/contact.container";
 
+import {
+  createContactSchema,
+  type ContactFormValues,
+  type SupportedLocale,
+} from "@/features/contacts/schema/contact.schema";
+
+type ContentContactReference = {
+  contentType: "article" | "project";
+  contentId: string;
+  title: string;
+  sourcePage: string;
+};
+
+export type SubmitContactResult =
+  | { success: true }
+  | {
+      success: false;
+      error: "VALIDATION" | "SUBMISSION_FAILED";
+    };
+
+export async function submitContactAction(
+  data: ContactFormValues,
+  locale: SupportedLocale,
+  context?: ContentContactReference,
+): Promise<SubmitContactResult> {
+  const parsed = createContactSchema(locale).safeParse(data);
+
+  if (!parsed.success) {
+    return { success: false, error: "VALIDATION" };
+  }
+
+  if (context) {
+    const sourcePage = context.sourcePage.trim();
+    const contentId = context.contentId.trim();
+    const title = context.title.trim();
+
+    // Accept only local paths, not external or protocol-relative URLs.
+    if (
+      !contentId ||
+      !title ||
+      !sourcePage.startsWith("/") ||
+      sourcePage.startsWith("//") ||
+      sourcePage.includes("\\") ||
+      (context.contentType !== "article" &&
+        context.contentType !== "project")
+    ) {
+      return { success: false, error: "VALIDATION" };
+    }
+  }
+
+  try {
+    if (context) {
+      await contactService.createContact({
+        ...parsed.data,
+        subject: `Regarding: ${context.title.trim()}`,
+        source_page: context.sourcePage.trim(),
+        content_id: context.contentId.trim(),
+        content_type: context.contentType,
+      });
+    } else {
+      await contactService.createContact(parsed.data);
+    }
+
+    updateTag("contacts");
+
+    return { success: true };
+  } catch (error) {
+    console.error("Contact submission failed:", error);
+
+    return { success: false, error: "SUBMISSION_FAILED" };
+  }
+}
+
 /*
  * -------------------------------------------
  * Mark contact as replied

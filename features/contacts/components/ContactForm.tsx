@@ -1,8 +1,10 @@
+
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 
-import Link from "next/link";
 import {
   ArrowRight,
   CheckCircle2,
@@ -14,6 +16,7 @@ import {
   Send,
   UserRound,
 } from "lucide-react";
+
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -23,89 +26,20 @@ import {
   type SupportedLocale,
 } from "@/features/contacts/schema/contact.schema";
 
+import { submitContactAction } from "@/features/contacts/actions/contact.actions";
+
 interface ContactFormProps {
   locale: SupportedLocale;
 }
 
-const content = {
-  en: {
-    badge: "Contact",
-    title: "Let’s Discuss Your Next Idea",
-    introduction:
-      "Have a project, collaboration opportunity, or question about technology, data, or software development? Send me a message and I will get back to you.",
-    informationLabel: "Contact information",
-    informationTitle: "Let’s Start a Conversation",
-    informationDescription:
-      "Use the contact form or reach me directly through one of the channels below.",
-    addressLabel: "Location",
-    address: "Kansanga, Kampala, Uganda",
-    phoneLabel: "Phone",
-    emailLabel: "Email",
-    availabilityLabel: "Availability",
-    availability: "Open to projects and collaboration",
-    formLabel: "Send a message",
-    formTitle: "How Can I Help?",
-    formDescription:
-      "Provide a few details about your question, project, or collaboration proposal.",
-    nameLabel: "Full name",
-    namePlaceholder: "Enter your full name",
-    emailFieldLabel: "Email address",
-    emailPlaceholder: "you@example.com",
-    messageLabel: "Message",
-    messagePlaceholder:
-      "Tell me about your project, question, or collaboration idea...",
-    submit: "Send message",
-    submitting: "Sending...",
-    successTitle: "Message received",
-    successMessage:
-      "Thank you for reaching out. I will respond as soon as possible.",
-    privacy:
-      "Your contact details will only be used to respond to your message.",
-    alternateAction: "Learn more about me",
-  },
-
-  fr: {
-    badge: "Contact",
-    title: "Discutons de votre prochaine idée",
-    introduction:
-      "Vous avez un projet, une proposition de collaboration ou une question sur la technologie, les données ou le développement logiciel ? Envoyez-moi un message et je vous répondrai.",
-    informationLabel: "Coordonnées",
-    informationTitle: "Commençons une conversation",
-    informationDescription:
-      "Utilisez le formulaire de contact ou contactez-moi directement par l’un des moyens ci-dessous.",
-    addressLabel: "Localisation",
-    address: "Kansanga, Kampala, Ouganda",
-    phoneLabel: "Téléphone",
-    emailLabel: "E-mail",
-    availabilityLabel: "Disponibilité",
-    availability: "Ouvert aux projets et aux collaborations",
-    formLabel: "Envoyer un message",
-    formTitle: "Comment puis-je vous aider ?",
-    formDescription:
-      "Donnez quelques informations sur votre question, votre projet ou votre proposition de collaboration.",
-    nameLabel: "Nom complet",
-    namePlaceholder: "Entrez votre nom complet",
-    emailFieldLabel: "Adresse e-mail",
-    emailPlaceholder: "vous@exemple.com",
-    messageLabel: "Message",
-    messagePlaceholder:
-      "Présentez votre projet, votre question ou votre idée de collaboration...",
-    submit: "Envoyer le message",
-    submitting: "Envoi en cours...",
-    successTitle: "Message reçu",
-    successMessage:
-      "Merci de m’avoir contacté. Je vous répondrai dès que possible.",
-    privacy:
-      "Vos coordonnées seront uniquement utilisées pour répondre à votre message.",
-    alternateAction: "En savoir plus sur moi",
-  },
-} as const;
-
-export default function ContactForm({ locale }: ContactFormProps) {
-  const text = content[locale] ?? content.en;
+export default function ContactForm({
+  locale,
+}: ContactFormProps) {
+  const t = useTranslations("ContactForm");
   const contactSchema = createContactSchema(locale);
 
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [submissionError, setSubmissionError] = useState(false);
 
   const {
     register,
@@ -124,14 +58,21 @@ export default function ContactForm({ locale }: ContactFormProps) {
 
   const onSubmit = async (data: ContactFormValues) => {
     setIsSubmitted(false);
+    setSubmissionError(false);
 
     try {
-      console.log(data);
+      const result = await submitContactAction(data, locale);
+
+      if (!result.success) {
+        setSubmissionError(true);
+        return;
+      }
 
       setIsSubmitted(true);
       reset();
     } catch (error) {
       console.error("Failed to submit contact form:", error);
+      setSubmissionError(true);
     }
   };
 
@@ -159,25 +100,24 @@ export default function ContactForm({ locale }: ContactFormProps) {
             aria-hidden="true"
             className="h-4 w-4"
           />
-
-          {text.badge}
+          {t("badge")}
         </div>
 
         <h1
           id="contact-page-heading"
           className="text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl lg:text-5xl"
         >
-          {text.title}
+          {t("title")}
         </h1>
 
         <p className="mt-5 max-w-2xl text-base leading-8 text-slate-600 sm:text-lg">
-          {text.introduction}
+          {t("introduction")}
         </p>
       </section>
 
       {/* Contact content */}
       <section
-        aria-label={text.informationLabel}
+        aria-label={t("informationLabel")}
         className="mt-14 grid gap-8 lg:grid-cols-[360px_minmax(0,1fr)]"
       >
         {/* Contact information */}
@@ -190,34 +130,30 @@ export default function ContactForm({ locale }: ContactFormProps) {
           </div>
 
           <p className="mt-6 text-sm font-semibold uppercase tracking-[0.18em] text-orange-300">
-            {text.informationLabel}
+            {t("informationLabel")}
           </p>
 
           <h2 className="mt-2 text-2xl font-bold tracking-tight">
-            {text.informationTitle}
+            {t("informationTitle")}
           </h2>
 
           <p className="mt-4 text-sm leading-7 text-blue-100">
-            {text.informationDescription}
+            {t("informationDescription")}
           </p>
 
           <address className="mt-8 space-y-6 not-italic">
             {/* Location */}
             <div className="flex items-start gap-4">
               <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-white/10 text-orange-300">
-                <MapPin
-                  aria-hidden="true"
-                  className="h-5 w-5"
-                />
+                <MapPin aria-hidden="true" className="h-5 w-5" />
               </div>
 
               <div>
                 <p className="text-sm font-semibold text-white">
-                  {text.addressLabel}
+                  {t("addressLabel")}
                 </p>
-
                 <p className="mt-1 text-sm leading-6 text-blue-100">
-                  {text.address}
+                  {t("address")}
                 </p>
               </div>
             </div>
@@ -225,17 +161,13 @@ export default function ContactForm({ locale }: ContactFormProps) {
             {/* Phone */}
             <div className="flex items-start gap-4">
               <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-white/10 text-orange-300">
-                <Phone
-                  aria-hidden="true"
-                  className="h-5 w-5"
-                />
+                <Phone aria-hidden="true" className="h-5 w-5" />
               </div>
 
               <div>
                 <p className="text-sm font-semibold text-white">
-                  {text.phoneLabel}
+                  {t("phoneLabel")}
                 </p>
-
                 <a
                   href="tel:+256750274516"
                   className="mt-1 inline-block text-sm text-blue-100 transition-colors hover:text-white"
@@ -248,17 +180,13 @@ export default function ContactForm({ locale }: ContactFormProps) {
             {/* Email */}
             <div className="flex items-start gap-4">
               <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-white/10 text-orange-300">
-                <Mail
-                  aria-hidden="true"
-                  className="h-5 w-5"
-                />
+                <Mail aria-hidden="true" className="h-5 w-5" />
               </div>
 
               <div className="min-w-0">
                 <p className="text-sm font-semibold text-white">
-                  {text.emailLabel}
+                  {t("emailLabel")}
                 </p>
-
                 <a
                   href="mailto:norbertbulaya3@gmail.com"
                   className="mt-1 block break-all text-sm text-blue-100 transition-colors hover:text-white"
@@ -271,19 +199,15 @@ export default function ContactForm({ locale }: ContactFormProps) {
             {/* Availability */}
             <div className="flex items-start gap-4">
               <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-white/10 text-orange-300">
-                <Clock3
-                  aria-hidden="true"
-                  className="h-5 w-5"
-                />
+                <Clock3 aria-hidden="true" className="h-5 w-5" />
               </div>
 
               <div>
                 <p className="text-sm font-semibold text-white">
-                  {text.availabilityLabel}
+                  {t("availabilityLabel")}
                 </p>
-
                 <p className="mt-1 text-sm leading-6 text-blue-100">
-                  {text.availability}
+                  {t("availability")}
                 </p>
               </div>
             </div>
@@ -291,15 +215,11 @@ export default function ContactForm({ locale }: ContactFormProps) {
 
           <div className="mt-8 border-t border-white/10 pt-6">
             <Link
-              href={`/${locale}/about`}
+              href="/about"
               className="inline-flex items-center gap-2 text-sm font-semibold text-orange-300 transition-colors hover:text-orange-200"
             >
-              {text.alternateAction}
-
-              <ArrowRight
-                aria-hidden="true"
-                className="h-4 w-4"
-              />
+              {t("alternateAction")}
+              <ArrowRight aria-hidden="true" className="h-4 w-4" />
             </Link>
           </div>
         </aside>
@@ -308,15 +228,15 @@ export default function ContactForm({ locale }: ContactFormProps) {
         <article className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8 lg:p-10">
           <header>
             <p className="text-sm font-semibold uppercase tracking-[0.18em] text-orange-600">
-              {text.formLabel}
+              {t("formLabel")}
             </p>
 
             <h2 className="mt-2 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
-              {text.formTitle}
+              {t("formTitle")}
             </h2>
 
             <p className="mt-3 max-w-2xl text-sm leading-7 text-slate-600">
-              {text.formDescription}
+              {t("formDescription")}
             </p>
           </header>
 
@@ -332,13 +252,21 @@ export default function ContactForm({ locale }: ContactFormProps) {
 
               <div>
                 <p className="font-semibold">
-                  {text.successTitle}
+                  {t("successTitle")}
                 </p>
-
                 <p className="mt-1 text-sm leading-6">
-                  {text.successMessage}
+                  {t("successMessage")}
                 </p>
               </div>
+            </div>
+          )}
+
+          {submissionError && (
+            <div
+              role="alert"
+              className="mt-6 rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-800"
+            >
+              {t("submissionError")}
             </div>
           )}
 
@@ -353,19 +281,17 @@ export default function ContactForm({ locale }: ContactFormProps) {
                 htmlFor="contact-name"
                 className="text-sm font-semibold text-slate-800"
               >
-                {text.nameLabel}
+                {t("nameLabel")}
               </label>
 
               <input
                 id="contact-name"
                 type="text"
                 autoComplete="name"
-                placeholder={text.namePlaceholder}
+                placeholder={t("namePlaceholder")}
                 aria-invalid={Boolean(errors.name)}
                 aria-describedby={
-                  errors.name
-                    ? "contact-name-error"
-                    : undefined
+                  errors.name ? "contact-name-error" : undefined
                 }
                 disabled={isSubmitting}
                 className={getFieldClasses(Boolean(errors.name))}
@@ -389,7 +315,7 @@ export default function ContactForm({ locale }: ContactFormProps) {
                 htmlFor="contact-email"
                 className="text-sm font-semibold text-slate-800"
               >
-                {text.emailFieldLabel}
+                {t("emailFieldLabel")}
               </label>
 
               <input
@@ -397,12 +323,10 @@ export default function ContactForm({ locale }: ContactFormProps) {
                 type="email"
                 inputMode="email"
                 autoComplete="email"
-                placeholder={text.emailPlaceholder}
+                placeholder={t("emailPlaceholder")}
                 aria-invalid={Boolean(errors.email)}
                 aria-describedby={
-                  errors.email
-                    ? "contact-email-error"
-                    : undefined
+                  errors.email ? "contact-email-error" : undefined
                 }
                 disabled={isSubmitting}
                 className={getFieldClasses(Boolean(errors.email))}
@@ -426,13 +350,13 @@ export default function ContactForm({ locale }: ContactFormProps) {
                 htmlFor="contact-message"
                 className="text-sm font-semibold text-slate-800"
               >
-                {text.messageLabel}
+                {t("messageLabel")}
               </label>
 
               <textarea
                 id="contact-message"
                 rows={7}
-                placeholder={text.messagePlaceholder}
+                placeholder={t("messagePlaceholder")}
                 aria-invalid={Boolean(errors.message)}
                 aria-describedby={
                   errors.message
@@ -463,34 +387,16 @@ export default function ContactForm({ locale }: ContactFormProps) {
                 id="contact-message-description"
                 className="max-w-md text-xs leading-5 text-slate-500"
               >
-                {text.privacy}
+                {t("privacy")}
               </p>
 
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="
-                  inline-flex min-w-40 items-center
-                  justify-center gap-2 rounded-lg
-                  bg-orange-600 px-6 py-3
-                  text-sm font-semibold text-white
-                  transition-colors hover:bg-orange-700
-                  disabled:cursor-not-allowed
-                  disabled:opacity-60
-                  focus-visible:outline-none
-                  focus-visible:ring-2
-                  focus-visible:ring-orange-600
-                  focus-visible:ring-offset-2
-                "
+                className="inline-flex min-w-40 items-center justify-center gap-2 rounded-lg bg-orange-600 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-orange-700 disabled:cursor-not-allowed disabled:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-600 focus-visible:ring-offset-2"
               >
-                <Send
-                  aria-hidden="true"
-                  className="h-4 w-4"
-                />
-
-                {isSubmitting
-                  ? text.submitting
-                  : text.submit}
+                <Send aria-hidden="true" className="h-4 w-4" />
+                {isSubmitting ? t("submitting") : t("submit")}
               </button>
             </div>
           </form>
