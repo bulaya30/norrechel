@@ -1,3 +1,5 @@
+import { getTranslations } from "next-intl/server";
+
 import DashboardPageHeader from "@/features/dashboard/components/DashboardPageHeader";
 import ArticleManager from "@/features/articles/components/dashboard/ArticleManager";
 
@@ -16,11 +18,15 @@ export default async function ArticlesPage({
   params,
 }: ArticlesPageProps) {
   const { locale } = await params;
+  const t = await getTranslations({
+    locale,
+    namespace: "DashboardArticles",
+  });
 
   const [articles, categories] = await Promise.all([
-      getCachedArticles(),
-      getCachedCategories(),
-    ]);
+    getCachedArticles(),
+    getCachedCategories(),
+  ]);
 
   const safeArticles = Array.isArray(articles)
     ? articles.filter(Boolean)
@@ -34,25 +40,15 @@ export default async function ArticlesPage({
     .filter((category) => category.id)
     .map((category) => ({
       id: category.id!,
-      name:
-        category.name ??
-        "Unnamed category",
+      name: category.name ?? t("unnamedCategory"),
     }));
 
   return (
     <>
       <DashboardPageHeader
-        eyebrow={
-          locale === "fr"
-            ? "Gestion du contenu"
-            : "Content management"
-        }
-        title="Articles"
-        description={
-          locale === "fr"
-            ? "Créez, recherchez, filtrez et gérez les articles publiés et les brouillons."
-            : "Create, search, filter, and manage your published articles and drafts."
-        }
+        eyebrow={t("eyebrow")}
+        title={t("title")}
+        description={t("description")}
       />
 
       <ArticleManager

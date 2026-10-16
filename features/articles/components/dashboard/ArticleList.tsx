@@ -1,13 +1,12 @@
-import {
-  FileText,
-  Plus,
-} from "lucide-react";
-import Link from "next/link";
+"use client";
 
+import { useTranslations } from "next-intl";
+import { FileText, Plus } from "lucide-react";
+
+import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 
 import ArticleCard from "./ArticleCard";
-
 import type { Article } from "@/features/interfaces/article";
 
 type SupportedLocale = "en" | "fr";
@@ -21,23 +20,11 @@ export default function ArticleList({
   articles,
   locale,
 }: ArticleListProps) {
+  const t = useTranslations("DashboardArticleList");
+
   const safeArticles = Array.isArray(articles)
     ? articles.filter(Boolean)
     : [];
-
-  const labels = locale === "fr"
-      ? {
-          emptyTitle: "Aucun article trouvé",
-          emptyDescription:
-            "Commencez par créer votre premier article ou modifiez vos filtres de recherche.",
-          create: "Créer un article",
-        }
-      : {
-          emptyTitle: "No articles found",
-          emptyDescription:
-            "Create your first article or adjust the current search and filters.",
-          create: "Create article",
-        };
 
   if (safeArticles.length === 0) {
     return (
@@ -65,22 +52,18 @@ export default function ArticleList({
 
         <h2
           id="empty-articles-heading"
-          className="
-            mt-5 text-xl font-bold
-            text-slate-950
-          "
+          className="mt-5 text-xl font-bold text-slate-950"
         >
-          {labels.emptyTitle}
+          {t("emptyTitle")}
         </h2>
 
         <p
           className="
             mx-auto mt-2 max-w-md
-            text-sm leading-6
-            text-slate-600
+            text-sm leading-6 text-slate-600
           "
         >
-          {labels.emptyDescription}
+          {t("emptyDescription")}
         </p>
 
         <Button
@@ -91,15 +74,9 @@ export default function ArticleList({
             hover:bg-orange-500
           "
         >
-          <Link
-            href={`/${locale}/dashboard/articles/new`}
-          >
-            <Plus
-              className="size-4"
-              aria-hidden="true"
-            />
-
-            {labels.create}
+          <Link href="/dashboard/articles/new">
+            <Plus className="size-4" aria-hidden="true" />
+            {t("create")}
           </Link>
         </Button>
       </section>
@@ -107,16 +84,12 @@ export default function ArticleList({
   }
 
   return (
-    <section
-      aria-labelledby="article-list-heading"
-    >
+    <section aria-labelledby="article-list-heading">
       <h2
         id="article-list-heading"
         className="sr-only"
       >
-        {locale === "fr"
-          ? "Liste des articles"
-          : "Article list"}
+        {t("listHeading")}
       </h2>
 
       <div

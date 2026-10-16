@@ -1,6 +1,8 @@
-"use client"
+"use client";
+
 import Image from "next/image";
-import Link from "next/link";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 
 import {
   BarChart3,
@@ -8,14 +10,12 @@ import {
   Eye,
 } from "lucide-react";
 
-import ArticleActions from "@/components/actions/ComponentActions";
-
+import ComponentActions from "@/components/actions/ComponentActions";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
 import type { Article } from "@/features/interfaces/article";
 import { readableDate } from "@/lib/dates/utils";
-import ComponentActions from "@/components/actions/ComponentActions";
 
 type SupportedLocale = "en" | "fr";
 
@@ -24,65 +24,47 @@ interface ArticleCardProps {
   locale: SupportedLocale;
 }
 
-type LocalizedValue ={
-  en: string,
-  fr: string
-}
+type LocalizedValue = {
+  en?: string;
+  fr?: string;
+};
 
 function getLocalizedValue(
-  value: LocalizedValue | undefined,
+  value: string | LocalizedValue | undefined | null,
   locale: SupportedLocale,
 ): string {
-    return value?.[locale] ?? "";
+  if (typeof value === "string") {
+    return value;
+  }
+
+  return value?.[locale] ?? value?.en ?? value?.fr ?? "";
 }
 
 export default function ArticleCard({
   article,
   locale,
 }: ArticleCardProps) {
-  const title = getLocalizedValue(
-    article.title as LocalizedValue,
+  const t = useTranslations("DashboardArticleCard");
+
+  const title = getLocalizedValue(article.title, locale);
+  const slug = getLocalizedValue(article.slug, locale);
+  const category = getLocalizedValue(
+    article.category?.name,
     locale,
   );
 
-  const slug = getLocalizedValue(
-    article.slug as LocalizedValue,
-    locale,
-  );
-
-  const category = article.category?.name ?? "";
-
-  const views = Array.isArray(article.views) 
+  const views = Array.isArray(article.views)
     ? article.views.length
     : 0;
-    
-  const engagements = Array.isArray(article.engagements) ? article.engagements.length : 0;
+
+  const engagements = Array.isArray(article.engagements)
+    ? article.engagements.length
+    : 0;
 
   const publishedDate =
-    article.publishedAt ??
-    article.createdAt;
+    article.publishedAt ?? article.createdAt;
 
-  const articleHref = slug
-    ? `/${locale}/dashboard/articles/${slug}`
-    : "#";
-
-  const labels = locale === "fr"
-      ? {
-          published: "Publié",
-          draft: "Brouillon",
-          views: "Vues",
-          engagements: "Engagements",
-          publishedOn: "Publié le",
-          preview: "Voir l’article",
-        }
-      : {
-          published: "Published",
-          draft: "Draft",
-          views: "Views",
-          engagements: "Engagements",
-          publishedOn: "Published",
-          preview: "View article",
-        };
+  const isPublished = article.status === "published";
 
   return (
     <article
@@ -94,7 +76,6 @@ export default function ArticleCard({
         hover:shadow-lg hover:shadow-slate-900/5
       "
     >
-      {/* Cover image */}
       <div
         className="
           relative aspect-[16/9]
@@ -104,7 +85,7 @@ export default function ArticleCard({
         {article.cover_image ? (
           <Image
             src={article.cover_image}
-            alt={title}
+            alt={title || t("coverImage")}
             fill
             sizes="
               (max-width: 768px) 100vw,
@@ -133,9 +114,7 @@ export default function ArticleCard({
                 text-slate-400
               "
             >
-              {locale === "fr"
-              ? "Aucune image"
-              : "No cover image"}
+              {t("noCoverImage")}
             </span>
           </div>
         )}
@@ -144,27 +123,22 @@ export default function ArticleCard({
           <Badge
             variant="secondary"
             className={
-              article.status === 'draft'
+              isPublished
                 ? `
                     border border-emerald-200
-                    bg-emerald-50
-                    text-emerald-700
+                    bg-emerald-50 text-emerald-700
                   `
                 : `
                     border border-amber-200
-                    bg-amber-50
-                    text-amber-700
+                    bg-amber-50 text-amber-700
                   `
             }
           >
-            {article.status ==='published'
-              ? labels.published
-              : labels.draft}
+            {isPublished ? t("published") : t("draft")}
           </Badge>
         </div>
       </div>
 
-      {/* Content */}
       <div className="p-5">
         {category && (
           <p
@@ -185,81 +159,54 @@ export default function ArticleCard({
             tracking-tight text-slate-950
           "
         >
-          {title || "Untitled article"}
+          {title || t("untitledArticle")}
         </h2>
 
-        {/* Metrics */}
         <div
           className="
             mt-5 flex flex-wrap
             items-center gap-x-5 gap-y-2
-            border-y border-slate-100
-            py-4
+            border-y border-slate-100 py-4
           "
         >
-          <div
-            className="
-              flex items-center gap-1.5
-              text-sm text-slate-600
-            "
-          >
+          <div className="flex items-center gap-1.5 text-sm text-slate-600">
             <Eye
               className="size-4 text-slate-400"
               aria-hidden="true"
             />
-
             <span className="font-semibold text-slate-900">
-              {views.toLocaleString()}
+              {views.toLocaleString(locale)}
             </span>
-
-            <span>{labels.views}</span>
+            <span>{t("views")}</span>
           </div>
 
-          <div
-            className="
-              flex items-center gap-1.5
-              text-sm text-slate-600
-            "
-          >
+          <div className="flex items-center gap-1.5 text-sm text-slate-600">
             <BarChart3
               className="size-4 text-slate-400"
               aria-hidden="true"
             />
-
             <span className="font-semibold text-slate-900">
-              {engagements.toLocaleString()}
+              {engagements.toLocaleString(locale)}
             </span>
-
-            <span>{labels.engagements}</span>
+            <span>{t("engagements")}</span>
           </div>
         </div>
 
-        {/* Footer */}
         <footer
           className="
             mt-4 flex flex-wrap
-            items-center justify-between
-            gap-3
+            items-center justify-between gap-3
           "
         >
           {publishedDate && (
-            <div
-              className="
-                flex items-center gap-2
-                text-xs text-slate-500
-              "
-            >
+            <div className="flex items-center gap-2 text-xs text-slate-500">
               <CalendarDays
                 className="size-4"
                 aria-hidden="true"
               />
-
               <span>
-                {labels.publishedOn}{" "}
-                {readableDate(
-                  publishedDate,
-                  locale,
-                )}
+                {t("dateLabel")}{" "}
+                {readableDate(publishedDate, locale)}
               </span>
             </div>
           )}
@@ -270,33 +217,30 @@ export default function ArticleCard({
               variant="ghost"
               size="sm"
               className="
-                text-blue-700
-                hover:bg-blue-50
+                text-blue-700 hover:bg-blue-50
                 hover:text-blue-900
               "
             >
-              <Link href={articleHref}>
-                {labels.preview}
+              <Link
+                href={`/dashboard/articles/${slug}`}
+              >
+                {t("preview")}
               </Link>
             </Button>
           )}
         </footer>
+
         {article.id && (
-            <div
-                className="
-                mt-4 border-t border-slate-100
-                pt-4
-                "
-            >
-                <ComponentActions
-                itemId={article.id}
-                slug={article.slug}
-                component={"articles"}
-                active={article.active ?? false}
-                locale={locale}
-                />
-            </div>
-            )}
+          <div className="mt-4 border-t border-slate-100 pt-4">
+            <ComponentActions
+              itemId={article.id}
+              slug={article.slug}
+              component="articles"
+              active={article.active ?? false}
+              locale={locale}
+            />
+          </div>
+        )}
       </div>
     </article>
   );

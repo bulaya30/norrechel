@@ -2,8 +2,8 @@ import DashboardPageHeader from "@/features/dashboard/components/DashboardPageHe
 import CreateArticleForm from "@/features/articles/components/create/CreateArticleForm";
 
 import { getCachedCategories } from "@/features/categories/queries/category.queries";
+import type { SupportedLocale } from "@/lib/dates/localizedValue";
 
-type SupportedLocale = "en" | "fr";
 
 interface NewArticlePageProps {
   params: Promise<{

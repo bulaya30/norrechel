@@ -1,3 +1,5 @@
+import { getTranslations } from "next-intl/server";
+
 import DashboardPageHeader from "@/features/dashboard/components/DashboardPageHeader";
 import DashboardOverview from "@/features/dashboard/components/DashboardOverview";
 
@@ -23,7 +25,6 @@ interface DashboardPageProps {
   params: Promise<{
     locale: SupportedLocale;
   }>;
-
   searchParams: Promise<{
     period?: string | string[];
   }>;
@@ -35,26 +36,19 @@ export default async function DashboardPage({
 }: DashboardPageProps) {
   const { locale } = await params;
 
-  const { userId } =
-    await requireAuthenticatedUser();
+  const t = await getTranslations({
+    locale,
+    namespace: "DashboardOverviewPage",
+  });
 
-  const { period: periodParam } =
-    await searchParams;
+  const { userId } = await requireAuthenticatedUser();
 
-  /*
-   * Normalize the query parameter.
-   */
-  const requestedPeriod = Array.isArray(
-    periodParam,
-  )
+  const { period: periodParam } = await searchParams;
+
+  const requestedPeriod = Array.isArray(periodParam)
     ? periodParam[0]
     : periodParam;
 
-  /*
-   * Only allow supported analytics periods.
-   *
-   * Invalid or missing values fall back to 7d.
-   */
   const period: AnalyticsPeriod =
     isAnalyticsPeriod(requestedPeriod)
       ? requestedPeriod
@@ -72,28 +66,22 @@ export default async function DashboardPage({
     getCachedPublishedProjects(),
     getCachedSubscribers(),
     getCachedUserNotifications(userId),
-
     getCachedViews(),
     getCachedEngagements(),
   ]);
 
-  /*
-   * Analytics are calculated for the selected
-   * period only.
-   */
-  const analytics =
-    getDashboardAnalytics(
-      views,
-      engagements,
-      period,
-    );
+  const analytics = getDashboardAnalytics(
+    views,
+    engagements,
+    period,
+  );
 
   return (
     <>
       <DashboardPageHeader
-        eyebrow="Dashboard"
-        title="Overview"
-        description="Monitor audience activity, content performance, and engagement across your platform."
+        eyebrow={t("eyebrow")}
+        title={t("title")}
+        description={t("description")}
       />
 
       <DashboardOverview

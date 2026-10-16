@@ -430,8 +430,6 @@
     "submissionError": "Your message could not be sent. Please try again.",
     "privacy": "Your contact details will only be used to respond to your message."
   },
-
-
   "LoginForm": {
     "eyebrow": "Secure access",
     "welcome": "Welcome back",
@@ -452,6 +450,111 @@
     "emailInvalid": "Please enter a valid email address.",
     "passwordRequired": "Password is required.",
     "passwordMinLength": "Password must contain at least 6 characters."
-  }
+  },
+  "DashboardOverviewPage": {
+    "eyebrow": "Dashboard",
+    "title": "Overview",
+    "description": "Monitor audience activity, content performance, and engagement across your platform."
+  },
+  "DashboardOverview": {
+    "noChange": "No change",
+    "period7d": "last 7 days",
+    "period30d": "last 30 days",
+    "period90d": "last 90 days",
+    "period1y": "last 12 months",
+    "article": "Article",
+    "project": "Project",
+    "noCoverImage": "No cover image",
+    "untitled": "Untitled",
+    "audienceResponse": "Audience response",
+    "viewsAndEngagements": "Views and engagements — {period}",
+    "audienceInteractionDescription": "See how your audience interacts with your content.",
+    "views": "Views",
+    "engagements": "Engagements",
+    "noData": "No data available.",
+    "averageReadTime": "Average read time",
+    "averageScrollDepth": "Average scroll depth",
+    "contactClicks": "Contact clicks",
+    "audienceQuality": "Audience quality",
+    "visitorInteractionHeading": "How visitors interact",
+    "contentPerformance": "Content performance",
+    "topContentHeading": "Content attracting attention",
+    "contentPerformanceDescription": "Views and interactions by content.",
+    "rankedByViews": "Ranked by views",
+    "noContentPerformance": "No content performance data available.",
+    "content": "Content",
+    "rate": "Rate",
+    "library": "Library",
+    "recentContent": "Recent content",
+    "articles": "Articles",
+    "projects": "Projects",
+    "recent": "recent",
+    "noPublishedArticles": "No published articles.",
+    "noPublishedProjects": "No published projects.",
+    "untitledArticle": "Untitled article",
+    "untitledProject": "Untitled project",
+    "performance": "Performance",
+    "audienceOverview": "Audience overview",
+    "performanceOverPeriod": "Performance recorded over {period}.",
+    "contentViews": "Content views",
+    "recordedInteractions": "Recorded interactions",
+    "uniqueVisitors": "Unique visitors",
+    "visitorsViewedContent": "Visitors who viewed content",
+    "engagementRate": "Engagement rate",
+    "engagementsRelativeToViews": "Engagements relative to views",
+    "publishedArticles": "Published articles",
+    "publishedProjects": "Published projects",
+    "subscribers": "Subscribers",
+    "chartLabel": "Views and engagements chart — {period}",
+    "dateLabel": "Date",
+    "published": "Published",
+    "draft": "Draft"
+  },
+  "DashboardArticles": {
+    "eyebrow": "Content management",
+    "title": "Articles",
+    "description": "Create, search, filter, and manage your published articles and drafts.",
+    "unnamedCategory": "Unnamed category"
+  },
+  "DashboardToolbar": {
+    "searchArticles": "Search articles...",
+    "searchProjects": "Search projects...",
+    "filters": "Filters",
+    "hideFilters": "Hide filters",
+    "newArticle": "New article",
+    "newProject": "New project",
+    "reset": "Reset",
+    "articlesToolbarLabel": "Article management tools",
+    "projectsToolbarLabel": "Project management tools"
+    },
+    "DashboardFilters": {
+      "status": "Status",
+      "category": "Category",
+      "sort": "Sort",
+      "allStatuses": "All statuses",
+      "published": "Published",
+      "draft": "Draft",
+      "allCategories": "All categories",
+      "newest": "Newest",
+      "oldest": "Oldest",
+      "mostViewed": "Most viewed"
+    },
+    "DashboardArticleList": {
+      "emptyTitle": "No articles found",
+      "emptyDescription": "Create your first article or adjust the current search and filters.",
+      "create": "Create article",
+      "listHeading": "Article list"
+    },
+    "DashboardArticleCard": {
+      "published": "Published",
+      "draft": "Draft",
+      "views": "Views",
+      "engagements": "Engagements",
+      "dateLabel": "Date:",
+      "preview": "View article",
+      "coverImage": "Article cover",
+      "noCoverImage": "No cover image",
+      "untitledArticle": "Untitled article"
+    }
   
 }

@@ -1,5 +1,7 @@
 "use client";
 
+import { useTranslations } from "next-intl";
+
 import {
   Select,
   SelectContent,
@@ -36,32 +38,7 @@ export default function ArticleFilters({
   onCategoryChange,
   onSortChange,
 }: ArticleFiltersProps) {
-  const labels =
-    locale === "fr"
-      ? {
-          status: "Statut",
-          category: "Catégorie",
-          sort: "Trier",
-          allStatuses: "Tous les statuts",
-          published: "Publié",
-          draft: "Brouillon",
-          allCategories: "Toutes les catégories",
-          newest: "Plus récents",
-          oldest: "Plus anciens",
-          mostViewed: "Plus vus",
-        }
-      : {
-          status: "Status",
-          category: "Category",
-          sort: "Sort",
-          allStatuses: "All statuses",
-          published: "Published",
-          draft: "Draft",
-          allCategories: "All categories",
-          newest: "Newest",
-          oldest: "Oldest",
-          mostViewed: "Most viewed",
-        };
+  const t = useTranslations("DashboardFilters");
 
   return (
     <div
@@ -73,28 +50,29 @@ export default function ArticleFilters({
     >
       <div className="space-y-2">
         <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-          {labels.status}
+          {t("status")}
         </p>
 
         <Select
           value={status}
           onValueChange={onStatusChange}
         >
-          <SelectTrigger className="w-full border-slate-300 bg-white">
+          <SelectTrigger
+            className="w-full border-slate-300 bg-white"
+            aria-label={t("status")}
+          >
             <SelectValue />
           </SelectTrigger>
 
           <SelectContent>
             <SelectItem value="all">
-              {labels.allStatuses}
+              {t("allStatuses")}
             </SelectItem>
-
             <SelectItem value="published">
-              {labels.published}
+              {t("published")}
             </SelectItem>
-
             <SelectItem value="draft">
-              {labels.draft}
+              {t("draft")}
             </SelectItem>
           </SelectContent>
         </Select>
@@ -102,20 +80,23 @@ export default function ArticleFilters({
 
       <div className="space-y-2">
         <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-          {labels.category}
+          {t("category")}
         </p>
 
         <Select
           value={category}
           onValueChange={onCategoryChange}
         >
-          <SelectTrigger className="w-full border-slate-300 bg-white">
+          <SelectTrigger
+            className="w-full border-slate-300 bg-white"
+            aria-label={t("category")}
+          >
             <SelectValue />
           </SelectTrigger>
 
           <SelectContent>
             <SelectItem value="all">
-              {labels.allCategories}
+              {t("allCategories")}
             </SelectItem>
 
             {categories.map((item) => (
@@ -132,28 +113,29 @@ export default function ArticleFilters({
 
       <div className="space-y-2">
         <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-          {labels.sort}
+          {t("sort")}
         </p>
 
         <Select
           value={sort}
           onValueChange={onSortChange}
         >
-          <SelectTrigger className="w-full border-slate-300 bg-white">
+          <SelectTrigger
+            className="w-full border-slate-300 bg-white"
+            aria-label={t("sort")}
+          >
             <SelectValue />
           </SelectTrigger>
 
           <SelectContent>
             <SelectItem value="newest">
-              {labels.newest}
+              {t("newest")}
             </SelectItem>
-
             <SelectItem value="oldest">
-              {labels.oldest}
+              {t("oldest")}
             </SelectItem>
-
             <SelectItem value="views">
-              {labels.mostViewed}
+              {t("mostViewed")}
             </SelectItem>
           </SelectContent>
         </Select>

@@ -228,7 +228,6 @@ export default async function ArticlePage({
           <ArticleHeader
             title={title}
             category={category}
-            // excerpt={content}
             imageUrl={imageUrl}
             imageAlt={title}
           />
