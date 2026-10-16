@@ -567,5 +567,60 @@
     "coverImage": "Image de couverture de l’article",
     "noCoverImage": "Aucune image de couverture",
     "untitledArticle": "Article sans titre"
+  },
+  "NewArticlePage": {
+    "eyebrow": "Gestion du contenu",
+    "title": "Nouvel article",
+    "description": "Rédigez, configurez et publiez un nouvel article.",
+    "unnamedCategory": "Catégorie sans nom"
+  },
+  "CreateArticleForm": {
+    "basicTitle": "Informations principales",
+    "basicDescription": "Définissez le titre, la catégorie et les informations essentielles de l’article.",
+    "contentTitle": "Contenu de l’article",
+    "contentDescription": "Rédigez le contenu principal de l’article dans les langues disponibles.",
+    "coverTitle": "Image de couverture",
+    "coverDescription": "Ajoutez une image qui représentera l’article sur le site."
+  },
+   "ArticleBasicFields": {
+    "englishTitle": "Titre en anglais",
+    "frenchTitle": "Titre en français",
+    "category": "Catégorie",
+    "englishPlaceholder": "Ex. Building scalable applications with Next.js",
+    "frenchPlaceholder": "Ex. Construire des applications évolutives avec Next.js",
+    "selectCategory": "Sélectionner une catégorie"
+  },
+  "ArticleContentEditor": {
+    "contentLanguage": "Langue du contenu",
+    "english": "Anglais",
+    "french": "Français",
+    "englishEditor": "Contenu de l’article en anglais",
+    "frenchEditor": "Contenu de l’article en français",
+    "englishHint": "Rédigez la version anglaise de l’article.",
+    "frenchHint": "Rédigez la version française de l’article."
+  },
+  "ArticleCoverImage": {
+    "chooseImage": "Choisir une image",
+    "replaceImage": "Remplacer l’image",
+    "remove": "Supprimer",
+    "currentImage": "Image actuelle",
+    "imageHint": "PNG, JPG ou WEBP. Utilisez une image nette adaptée au format paysage.",
+    "previewAlt": "Aperçu de l’image de couverture",
+    "fileSize": "{size} Mo"
+  },
+  "FormActions": {
+    "cancel": "Annuler",
+    "save": "Enregistrer",
+    "saveChanges": "Enregistrer les modifications",
+    "saving": "Enregistrement...",
+    "publishArticle": "Publier l’article",
+    "publishing": "Publication..."
+  },
+  "ArticleValidation": {
+    "titleMin": "Le titre doit contenir au moins 3 caractères.",
+    "titleMax": "Le titre ne doit pas dépasser 180 caractères.",
+    "contentRequired": "Le contenu de l’article est obligatoire.",
+    "categoryRequired": "La catégorie est obligatoire.",
+    "coverImageRequired": "L’image de couverture est obligatoire."
   }
 }

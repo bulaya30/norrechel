@@ -1,9 +1,11 @@
+
+import { getTranslations } from "next-intl/server";
+
 import DashboardPageHeader from "@/features/dashboard/components/DashboardPageHeader";
 import CreateArticleForm from "@/features/articles/components/create/CreateArticleForm";
 
 import { getCachedCategories } from "@/features/categories/queries/category.queries";
 import type { SupportedLocale } from "@/lib/dates/localizedValue";
-
 
 interface NewArticlePageProps {
   params: Promise<{
@@ -16,35 +18,26 @@ export default async function NewArticlePage({
 }: NewArticlePageProps) {
   const { locale } = await params;
 
+  const t = await getTranslations({
+    locale,
+    namespace: "NewArticlePage",
+  });
+
   const categories = await getCachedCategories();
 
   const categoryOptions = categories
     .filter((category) => category.id)
     .map((category) => ({
       id: category.id!,
-      name:
-        category.name ??
-        "Unnamed category",
+      name: category.name ?? t("unnamedCategory"),
     }));
 
   return (
     <>
       <DashboardPageHeader
-        eyebrow={
-          locale === "fr"
-            ? "Gestion du contenu"
-            : "Content management"
-        }
-        title={
-          locale === "fr"
-            ? "Nouvel article"
-            : "New article"
-        }
-        description={
-          locale === "fr"
-            ? "Rédigez, configurez et publiez un nouvel article."
-            : "Write, configure, and publish a new article."
-        }
+        eyebrow={t("eyebrow")}
+        title={t("title")}
+        description={t("description")}
       />
 
       <CreateArticleForm

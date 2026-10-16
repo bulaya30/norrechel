@@ -1,4 +1,8 @@
+
 "use client";
+
+import { useTranslations } from "next-intl";
+import type { SupportedLocale } from "@/lib/dates/localizedValue";
 
 import {
   Tabs,
@@ -8,8 +12,6 @@ import {
 } from "@/components/ui/tabs";
 
 import WysiwygEditor from "@/components/editor/WysiwygEditor";
-
-type SupportedLocale = "en" | "fr";
 
 interface ArticleContentEditorProps {
   locale: SupportedLocale;
@@ -34,26 +36,7 @@ export default function ArticleContentEditor({
   onContentFrChange,
   errors = {},
 }: ArticleContentEditorProps) {
-  const labels =
-    locale === "fr"
-      ? {
-          english: "Anglais",
-          french: "Français",
-          englishEditor: "Contenu de l’article en anglais",
-          frenchEditor: "Contenu de l’article en français",
-          englishHint: "Rédigez la version anglaise de l’article.",
-          frenchHint: "Rédigez la version française de l’article.",
-        }
-      : {
-          english: "English",
-          french: "French",
-          englishEditor: "English article content",
-          frenchEditor: "French article content",
-          englishHint:
-            "Write the English version of the article.",
-          frenchHint:
-            "Write the French version of the article.",
-        };
+  const t = useTranslations("ArticleContentEditor");
 
   return (
     <div className="space-y-4">
@@ -62,11 +45,7 @@ export default function ArticleContentEditor({
         className="w-full bg-blue-50"
       >
         <TabsList
-          aria-label={
-            locale === "fr"
-              ? "Langue du contenu"
-              : "Content language"
-          }
+          aria-label={t("contentLanguage")}
           className="
             h-auto w-full justify-start
             rounded-none border-0 border-b
@@ -86,14 +65,11 @@ export default function ArticleContentEditor({
               data-[state=active]:shadow-none
             "
           >
-            {labels.english}
+            {t("english")}
 
             {errors.contentEn && (
               <span
-                className="
-                  ml-2 size-2 rounded-full
-                  bg-red-500
-                "
+                className="ml-2 size-2 rounded-full bg-red-500"
                 aria-hidden="true"
               />
             )}
@@ -112,14 +88,11 @@ export default function ArticleContentEditor({
               data-[state=active]:shadow-none
             "
           >
-            {labels.french}
+            {t("french")}
 
             {errors.contentFr && (
               <span
-                className="
-                  ml-2 size-2 rounded-full
-                  bg-red-500
-                "
+                className="ml-2 size-2 rounded-full bg-red-500"
                 aria-hidden="true"
               />
             )}
@@ -130,14 +103,14 @@ export default function ArticleContentEditor({
           value="en"
           className="mt-5 space-y-2"
         >
-          <p className="text-sm text-slate-500 px-4">
-            {labels.englishHint}
+          <p className="px-4 text-sm text-slate-500">
+            {t("englishHint")}
           </p>
 
           <WysiwygEditor
             value={contentEn}
             onChange={onContentEnChange}
-            ariaLabel={labels.englishEditor}
+            ariaLabel={t("englishEditor")}
           />
 
           {errors.contentEn && (
@@ -154,14 +127,14 @@ export default function ArticleContentEditor({
           value="fr"
           className="mt-5 space-y-2"
         >
-          <p className="text-sm text-slate-500 px-4">
-            {labels.frenchHint}
+          <p className="px-4 text-sm text-slate-500">
+            {t("frenchHint")}
           </p>
 
           <WysiwygEditor
             value={contentFr}
             onChange={onContentFrChange}
-            ariaLabel={labels.frenchEditor}
+            ariaLabel={t("frenchEditor")}
           />
 
           {errors.contentFr && (

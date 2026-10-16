@@ -1,72 +1,85 @@
+
 import { z } from "zod";
 import { hasMeaningfulHtmlContent } from "@/lib/helpers";
 
-const requiredTitleSchema = z
-  .string()
-  .trim()
-  .min(3, "Title must contain at least 3 characters.")
-  .max(180, "Title must not exceed 180 characters.");
-
-const optionalContentSchema = z.string();
-
-const requiredContentSchema = z
-  .string()
-  .refine(
-    hasMeaningfulHtmlContent,
-    "Article content is required.",
-  );
-
-/*
- * Draft:
- */
-export const draftArticleSchema = z.object({
-  title: z.object({
-    en: requiredTitleSchema,
-    fr: requiredTitleSchema,
-  }),
-
-  content: z.object({
-    en: optionalContentSchema,
-    fr: optionalContentSchema,
-  }),
-
-  categoryId: z
-   .string()
-   .trim()
-   .min(1, "Category is required."),
-
-  coverImage: z
-    .instanceof(File)
-    .nullable()
-    .optional(),
-});
-
-/*
- * Published
- */
-export const publishArticleSchema = z.object({
-  title: z.object({
-    en: requiredTitleSchema,
-    fr: requiredTitleSchema,
-  }),
-
-  content: z.object({
-    en: requiredContentSchema,
-    fr: requiredContentSchema,
-  }),
-
-  categoryId: z
+export function getArticleSchemas(
+  messages: {
+    titleMin: string;
+    titleMax: string;
+    contentRequired: string;
+    categoryRequired: string;
+    coverImageRequired: string;
+  },
+) {
+  const requiredTitleSchema = z
     .string()
     .trim()
-    .min(1, "Category is required."),
+    .min(3, messages.titleMin)
+    .max(180, messages.titleMax);
 
-  coverImage: z
-    .instanceof(File)
-    .refine((file) => file !== null, ("Cover image is required.")),
-});
+  const optionalContentSchema = z.string();
 
-export type DraftArticleFormValues =
-  z.infer<typeof draftArticleSchema>;
+  const requiredContentSchema = z
+    .string()
+    .refine(
+      hasMeaningfulHtmlContent,
+      messages.contentRequired,
+    );
 
-export type PublishArticleFormValues =
-  z.infer<typeof publishArticleSchema>;
+  const draftArticleSchema = z.object({
+    title: z.object({
+      en: requiredTitleSchema,
+      fr: requiredTitleSchema,
+    }),
+
+    content: z.object({
+      en: optionalContentSchema,
+      fr: optionalContentSchema,
+    }),
+
+    categoryId: z
+      .string()
+      .trim()
+      .min(1, messages.categoryRequired),
+
+    coverImage: z
+      .instanceof(File)
+      .nullable()
+      .optional(),
+  });
+
+  const publishArticleSchema = z.object({
+    title: z.object({
+      en: requiredTitleSchema,
+      fr: requiredTitleSchema,
+    }),
+
+    content: z.object({
+      en: requiredContentSchema,
+      fr: requiredContentSchema,
+    }),
+
+    categoryId: z
+      .string()
+      .trim()
+      .min(1, messages.categoryRequired),
+
+    coverImage: z
+      .instanceof(File, {
+        message: messages.coverImageRequired,
+      }),
+  });
+
+  return {
+    draftArticleSchema,
+    publishArticleSchema,
+  };
+}
+
+export type DraftArticleFormValues = z.infer<
+  ReturnType<typeof getArticleSchemas>["draftArticleSchema"]
+>;
+
+export type PublishArticleFormValues = z.infer<
+  ReturnType<typeof getArticleSchemas>["publishArticleSchema"]
+>;

@@ -1,4 +1,8 @@
+
 "use client";
+
+import { useTranslations } from "next-intl";
+import type { SupportedLocale } from "@/lib/dates/localizedValue";
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -10,8 +14,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-
-type SupportedLocale = "en" | "fr";
 
 interface CategoryOption {
   id: string;
@@ -49,27 +51,7 @@ export default function ArticleBasicFields({
   onCategoryChange,
   errors = {},
 }: ArticleBasicFieldsProps) {
-  const labels = locale === "fr"
-      ? {
-          englishTitle: "Titre en anglais",
-          frenchTitle: "Titre en français",
-          category: "Catégorie",
-          englishPlaceholder:
-            "Ex. Building scalable applications with Next.js",
-          frenchPlaceholder:
-            "Ex. Construire des applications évolutives avec Next.js",
-          selectCategory: "Sélectionner une catégorie",
-        }
-      : {
-          englishTitle: "English title",
-          frenchTitle: "French title",
-          category: "Category",
-          englishPlaceholder:
-            "e.g. Building scalable applications with Next.js",
-          frenchPlaceholder:
-            "e.g. Construire des applications évolutives avec Next.js",
-          selectCategory: "Select a category",
-        };
+  const t = useTranslations("ArticleBasicFields");
 
   return (
     <div className="space-y-6">
@@ -79,7 +61,7 @@ export default function ArticleBasicFields({
             htmlFor="article-title-en"
             className="font-semibold text-slate-800"
           >
-            {labels.englishTitle}
+            {t("englishTitle")}
           </Label>
 
           <Input
@@ -89,10 +71,8 @@ export default function ArticleBasicFields({
             onChange={(event) =>
               onTitleEnChange(event.target.value)
             }
-            placeholder={labels.englishPlaceholder}
-            aria-invalid={
-              errors.titleEn ? "true" : "false"
-            }
+            placeholder={t("englishPlaceholder")}
+            aria-invalid={errors.titleEn ? "true" : "false"}
             aria-describedby={
               errors.titleEn
                 ? "article-title-en-error"
@@ -122,7 +102,7 @@ export default function ArticleBasicFields({
             htmlFor="article-title-fr"
             className="font-semibold text-slate-800"
           >
-            {labels.frenchTitle}
+            {t("frenchTitle")}
           </Label>
 
           <Input
@@ -132,10 +112,8 @@ export default function ArticleBasicFields({
             onChange={(event) =>
               onTitleFrChange(event.target.value)
             }
-            placeholder={labels.frenchPlaceholder}
-            aria-invalid={
-              errors.titleFr ? "true" : "false"
-            }
+            placeholder={t("frenchPlaceholder")}
+            aria-invalid={errors.titleFr ? "true" : "false"}
             aria-describedby={
               errors.titleFr
                 ? "article-title-fr-error"
@@ -166,7 +144,7 @@ export default function ArticleBasicFields({
           htmlFor="article-category"
           className="font-semibold text-slate-800"
         >
-          {labels.category}
+          {t("category")}
         </Label>
 
         <Select
@@ -175,17 +153,13 @@ export default function ArticleBasicFields({
         >
           <SelectTrigger
             id="article-category"
-            aria-invalid={
-              errors.categoryId ? "true" : "false"
-            }
+            aria-invalid={errors.categoryId ? "true" : "false"}
             className="
               h-11 w-full border-slate-300
               bg-white text-slate-950
             "
           >
-            <SelectValue
-              placeholder={labels.selectCategory}
-            />
+            <SelectValue placeholder={t("selectCategory")} />
           </SelectTrigger>
 
           <SelectContent>

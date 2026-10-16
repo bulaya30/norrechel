@@ -555,6 +555,61 @@
       "coverImage": "Article cover",
       "noCoverImage": "No cover image",
       "untitledArticle": "Untitled article"
+    },
+    "NewArticlePage": {
+      "eyebrow": "Content management",
+      "title": "New article",
+      "description": "Write, configure, and publish a new article.",
+      "unnamedCategory": "Unnamed category"
+    },
+    "CreateArticleForm": {
+      "basicTitle": "Basic information",
+      "basicDescription": "Define the article title, category, and essential information.",
+      "contentTitle": "Article content",
+      "contentDescription": "Write the main article content in the available languages.",
+      "coverTitle": "Cover image",
+      "coverDescription": "Add an image that will represent the article across the website."
+    },
+    "ArticleBasicFields": {
+      "englishTitle": "English title",
+      "frenchTitle": "French title",
+      "category": "Category",
+      "englishPlaceholder": "e.g. Building scalable applications with Next.js",
+      "frenchPlaceholder": "e.g. Construire des applications évolutives avec Next.js",
+      "selectCategory": "Select a category"
+    },
+    "ArticleContentEditor": {
+      "contentLanguage": "Content language",
+      "english": "English",
+      "french": "French",
+      "englishEditor": "English article content",
+      "frenchEditor": "French article content",
+      "englishHint": "Write the English version of the article.",
+      "frenchHint": "Write the French version of the article."
+    },
+    "ArticleCoverImage": {
+      "chooseImage": "Choose image",
+      "replaceImage": "Replace image",
+      "remove": "Remove",
+      "currentImage": "Current image",
+      "imageHint": "PNG, JPG or WEBP. Use a clear image suitable for a landscape layout.",
+      "previewAlt": "Cover image preview",
+      "fileSize": "{size} MB"
+    },
+    "FormActions": {
+      "cancel": "Cancel",
+      "save": "Save",
+      "saveChanges": "Save changes",
+      "saving": "Saving...",
+      "publishArticle": "Publish article",
+      "publishing": "Publishing..."
+    },
+    "ArticleValidation": {
+      "titleMin": "Title must contain at least 3 characters.",
+      "titleMax": "Title must not exceed 180 characters.",
+      "contentRequired": "Article content is required.",
+      "categoryRequired": "Category is required.",
+      "coverImageRequired": "Cover image is required."
     }
   
 }

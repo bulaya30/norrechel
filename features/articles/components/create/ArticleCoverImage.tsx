@@ -1,3 +1,4 @@
+
 "use client";
 
 import Image from "next/image";
@@ -6,6 +7,7 @@ import {
   useEffect,
   useState,
 } from "react";
+import { useTranslations } from "next-intl";
 
 import {
   ImageIcon,
@@ -14,12 +16,13 @@ import {
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import type { SupportedLocale } from "@/lib/dates/localizedValue";
 
 interface ArticleCoverImageProps {
   value: File | null;
   existingImageUrl?: string | null;
   onChange: (file: File | null) => void;
-  locale: "en" | "fr";
+  locale: SupportedLocale;
   error?: string;
 }
 
@@ -30,35 +33,13 @@ export default function ArticleCoverImage({
   locale,
   error,
 }: ArticleCoverImageProps) {
-  const [
-    previewUrl,
-    setPreviewUrl,
-  ] = useState<string | null>(null);
+  const t = useTranslations("ArticleCoverImage");
 
-  const labels = locale === "fr"
-      ? {
-          choose: "Choisir une image",
-          replace: "Remplacer l’image",
-          remove: "Supprimer",
-          current: "Image actuelle",
-          hint:
-            "PNG, JPG ou WEBP. Utilisez une image nette adaptée au format paysage.",
-          alt: "Aperçu de l’image de couverture",
-        }
-      : {
-          choose: "Choose image",
-          replace: "Replace image",
-          remove: "Remove",
-          current: "Current image",
-          hint:
-            "PNG, JPG or WEBP. Use a clear image suitable for a landscape layout.",
-          alt: "Cover image preview",
-        };
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
   useEffect(() => {
     if (!value) {
       setPreviewUrl(null);
-
       return;
     }
 
@@ -67,9 +48,7 @@ export default function ArticleCoverImage({
     setPreviewUrl(objectUrl);
 
     return () => {
-      URL.revokeObjectURL(
-        objectUrl,
-      );
+      URL.revokeObjectURL(objectUrl);
     };
   }, [value]);
 
@@ -86,20 +65,12 @@ export default function ArticleCoverImage({
 
     onChange(file);
 
-    /*
-     * Allows selecting the same file again
-     * after removing/replacing it.
-     */
+    // Allows selecting the same file again after removing or replacing it.
     event.target.value = "";
   }
 
   function handleRemove() {
-    /*
-     * This only removes a newly selected File.
-     *
-     * It does NOT delete the existing Cloudinary
-     * image yet.
-     */
+    // Removes only the newly selected file, not the existing Cloudinary image.
     onChange(null);
   }
 
@@ -116,11 +87,9 @@ export default function ArticleCoverImage({
           <div className="relative aspect-[16/9] w-full">
             <Image
               src={displayedImage}
-              alt={labels.alt}
+              alt={t("previewAlt")}
               fill
-              unoptimized={
-                previewUrl !== null
-              }
+              unoptimized={previewUrl !== null}
               className="object-cover"
             />
           </div>
@@ -148,27 +117,15 @@ export default function ArticleCoverImage({
                     {value.name}
                   </p>
 
-                  <p
-                    className="
-                      mt-1 text-xs
-                      text-slate-500
-                    "
-                  >
-                    {`${(
-                      value.size /
-                      1024 /
-                      1024
-                    ).toFixed(2)} MB`}
+                  <p className="mt-1 text-xs text-slate-500">
+                    {t("fileSize", {
+                      size: (value.size / 1024 / 1024).toFixed(2),
+                    })}
                   </p>
                 </>
               ) : (
-                <p
-                  className="
-                    text-sm font-semibold
-                    text-slate-700
-                  "
-                >
-                  {labels.current}
+                <p className="text-sm font-semibold text-slate-700">
+                  {t("currentImage")}
                 </p>
               )}
             </div>
@@ -186,36 +143,23 @@ export default function ArticleCoverImage({
                     aria-hidden="true"
                   />
 
-                  {labels.replace}
+                  {t("replaceImage")}
 
                   <input
                     type="file"
-                    accept="
-                      image/png,
-                      image/jpeg,
-                      image/webp
-                    "
-                    onChange={
-                      handleFileChange
-                    }
+                    accept="image/png,image/jpeg,image/webp"
+                    onChange={handleFileChange}
                     className="sr-only"
                   />
                 </label>
               </Button>
 
-              {/*
-                Only show "Remove" when the user has
-                selected a NEW local file.
-
-                Clicking it goes back to the existing
-                Cloudinary image in edit mode.
-              */}
               {value && (
                 <Button
                   type="button"
                   variant="outline"
                   size="sm"
-                  onClick={ handleRemove }
+                  onClick={handleRemove}
                   className="
                     border-red-200
                     text-red-700
@@ -228,7 +172,7 @@ export default function ArticleCoverImage({
                     aria-hidden="true"
                   />
 
-                  {labels.remove}
+                  {t("remove")}
                 </Button>
               )}
             </div>
@@ -269,36 +213,18 @@ export default function ArticleCoverImage({
             />
           </div>
 
-          <p
-            className="
-              mt-4 text-sm
-              font-semibold
-              text-slate-900
-            "
-          >
-            {labels.choose}
+          <p className="mt-4 text-sm font-semibold text-slate-900">
+            {t("chooseImage")}
           </p>
 
-          <p
-            className="
-              mt-2 max-w-sm
-              text-xs leading-5
-              text-slate-500
-            "
-          >
-            {labels.hint}
+          <p className="mt-2 max-w-sm text-xs leading-5 text-slate-500">
+            {t("imageHint")}
           </p>
 
           <input
             type="file"
-            accept="
-              image/png,
-              image/jpeg,
-              image/webp
-            "
-            onChange={
-              handleFileChange
-            }
+            accept="image/png,image/jpeg,image/webp"
+            onChange={handleFileChange}
             className="sr-only"
           />
         </label>
@@ -307,10 +233,7 @@ export default function ArticleCoverImage({
       {error && (
         <p
           role="alert"
-          className="
-            text-sm font-medium
-            text-red-600
-          "
+          className="text-sm font-medium text-red-600"
         >
           {error}
         </p>

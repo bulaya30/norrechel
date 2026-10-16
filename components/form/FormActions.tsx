@@ -1,6 +1,8 @@
+
 "use client";
 
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 import {
   FilePenLine,
@@ -9,73 +11,46 @@ import {
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import type { SupportedLocale } from "@/lib/dates/localizedValue";
 
 /*
- * -------------------------------------------
  * Shared props
- * -------------------------------------------
  */
-
 interface BaseFormActionsProps {
-  locale: "en" | "fr";
+  locale: SupportedLocale;
   component: string;
   isSaving?: boolean;
-
   onSaveDraft: () => void;
 }
 
 /*
- * -------------------------------------------
- * Create mode
- *
- * Publishing is deliberately impossible here.
- * -------------------------------------------
+ * Create mode — publishing is unavailable.
  */
-
-interface CreateFormActionsProps
-  extends BaseFormActionsProps {
+interface CreateFormActionsProps extends BaseFormActionsProps {
   mode: "create";
-  isCategory?:boolean;
+  isCategory?: boolean;
   isPublishing?: never;
   onPublish?: never;
 }
 
 /*
- * -------------------------------------------
- * Edit mode
- *
- * Publishing is required here.
- * -------------------------------------------
+ * Edit mode — publishing is available.
  */
-
-interface EditFormActionsProps
-  extends BaseFormActionsProps {
+interface EditFormActionsProps extends BaseFormActionsProps {
   mode: "edit";
   isCategory?: boolean;
   isPublishing?: boolean;
-
   onPublish?: () => void;
 }
 
 /*
- * -------------------------------------------
  * Discriminated union
- * -------------------------------------------
  */
-
 type FormActionsProps =
   | CreateFormActionsProps
   | EditFormActionsProps;
 
-/*
- * -------------------------------------------
- * Component
- * -------------------------------------------
- */
-
-export default function FormActions(
-  props: FormActionsProps,
-) {
+export default function FormActions(props: FormActionsProps) {
   const {
     locale,
     component,
@@ -85,42 +60,12 @@ export default function FormActions(
     onSaveDraft,
   } = props;
 
-  const isPublishing = mode === "edit"
-      ? props.isPublishing ?? false
-      : false;
+  const t = useTranslations("FormActions");
+
+  const isPublishing =
+    mode === "edit" ? props.isPublishing ?? false : false;
 
   const isSubmitting = isSaving || isPublishing;
-
-  const labels = locale === "fr"
-      ? {
-          cancel: "Annuler",
-
-          draft:
-            mode === "edit"
-              ? "Enregistrer les modifications"
-              : "Enregistrer",
-
-          saving:
-            mode === "edit"
-              ? "Enregistrement..."
-              : "Enregistrement...",
-
-          publish: "Publier l’article",
-          publishing: "Publication...",
-        }
-      : {
-          cancel: "Cancel",
-
-          draft:
-            mode === "edit"
-              ? "Save changes"
-              : "Save",
-
-          saving: "Saving...",
-
-          publish: "Publish article",
-          publishing: "Publishing...",
-        };
 
   return (
     <div
@@ -135,8 +80,8 @@ export default function FormActions(
       <div
         className="
           flex flex-col gap-2
+          items-end justify-end
           sm:flex-row sm:items-center
-          justify-end items-end
         "
       >
         {/* Cancel */}
@@ -146,16 +91,13 @@ export default function FormActions(
           variant="outline"
           disabled={isSubmitting}
           className="
-            bg-red
             border-slate-300
             text-slate-700
             cursor-pointer
           "
         >
-          <Link
-            href={`/${locale}/dashboard/${component}`}
-          >
-            {labels.cancel}
+          <Link href={`/${locale}/dashboard/${component}`}>
+            {t("cancel")}
           </Link>
         </Button>
 
@@ -178,8 +120,7 @@ export default function FormActions(
                 className="size-4 animate-spin"
                 aria-hidden="true"
               />
-
-              {labels.saving}
+              {t("saving")}
             </>
           ) : (
             <>
@@ -187,13 +128,14 @@ export default function FormActions(
                 className="size-4"
                 aria-hidden="true"
               />
-
-              {labels.draft}
+              {mode === "edit"
+                ? t("saveChanges")
+                : t("save")}
             </>
           )}
         </Button>
 
-        {/* Publish — edit mode only */}
+        {/* Publish — edit mode only, except categories */}
         {mode === "edit" && !isCategory && (
           <Button
             type="button"
@@ -212,8 +154,7 @@ export default function FormActions(
                   className="size-4 animate-spin"
                   aria-hidden="true"
                 />
-
-                {labels.publishing}
+                {t("publishing")}
               </>
             ) : (
               <>
@@ -221,8 +162,7 @@ export default function FormActions(
                   className="size-4"
                   aria-hidden="true"
                 />
-
-                {labels.publish}
+                {t("publishArticle")}
               </>
             )}
           </Button>
