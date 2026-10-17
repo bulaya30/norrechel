@@ -989,5 +989,40 @@
     "githubUrl": "Dépôt GitHub",
     "githubUrlHint": "Lien vers le dépôt GitHub du projet.",
     "githubUrlPlaceholder": "https://github.com/username/project"
+  },
+  "SubscriberPage": {
+    "SubscriberStats": {
+      "totalSubscribers": "Nombre total d’abonnés",
+      "active": "Actifs",
+      "unsubscribed": "Désabonnés"
+    },
+    "SubscriberFilters": {
+      "searchLabel": "Rechercher des abonnés",
+      "searchPlaceholder": "Rechercher des abonnés...",
+      "statusLabel": "Filtrer par statut d’abonnement",
+      "all": "Tous les abonnés",
+      "active": "Actifs",
+      "unsubscribed": "Désabonnés"
+    },
+    "SubscriberList": {
+      "emptyTitle": "Aucun abonné trouvé.",
+      "emptyDescription": "Essayez de modifier votre recherche ou le filtre de statut.",
+      "email": "E-mail",
+      "status": "Statut",
+      "subscribed": "Date d’abonnement",
+      "unsubscribed": "Date de désabonnement",
+      "actions": "Actions"
+    },
+    "SubscriberRow": {
+      "subscriberActions": "Actions de l’abonné",
+      "unsubscribe": "Désabonner",
+      "reactivate": "Réactiver",
+      "delete": "Supprimer",
+      "deleteTitle": "Supprimer cet abonné ?",
+      "unsubscribeTitle": "Désabonner cet abonné ?",
+      "deleteDescription": "L’abonné {email} sera définitivement supprimé. Cette action est irréversible.",
+      "unsubscribeDescription": "L’adresse {email} sera désabonnée et ne sera plus considérée comme un abonnement actif."
+    }
+
   }
 }

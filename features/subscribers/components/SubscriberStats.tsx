@@ -1,4 +1,8 @@
+"use client";
+
+import { useTranslations } from "next-intl";
 import { Users, UserCheck, UserX } from "lucide-react";
+import type { ReactNode } from "react";
 
 interface SubscriberStatsProps {
   total: number;
@@ -9,7 +13,7 @@ interface SubscriberStatsProps {
 interface StatCardProps {
   label: string;
   value: number;
-  icon: React.ReactNode;
+  icon: ReactNode;
 }
 
 function StatCard({ label, value, icon }: StatCardProps) {
@@ -22,11 +26,14 @@ function StatCard({ label, value, icon }: StatCardProps) {
           </p>
 
           <p className="mt-2 text-2xl font-semibold tracking-tight">
-            {value}
+            {value.toLocaleString()}
           </p>
         </div>
 
-        <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-muted">
+        <div
+          className="flex h-10 w-10 items-center justify-center rounded-lg bg-muted"
+          aria-hidden="true"
+        >
           {icon}
         </div>
       </div>
@@ -39,22 +46,24 @@ export default function SubscriberStats({
   active,
   unsubscribed,
 }: SubscriberStatsProps) {
+  const t = useTranslations("SubscriberPage.SubscriberStats");
+
   return (
     <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
       <StatCard
-        label="Total Subscribers"
+        label={t("totalSubscribers")}
         value={total}
         icon={<Users className="h-5 w-5" />}
       />
 
       <StatCard
-        label="Active"
+        label={t("active")}
         value={active}
         icon={<UserCheck className="h-5 w-5" />}
       />
 
       <StatCard
-        label="Unsubscribed"
+        label={t("unsubscribed")}
         value={unsubscribed}
         icon={<UserX className="h-5 w-5" />}
       />

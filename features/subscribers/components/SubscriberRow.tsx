@@ -1,12 +1,17 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { MoreHorizontal, RefreshCcw, Trash2, UserMinus } from "lucide-react";
+import { useTranslations } from "next-intl";
+import {
+  MoreHorizontal,
+  RefreshCcw,
+  Trash2,
+  UserMinus,
+} from "lucide-react";
 import { useRouter } from "next/navigation";
 
 import StatusBadge from "@/components/StatusBadge";
 import ConfirmDialog from "@/components/ConfirmDialog";
-
 import { readableDate } from "@/lib/dates/utils";
 
 import {
@@ -26,6 +31,7 @@ type DialogAction = "unsubscribe" | "delete" | null;
 export default function SubscriberRow({
   subscriber,
 }: SubscriberRowProps) {
+  const t = useTranslations("SubscriberRow");
   const router = useRouter();
 
   const [isPending, startTransition] = useTransition();
@@ -36,13 +42,13 @@ export default function SubscriberRow({
 
   const isActive = subscriber.active !== false;
 
-  const handleUnsubscribe = () => {
+  function handleUnsubscribe() {
     setError(null);
     setMenuOpen(false);
     setDialogAction("unsubscribe");
-  };
+  }
 
-  const handleReactivate = () => {
+  function handleReactivate() {
     if (!subscriber.id) return;
 
     setError(null);
@@ -50,7 +56,7 @@ export default function SubscriberRow({
 
     startTransition(async () => {
       const result = await reactivateSubscriberAction(
-        subscriber.id ?? null
+        subscriber.id ?? null,
       );
 
       if (!result.success) {
@@ -60,15 +66,15 @@ export default function SubscriberRow({
 
       router.refresh();
     });
-  };
+  }
 
-  const handleDelete = () => {
+  function handleDelete() {
     setError(null);
     setMenuOpen(false);
     setDialogAction("delete");
-  };
+  }
 
-  const handleConfirmAction = () => {
+  function handleConfirmAction() {
     if (!subscriber.id || !dialogAction) return;
 
     const action = dialogAction;
@@ -87,7 +93,7 @@ export default function SubscriberRow({
       setDialogAction(null);
       router.refresh();
     });
-  };
+  }
 
   return (
     <>
@@ -100,7 +106,10 @@ export default function SubscriberRow({
             </p>
 
             {error && (
-              <p className="mt-1 text-xs text-destructive">
+              <p
+                role="alert"
+                className="mt-1 text-xs text-destructive"
+              >
                 {error}
               </p>
             )}
@@ -114,12 +123,12 @@ export default function SubscriberRow({
           />
         </td>
 
-        {/* Subscribed */}
+        {/* Subscription date */}
         <td className="px-4 py-4 text-muted-foreground">
           {readableDate(subscriber.date)}
         </td>
 
-        {/* Unsubscribed */}
+        {/* Unsubscription date */}
         <td className="px-4 py-4 text-muted-foreground">
           {readableDate(subscriber.unsubscribedAt)}
         </td>
@@ -132,12 +141,19 @@ export default function SubscriberRow({
               onClick={() => setMenuOpen((previous) => !previous)}
               disabled={isPending}
               className="inline-flex h-9 w-9 items-center justify-center rounded-md border bg-background transition hover:bg-muted disabled:cursor-not-allowed disabled:opacity-50"
-              aria-label="Subscriber actions"
+              aria-label={t("subscriberActions")}
+              aria-expanded={menuOpen}
             >
               {isPending ? (
-                <RefreshCcw className="h-4 w-4 animate-spin" />
+                <RefreshCcw
+                  className="h-4 w-4 animate-spin"
+                  aria-hidden="true"
+                />
               ) : (
-                <MoreHorizontal className="h-4 w-4" />
+                <MoreHorizontal
+                  className="h-4 w-4"
+                  aria-hidden="true"
+                />
               )}
             </button>
 
@@ -150,8 +166,11 @@ export default function SubscriberRow({
                     disabled={isPending}
                     className="flex w-full items-center gap-2 rounded-sm px-3 py-2 text-sm hover:bg-muted disabled:opacity-50"
                   >
-                    <UserMinus className="h-4 w-4" />
-                    Unsubscribe
+                    <UserMinus
+                      className="h-4 w-4"
+                      aria-hidden="true"
+                    />
+                    {t("unsubscribe")}
                   </button>
                 ) : (
                   <button
@@ -160,8 +179,11 @@ export default function SubscriberRow({
                     disabled={isPending}
                     className="flex w-full items-center gap-2 rounded-sm px-3 py-2 text-sm hover:bg-muted disabled:opacity-50"
                   >
-                    <RefreshCcw className="h-4 w-4" />
-                    Reactivate
+                    <RefreshCcw
+                      className="h-4 w-4"
+                      aria-hidden="true"
+                    />
+                    {t("reactivate")}
                   </button>
                 )}
 
@@ -171,8 +193,11 @@ export default function SubscriberRow({
                   disabled={isPending}
                   className="flex w-full items-center gap-2 rounded-sm px-3 py-2 text-sm text-destructive hover:bg-muted disabled:opacity-50"
                 >
-                  <Trash2 className="h-4 w-4" />
-                  Delete
+                  <Trash2
+                    className="h-4 w-4"
+                    aria-hidden="true"
+                  />
+                  {t("delete")}
                 </button>
               </div>
             )}
@@ -189,18 +214,22 @@ export default function SubscriberRow({
         }}
         title={
           dialogAction === "delete"
-            ? "Delete subscriber?"
-            : "Unsubscribe subscriber?"
+            ? t("deleteTitle")
+            : t("unsubscribeTitle")
         }
         description={
           dialogAction === "delete"
-            ? `This will permanently delete ${subscriber.email}. This action cannot be undone.`
-            : `${subscriber.email} will be unsubscribed and will no longer be considered an active subscriber.`
+            ? t("deleteDescription", {
+                email: subscriber.email,
+              })
+            : t("unsubscribeDescription", {
+                email: subscriber.email,
+              })
         }
         confirmLabel={
           dialogAction === "delete"
-            ? "Delete"
-            : "Unsubscribe"
+            ? t("delete")
+            : t("unsubscribe")
         }
         destructive={dialogAction === "delete"}
         loading={isPending}

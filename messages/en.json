@@ -977,5 +977,39 @@
     "githubUrl": "GitHub repository",
     "githubUrlHint": "Link to the project's GitHub repository.",
     "githubUrlPlaceholder": "https://github.com/username/project"
+  },
+  "SubscriberPage": {
+    "SubscriberStats": {
+      "totalSubscribers": "Total subscribers",
+      "active": "Active",
+      "unsubscribed": "Unsubscribed"
+    },
+    "SubscriberFilters": {
+      "searchLabel": "Search subscribers",
+      "searchPlaceholder": "Search subscribers...",
+      "statusLabel": "Filter by subscription status",
+      "all": "All subscribers",
+      "active": "Active",
+      "unsubscribed": "Unsubscribed"
+    },
+    "SubscriberList": {
+      "emptyTitle": "No subscribers found.",
+      "emptyDescription": "Try adjusting your search or status filter.",
+      "email": "Email",
+      "status": "Status",
+      "subscribed": "Subscribed",
+      "unsubscribed": "Unsubscribed",
+      "actions": "Actions"
+    },
+    "SubscriberRow": {
+      "subscriberActions": "Subscriber actions",
+      "unsubscribe": "Unsubscribe",
+      "reactivate": "Reactivate",
+      "delete": "Delete",
+      "deleteTitle": "Delete subscriber?",
+      "unsubscribeTitle": "Unsubscribe subscriber?",
+      "deleteDescription": "This will permanently delete {email}. This action cannot be undone.",
+      "unsubscribeDescription": "{email} will be unsubscribed and will no longer be considered an active subscriber."
+    }
   }
 }
