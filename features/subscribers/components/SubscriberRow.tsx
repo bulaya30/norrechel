@@ -31,7 +31,7 @@ type DialogAction = "unsubscribe" | "delete" | null;
 export default function SubscriberRow({
   subscriber,
 }: SubscriberRowProps) {
-  const t = useTranslations("SubscriberRow");
+  const t = useTranslations("SubscriberPage.SubscriberRow");
   const router = useRouter();
 
   const [isPending, startTransition] = useTransition();

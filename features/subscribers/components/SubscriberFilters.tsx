@@ -18,7 +18,7 @@ export default function SubscriberFilters({
   onSearchChange,
   onStatusChange,
 }: SubscriberFiltersProps) {
-  const t = useTranslations("Subscriber.SubscriberFilters");
+  const t = useTranslations("SubscriberPage.SubscriberFilters");
 
   return (
     <div className="flex flex-col gap-4 rounded-xl border bg-card p-4 sm:flex-row sm:items-center sm:justify-between">
