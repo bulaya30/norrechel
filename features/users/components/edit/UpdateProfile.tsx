@@ -1,11 +1,8 @@
 "use client";
 
-import {
-  useEffect,
-  useTransition,
-} from "react";
-
+import { useEffect, useTransition } from "react";
 import { useForm } from "react-hook-form";
+import { useTranslations } from "next-intl";
 
 import {
   AtSign,
@@ -26,16 +23,13 @@ import {
 } from "react-icons/fa";
 
 import type { User } from "@/features/interfaces/user";
+import type { SupportedLocale } from "@/lib/dates/localizedValue";
 
-import {
-  updateProfileAction,
-} from "@/features/users/actions/user.actions";
+import { updateProfileAction } from "@/features/users/actions/user.actions";
 
 import ProfileFormField from "./ProfileFormField";
 import ProfileFormSection from "./ProfileFormSection";
 import ProfilePhotoField from "./ProfilePhotoField";
-
-type SupportedLocale = "en" | "fr";
 
 interface UpdateProfileProps {
   user: User;
@@ -50,9 +44,7 @@ interface ProfileFormValues {
   company: string;
   address: string;
   about: string;
-
   photo: File | null;
-
   facebook: string;
   linkedin: string;
   twitter: string;
@@ -66,9 +58,7 @@ const inputClassName =
 const textareaClassName =
   "min-h-36 w-full resize-y rounded-xl border bg-background px-3.5 py-3 text-sm leading-6 outline-none transition placeholder:text-muted-foreground focus:border-primary/50 focus:ring-2 focus:ring-primary/10";
 
-function getDefaultValues(
-  user: User
-): ProfileFormValues {
+function getDefaultValues(user: User): ProfileFormValues {
   return {
     firstName: user.firstName ?? "",
     lastName: user.lastName ?? "",
@@ -77,9 +67,7 @@ function getDefaultValues(
     company: user.company ?? "",
     address: user.address ?? "",
     about: user.about ?? "",
-
     photo: null,
-
     facebook: user.facebook ?? "",
     linkedin: user.linkedin ?? "",
     twitter: user.twitter ?? "",
@@ -92,8 +80,8 @@ export default function UpdateProfile({
   user,
   locale,
 }: UpdateProfileProps) {
-  const [isPending, startTransition] =
-    useTransition();
+  const t = useTranslations("UpdateProfile");
+  const [isPending, startTransition] = useTransition();
 
   const {
     register,
@@ -103,8 +91,7 @@ export default function UpdateProfile({
     watch,
     formState: { errors },
   } = useForm<ProfileFormValues>({
-    defaultValues:
-      getDefaultValues(user),
+    defaultValues: getDefaultValues(user),
   });
 
   const selectedPhoto = watch("photo");
@@ -113,99 +100,85 @@ export default function UpdateProfile({
     reset(getDefaultValues(user));
   }, [user, reset]);
 
-  const onSubmit = (
-    values: ProfileFormValues
-  ) => {
+  const onSubmit = (values: ProfileFormValues) => {
     startTransition(async () => {
-      const result =
-        await updateProfileAction(values);
-
-      if (!result.success) {
-        window.alert(result.message);
-        return;
-      }
+      const result = await updateProfileAction(values);
 
       window.alert(result.message);
+
+      if (!result.success) return;
     });
   };
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="space-y-6"
-    >
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       {/* Personal Information */}
       <ProfileFormSection
-        title="Personal Information"
-        description="Update your basic personal information."
+        title={t("personal.title")}
+        description={t("personal.description")}
       >
         <div className="grid gap-5 sm:grid-cols-2">
           <ProfileFormField
-            label="First Name"
+            label={t("fields.firstName")}
             error={errors.firstName?.message}
           >
             <div className="relative">
               <UserRound className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-
               <input
                 {...register("firstName", {
-                  required:
-                    "First name is required.",
+                  required: t("validation.firstNameRequired"),
                 })}
                 className={`${inputClassName} pl-10`}
-                placeholder="First name"
+                placeholder={t("placeholders.firstName")}
               />
             </div>
           </ProfileFormField>
 
           <ProfileFormField
-            label="Last Name"
+            label={t("fields.lastName")}
             error={errors.lastName?.message}
           >
             <div className="relative">
               <UserRound className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-
               <input
                 {...register("lastName", {
-                  required:
-                    "Last name is required.",
+                  required: t("validation.lastNameRequired"),
                 })}
                 className={`${inputClassName} pl-10`}
-                placeholder="Last name"
+                placeholder={t("placeholders.lastName")}
               />
             </div>
           </ProfileFormField>
 
           <ProfileFormField
-            label="Email"
-            hint="Your email is managed by your account."
+            label={t("fields.email")}
+            hint={t("hints.email")}
           >
             <div className="relative">
               <AtSign className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-
               <input
+                type="email"
                 value={user.email}
                 disabled
+                readOnly
                 className={`${inputClassName} pl-10`}
               />
             </div>
           </ProfileFormField>
 
           <ProfileFormField
-            label="Role"
-            hint="Your account role cannot be changed here."
+            label={t("fields.role")}
+            hint={t("hints.role")}
           >
             <div className="relative">
               <UserRound className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-
               <input
                 value={
-                  user.role
-                    .charAt(0)
-                    .toUpperCase() +
+                  user.role.charAt(0).toUpperCase() +
                   user.role.slice(1)
                 }
                 disabled
+                readOnly
                 className={`${inputClassName} pl-10`}
               />
             </div>
@@ -215,54 +188,51 @@ export default function UpdateProfile({
 
       {/* Professional Information */}
       <ProfileFormSection
-        title="Professional Information"
-        description="Tell people what you do and where you work."
+        title={t("professional.title")}
+        description={t("professional.description")}
       >
         <div className="grid gap-5 sm:grid-cols-2">
-          <ProfileFormField label="Professional Title">
+          <ProfileFormField label={t("fields.professionalTitle")}>
             <div className="relative">
               <BriefcaseBusiness className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-
               <input
                 {...register("title")}
                 className={`${inputClassName} pl-10`}
-                placeholder="e.g. Full Stack Developer"
+                placeholder={t("placeholders.professionalTitle")}
               />
             </div>
           </ProfileFormField>
 
-          <ProfileFormField label="Company">
+          <ProfileFormField label={t("fields.company")}>
             <div className="relative">
               <Building2 className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-
               <input
                 {...register("company")}
                 className={`${inputClassName} pl-10`}
-                placeholder="Company name"
+                placeholder={t("placeholders.company")}
               />
             </div>
           </ProfileFormField>
 
-          <ProfileFormField label="Phone">
+          <ProfileFormField label={t("fields.phone")}>
             <div className="relative">
               <Phone className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-
               <input
+                type="tel"
                 {...register("contact")}
                 className={`${inputClassName} pl-10`}
-                placeholder="Phone number"
+                placeholder={t("placeholders.phone")}
               />
             </div>
           </ProfileFormField>
 
-          <ProfileFormField label="Address">
+          <ProfileFormField label={t("fields.address")}>
             <div className="relative">
               <MapPin className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-
               <input
                 {...register("address")}
                 className={`${inputClassName} pl-10`}
-                placeholder="Your address"
+                placeholder={t("placeholders.address")}
               />
             </div>
           </ProfileFormField>
@@ -271,14 +241,14 @@ export default function UpdateProfile({
 
       {/* About */}
       <ProfileFormSection
-        title="About"
-        description="Write a short introduction that describes who you are."
+        title={t("about.title")}
+        description={t("about.description")}
       >
-        <ProfileFormField label="About Me">
+        <ProfileFormField label={t("fields.aboutMe")}>
           <textarea
             {...register("about")}
             rows={6}
-            placeholder="Write something about yourself..."
+            placeholder={t("placeholders.about")}
             className={textareaClassName}
           />
         </ProfileFormField>
@@ -286,22 +256,18 @@ export default function UpdateProfile({
 
       {/* Profile Photo */}
       <ProfileFormSection
-        title="Profile Photo"
-        description="Choose a profile photo that represents you."
+        title={t("photo.title")}
+        description={t("photo.description")}
       >
         <ProfilePhotoField
           locale={locale}
           value={selectedPhoto}
           existingImageUrl={user.photo}
           onChange={(file) => {
-            setValue(
-              "photo",
-              file,
-              {
-                shouldDirty: true,
-                shouldValidate: true,
-              }
-            );
+            setValue("photo", file, {
+              shouldDirty: true,
+              shouldValidate: true,
+            });
           }}
           error={errors.photo?.message}
         />
@@ -309,16 +275,16 @@ export default function UpdateProfile({
 
       {/* Social Profiles */}
       <ProfileFormSection
-        title="Social Profiles"
-        description="Connect your public social and professional profiles."
+        title={t("social.title")}
+        description={t("social.description")}
       >
         <div className="grid gap-5 sm:grid-cols-2">
           <ProfileFormField label="LinkedIn">
             <div className="relative">
               <FaLinkedin className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-
               <input
                 {...register("linkedin")}
+                type="url"
                 placeholder="https://linkedin.com/in/..."
                 className={`${inputClassName} pl-10`}
               />
@@ -328,9 +294,9 @@ export default function UpdateProfile({
           <ProfileFormField label="GitHub">
             <div className="relative">
               <FaGithub className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-
               <input
                 {...register("github")}
+                type="url"
                 placeholder="https://github.com/..."
                 className={`${inputClassName} pl-10`}
               />
@@ -340,9 +306,9 @@ export default function UpdateProfile({
           <ProfileFormField label="Twitter">
             <div className="relative">
               <AtSign className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-
               <input
                 {...register("twitter")}
+                type="url"
                 placeholder="https://twitter.com/..."
                 className={`${inputClassName} pl-10`}
               />
@@ -352,9 +318,9 @@ export default function UpdateProfile({
           <ProfileFormField label="Facebook">
             <div className="relative">
               <FaFacebook className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-
               <input
                 {...register("facebook")}
+                type="url"
                 placeholder="https://facebook.com/..."
                 className={`${inputClassName} pl-10`}
               />
@@ -364,9 +330,9 @@ export default function UpdateProfile({
           <ProfileFormField label="Instagram">
             <div className="relative">
               <FaInstagram className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-
               <input
                 {...register("instagram")}
+                type="url"
                 placeholder="https://instagram.com/..."
                 className={`${inputClassName} pl-10`}
               />
@@ -386,12 +352,12 @@ export default function UpdateProfile({
             {isPending ? (
               <>
                 <Loader2 className="h-4 w-4 animate-spin" />
-                Saving...
+                {t("actions.saving")}
               </>
             ) : (
               <>
                 <Save className="h-4 w-4" />
-                Save Changes
+                {t("actions.saveChanges")}
               </>
             )}
           </button>

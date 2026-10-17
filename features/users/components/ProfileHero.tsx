@@ -1,5 +1,8 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 
 import {
   Building2,
@@ -19,8 +22,7 @@ import {
 import StatusBadge from "@/components/StatusBadge";
 
 import type { User } from "@/features/interfaces/user";
-
-type SupportedLocale = "en" | "fr";
+import type { SupportedLocale } from "@/lib/dates/localizedValue";
 
 interface ProfileHeroProps {
   user: User;
@@ -31,12 +33,11 @@ export default function ProfileHero({
   user,
   locale,
 }: ProfileHeroProps) {
-  const fullName =
-    `${user.firstName} ${user.lastName}`.trim();
+  const t = useTranslations("ProfileHero");
 
-  const initials =
-    `${user.firstName?.charAt(0) ?? ""}${user.lastName?.charAt(0) ?? ""}`
-      .toUpperCase();
+  const fullName = `${user.firstName} ${user.lastName}`.trim();
+
+  const initials = `${user.firstName?.charAt(0) ?? ""}${user.lastName?.charAt(0) ?? ""}`.toUpperCase();
 
   const socialLinks = [
     {
@@ -72,51 +73,41 @@ export default function ProfileHero({
 
   return (
     <section className="relative overflow-hidden rounded-md border bg-card shadow-sm">
-      {/* =========================================================
-          Cover image
-          ========================================================= */}
+      {/* Cover image */}
       <div
         className="relative h-58 overflow-hidden bg-cover bg-center bg-no-repeat sm:h-56"
         style={{
           backgroundImage: "url('/img/cover.png')",
         }}
       >
-        {/* Dark overlay */}
         <div
           aria-hidden="true"
           className="absolute inset-0 bg-black/40"
         />
 
-        {/* Primary color overlay */}
         <div
           aria-hidden="true"
           className="absolute inset-0 bg-primary"
-          style={{
-            opacity: 0.25,
-          }}
+          style={{ opacity: 0.25 }}
         />
 
         {/* Edit button */}
         <div className="absolute right-5 top-5 z-20">
-          <p
-            className="text-bold text-sm text-white mb-24"
-          >
-            "Build. Learn. Share. <br />
-            Make an impact."
+          <p className="mb-24 text-sm font-bold text-white">
+            {t("coverQuote")}
           </p>
+
           <Link
             href={editHref}
             className="inline-flex items-center gap-2 rounded-lg border border-white/20 bg-white/95 px-4 py-2.5 text-sm font-medium text-foreground shadow-sm backdrop-blur transition hover:bg-white"
           >
-            <Pencil className="h-4 w-4" />
-            Edit Profile
+            <Pencil className="h-4 w-4" aria-hidden="true" />
+            {t("editProfile")}
           </Link>
         </div>
       </div>
 
-      {/* =========================================================
-          User information
-          ========================================================= */}
+      {/* User information */}
       <div className="relative bg-muted/10 pb-6 pt-20 sm:px-7 sm:pt-20">
         {/* Profile photo */}
         <div className="absolute left-5 top-0 z-20 -translate-y-1/2 sm:left-7">
@@ -124,7 +115,7 @@ export default function ProfileHero({
             {user.photo ? (
               <Image
                 src={user.photo}
-                alt={`${fullName} profile photo`}
+                alt={t("profilePhotoAlt", { name: fullName })}
                 fill
                 sizes="(max-width: 640px) 128px, 144px"
                 className="object-contain"
@@ -138,16 +129,16 @@ export default function ProfileHero({
             {/* Change photo */}
             <Link
               href={editHref}
-              aria-label="Change profile photo"
+              aria-label={t("changeProfilePhoto")}
               className="absolute bottom-1 right-3 z-10 flex h-9 w-9 items-center justify-center rounded-full border-2 border-white bg-background shadow-md transition hover:bg-muted"
             >
-              <Camera className="h-4 w-4" />
+              <Camera className="h-4 w-4" aria-hidden="true" />
             </Link>
           </div>
         </div>
 
         {/* Main information */}
-        <div className="flex flex-col gap-5 items-left justify-left">
+        <div className="flex flex-col items-start justify-start gap-5">
           <div className="min-w-0 pl-0 sm:pl-44">
             <div className="flex flex-wrap items-center gap-3">
               <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">
@@ -155,11 +146,7 @@ export default function ProfileHero({
               </h1>
 
               <StatusBadge
-                status={
-                  user.active === false
-                    ? "inactive"
-                    : "active"
-                }
+                status={user.active === false ? "inactive" : "active"}
               />
             </div>
 
@@ -172,14 +159,14 @@ export default function ProfileHero({
             <div className="mt-3 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-muted-foreground">
               {user.company && (
                 <div className="flex items-center gap-2">
-                  <Building2 className="h-4 w-4" />
+                  <Building2 className="h-4 w-4" aria-hidden="true" />
                   <span>{user.company}</span>
                 </div>
               )}
 
               {user.address && (
                 <div className="flex items-center gap-2">
-                  <MapPin className="h-4 w-4" />
+                  <MapPin className="h-4 w-4" aria-hidden="true" />
                   <span>{user.address}</span>
                 </div>
               )}
@@ -188,25 +175,19 @@ export default function ProfileHero({
 
           {/* Social links */}
           {socialLinks.length > 0 && (
-            <div className="flex mx-45 gap-2">
-              {socialLinks.map(
-                ({
-                  href,
-                  label,
-                  icon: Icon,
-                }) => (
-                  <a
-                    key={label}
-                    href={href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={label}
-                    className="flex h-9 w-9 items-center justify-center rounded-lg border border-blue/70 bg-background text-blue-800 transition hover:-translate-y-0.5 hover:border-blue-600 hover:text-blue-600"
-                  >
-                    <Icon className="h-4 w-4" />
-                  </a>
-                )
-              )}
+            <div className="flex flex-wrap gap-2 sm:ml-44">
+              {socialLinks.map(({ href, label, icon: Icon }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={t("socialLinkLabel", { platform: label })}
+                  className="flex h-9 w-9 items-center justify-center rounded-lg border border-blue-200 bg-background text-blue-800 transition hover:-translate-y-0.5 hover:border-blue-600 hover:text-blue-600"
+                >
+                  <Icon className="h-4 w-4" aria-hidden="true" />
+                </a>
+              ))}
             </div>
           )}
         </div>

@@ -1,3 +1,8 @@
+"use client";
+
+import { useTranslations } from "next-intl";
+import type { ComponentType } from "react";
+
 import {
   ExternalLink,
   Share2,
@@ -20,7 +25,7 @@ interface ProfileSocialCardProps {
 interface SocialLinkProps {
   href?: string;
   label: string;
-  icon: React.ComponentType<{ className?: string }>;
+  icon: ComponentType<{ className?: string }>;
 }
 
 function SocialLink({
@@ -37,23 +42,25 @@ function SocialLink({
       href={href}
       target="_blank"
       rel="noopener noreferrer"
+      aria-label={`${label}: ${href}`}
       className="group flex min-w-0 items-center gap-3 rounded-xl border bg-background/50 p-3 transition-all hover:-translate-y-0.5 hover:border-primary/30 hover:bg-muted/40"
     >
       <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-muted text-muted-foreground transition-colors group-hover:bg-primary/10 group-hover:text-primary">
-        <Icon className="h-5 w-5" />
+        <Icon className="h-5 w-5" aria-hidden="true" />
       </div>
 
       <div className="min-w-0 flex-1">
-        <p className="text-sm font-medium">
-          {label}
-        </p>
+        <p className="text-sm font-medium">{label}</p>
 
         <p className="mt-0.5 truncate text-xs text-muted-foreground">
           {href}
         </p>
       </div>
 
-      <ExternalLink className="h-4 w-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:text-primary" />
+      <ExternalLink
+        className="h-4 w-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:text-primary"
+        aria-hidden="true"
+      />
     </a>
   );
 }
@@ -61,6 +68,8 @@ function SocialLink({
 export default function ProfileSocialCard({
   user,
 }: ProfileSocialCardProps) {
+  const t = useTranslations("ProfileSocialCard");
+
   const socialLinks = [
     {
       href: user.linkedin,
@@ -90,23 +99,23 @@ export default function ProfileSocialCard({
   ];
 
   const hasSocialLinks = socialLinks.some(
-    (social) => social.href
+    (social) => social.href,
   );
 
   return (
     <section className="rounded-2xl border bg-card p-6 shadow-sm">
       <div className="flex items-start gap-3">
         <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
-          <Share2 className="h-5 w-5" />
+          <Share2 className="h-5 w-5" aria-hidden="true" />
         </div>
 
         <div>
           <h2 className="text-base font-semibold tracking-tight">
-            Social Profiles
+            {t("title")}
           </h2>
 
           <p className="mt-1 text-sm text-muted-foreground">
-            Your public social and professional profiles.
+            {t("description")}
           </p>
         </div>
       </div>
@@ -125,7 +134,7 @@ export default function ProfileSocialCard({
       ) : (
         <div className="mt-6 rounded-xl border border-dashed bg-muted/20 px-5 py-8 text-center">
           <p className="text-sm text-muted-foreground">
-            No social profiles have been added yet.
+            {t("emptyDescription")}
           </p>
         </div>
       )}

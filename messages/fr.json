@@ -728,5 +728,120 @@
     "unreadCount": "{count, plural, =0 {Aucune notification non lue} =1 {# notification non lue} other {# notifications non lues}}",
     "recentActivity": "Activité récente",
     "filterLabel": "Filtrer les notifications"
+  },
+  "ProfileManager": {
+    "title": "Profil",
+    "description": "Gérez vos informations personnelles et votre profil public."
+  },
+  "ProfileAboutCard": {
+    "title": "À propos de moi",
+    "subtitle": "Une brève présentation de vous-même.",
+    "emptyDescription": "Aucune information n’a encore été ajoutée à votre profil."
+  },
+  "ProfileAccountCard": {
+    "title": "Informations du compte",
+    "description": "Informations sur le statut et les accès de votre compte.",
+    "role": "Rôle",
+    "status": "Statut",
+    "created": "Créé le",
+    "lastUpdated": "Dernière mise à jour"
+  },
+  "ProfileContactCard": {
+    "title": "Coordonnées",
+    "description": "Vos principales coordonnées.",
+    "email": "E-mail",
+    "phone": "Téléphone",
+    "address": "Adresse"
+  },
+  "ProfileHero": {
+    "coverQuote": "Construisez. Apprenez. Partagez.\nFaites la différence.",
+    "editProfile": "Modifier le profil",
+    "profilePhotoAlt": "Photo de profil de {name}",
+    "changeProfilePhoto": "Modifier la photo de profil",
+    "socialLinkLabel": "Consulter le profil {platform}"
+  },
+  "ProfileProfessionalCard": {
+    "title": "Informations professionnelles",
+    "description": "Votre identité professionnelle et les informations relatives à votre lieu de travail.",
+    "fullName": "Nom complet",
+    "jobTitle": "Fonction",
+    "company": "Entreprise",
+    "address": "Adresse"
+  },
+  "ProfileSocialCard": {
+    "title": "Profils sociaux",
+    "description": "Vos profils publics sur les réseaux sociaux et professionnels.",
+    "emptyDescription": "Aucun profil social n’a encore été ajouté."
+  },
+  "ProfileEditPage": {
+    "title": "Modifier le profil",
+    "description": "Mettez à jour vos informations personnelles et professionnelles.",
+    "backToProfile": "Retour au profil"
+  },
+  "ProfilePhotoField": {
+    "choose": "Choisir une photo de profil",
+    "replace": "Remplacer la photo",
+    "remove": "Supprimer la photo",
+    "current": "Photo de profil actuelle",
+    "hint": "Ajoutez une photo de profil pour personnaliser votre compte.",
+    "formats": "PNG, JPG ou WEBP. Taille maximale : 5 Mo.",
+    "previewAlt": "Aperçu de la photo de profil",
+    "invalidType": "Veuillez sélectionner une image PNG, JPG ou WEBP.",
+    "tooLarge": "L’image ne doit pas dépasser 5 Mo.",
+    "fileSize": "{size} Mo"
+  },
+  "UpdateProfile": {
+    "personal": {
+      "title": "Informations personnelles",
+      "description": "Mettez à jour vos informations personnelles de base."
+    },
+    "professional": {
+      "title": "Informations professionnelles",
+      "description": "Présentez votre activité et votre lieu de travail."
+    },
+    "fields": {
+      "firstName": "Prénom",
+      "lastName": "Nom",
+      "email": "E-mail",
+      "role": "Rôle",
+      "professionalTitle": "Fonction professionnelle",
+      "company": "Entreprise",
+      "phone": "Téléphone",
+      "address": "Adresse",
+      "aboutMe": "À propos de moi"
+    },
+    "hints": {
+      "email": "Votre adresse e-mail est gérée par votre compte.",
+      "role": "Le rôle de votre compte ne peut pas être modifié ici."
+    },
+    "placeholders": {
+      "firstName": "Votre prénom",
+      "lastName": "Votre nom",
+      "professionalTitle": "Ex. Développeur Full Stack",
+      "company": "Nom de l'entreprise",
+      "phone": "Numéro de téléphone",
+      "address": "Votre adresse",
+      "about": "Écrivez quelques mots à votre sujet..."
+    },
+    "validation": {
+      "firstNameRequired": "Le prénom est obligatoire.",
+      "lastNameRequired": "Le nom est obligatoire."
+    },
+    "about": {
+      "title": "À propos",
+      "description": "Rédigez une courte présentation de vous-même."
+    },
+    "photo": {
+      "title": "Photo de profil",
+      "description": "Choisissez une photo de profil qui vous représente."
+    },
+    "social": {
+      "title": "Profils sociaux",
+      "description": "Ajoutez vos profils publics et professionnels."
+    },
+    "actions": {
+      "saving": "Enregistrement...",
+      "saveChanges": "Enregistrer les modifications"
+    }
   }
 }

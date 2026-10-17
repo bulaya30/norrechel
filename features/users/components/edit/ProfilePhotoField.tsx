@@ -2,10 +2,12 @@
 
 import Image from "next/image";
 import { type ChangeEvent, useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 import { ImageIcon, Upload, Trash2 } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 
-type SupportedLocale = "en" | "fr";
+import type { SupportedLocale } from "@/lib/dates/localizedValue";
 
 interface ProfilePhotoFieldProps {
   locale: SupportedLocale;
@@ -22,33 +24,10 @@ export default function ProfilePhotoField({
   onChange,
   error,
 }: ProfilePhotoFieldProps) {
+  const t = useTranslations("ProfilePhotoField");
+
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [fileError, setFileError] = useState<string | null>(null);
-
-  const labels =
-    locale === "fr"
-      ? {
-          choose: "Choisir une photo",
-          replace: "Remplacer la photo",
-          remove: "Supprimer la photo",
-          current: "Photo actuelle",
-          hint: "Ajoutez une photo de profil pour personnaliser votre compte.",
-          formats: "PNG, JPG ou WEBP. Taille maximale : 5 MB.",
-          alt: "Aperçu de la photo de profil",
-          invalidType: "Veuillez sélectionner une image PNG, JPG ou WEBP.",
-          tooLarge: "L’image ne doit pas dépasser 5 MB.",
-        }
-      : {
-          choose: "Choose profile photo",
-          replace: "Replace photo",
-          remove: "Remove photo",
-          current: "Current profile photo",
-          hint: "Add a profile photo to personalize your account.",
-          formats: "PNG, JPG or WEBP. Maximum size: 5 MB.",
-          alt: "Profile photo preview",
-          invalidType: "Please select a PNG, JPG or WEBP image.",
-          tooLarge: "The image must not exceed 5 MB.",
-        };
 
   useEffect(() => {
     if (!value) {
@@ -80,7 +59,7 @@ export default function ProfilePhotoField({
     ];
 
     if (!allowedTypes.includes(file.type)) {
-      setFileError(labels.invalidType);
+      setFileError(t("invalidType"));
       event.target.value = "";
       return;
     }
@@ -88,7 +67,7 @@ export default function ProfilePhotoField({
     const maxSize = 5 * 1024 * 1024;
 
     if (file.size > maxSize) {
-      setFileError(labels.tooLarge);
+      setFileError(t("tooLarge"));
       event.target.value = "";
       return;
     }
@@ -110,9 +89,10 @@ export default function ProfilePhotoField({
             <div className="relative aspect-square w-full max-w-[240px] overflow-hidden rounded-full border-4 border-white bg-slate-100 shadow-sm">
               <Image
                 src={displayedImage}
-                alt={labels.alt}
+                alt={t("previewAlt")}
                 fill
                 unoptimized={previewUrl !== null}
+                sizes="240px"
                 className="object-cover"
               />
             </div>
@@ -127,12 +107,14 @@ export default function ProfilePhotoField({
                   </p>
 
                   <p className="mt-1 text-xs text-slate-500">
-                    {(value.size / 1024 / 1024).toFixed(2)} MB
+                    {t("fileSize", {
+                      size: (value.size / 1024 / 1024).toFixed(2),
+                    })}
                   </p>
                 </>
               ) : (
                 <p className="text-sm font-semibold text-slate-700">
-                  {labels.current}
+                  {t("current")}
                 </p>
               )}
             </div>
@@ -141,8 +123,7 @@ export default function ProfilePhotoField({
               <Button asChild type="button" variant="outline" size="sm">
                 <label className="cursor-pointer">
                   <Upload className="size-4" aria-hidden="true" />
-
-                  {labels.replace}
+                  {t("replace")}
 
                   <input
                     type="file"
@@ -162,7 +143,7 @@ export default function ProfilePhotoField({
                   className="border-red-200 text-red-700 hover:bg-red-50 hover:text-red-800"
                 >
                   <Trash2 className="size-4" aria-hidden="true" />
-                  {labels.remove}
+                  {t("remove")}
                 </Button>
               )}
             </div>
@@ -175,15 +156,15 @@ export default function ProfilePhotoField({
           </div>
 
           <p className="mt-4 text-sm font-semibold text-slate-900">
-            {labels.choose}
+            {t("choose")}
           </p>
 
           <p className="mt-2 max-w-sm text-xs leading-5 text-slate-500">
-            {labels.hint}
+            {t("hint")}
           </p>
 
           <p className="mt-1 text-xs leading-5 text-slate-400">
-            {labels.formats}
+            {t("formats")}
           </p>
 
           <input

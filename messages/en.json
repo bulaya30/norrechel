@@ -716,6 +716,121 @@
       "unreadCount": "{count, plural, =0 {No unread notifications} =1 {# unread notification} other {# unread notifications}}",
       "recentActivity": "Recent activity",
       "filterLabel": "Filter notifications"
+    },
+    "ProfileManager": {
+      "title": "Profile",
+      "description": "Manage your personal information and public profile."
+    },
+    "ProfileAboutCard": {
+      "title": "About Me",
+      "subtitle": "A brief introduction about you.",
+      "emptyDescription": "No information has been added to your profile yet."
+    },
+    "ProfileAccountCard": {
+      "title": "Account Information",
+      "description": "Your account status and access information.",
+      "role": "Role",
+      "status": "Status",
+      "created": "Created",
+      "lastUpdated": "Last Updated"
+    },
+    "ProfileContactCard": {
+      "title": "Contact Information",
+      "description": "Your primary contact details.",
+      "email": "Email",
+      "phone": "Phone",
+      "address": "Address"
+    },
+    "ProfileHero": {
+      "coverQuote": "Build. Learn. Share.\nMake an impact.",
+      "editProfile": "Edit Profile",
+      "profilePhotoAlt": "{name}'s profile photo",
+      "changeProfilePhoto": "Change profile photo",
+      "socialLinkLabel": "Visit {platform} profile"
+    },
+    "ProfileProfessionalCard": {
+      "title": "Professional Information",
+      "description": "Your professional identity and workplace details.",
+      "fullName": "Full Name",
+      "jobTitle": "Title",
+      "company": "Company",
+      "address": "Address"
+    },
+    "ProfileSocialCard": {
+      "title": "Social Profiles",
+      "description": "Your public social and professional profiles.",
+      "emptyDescription": "No social profiles have been added yet."
+    },
+    "ProfileEditPage": {
+      "title": "Edit Profile",
+      "description": "Update your personal and professional information.",
+      "backToProfile": "Back to Profile"
+    },
+    "ProfilePhotoField": {
+      "choose": "Choose profile photo",
+      "replace": "Replace photo",
+      "remove": "Remove photo",
+      "current": "Current profile photo",
+      "hint": "Add a profile photo to personalize your account.",
+      "formats": "PNG, JPG or WEBP. Maximum size: 5 MB.",
+      "previewAlt": "Profile photo preview",
+      "invalidType": "Please select a PNG, JPG or WEBP image.",
+      "tooLarge": "The image must not exceed 5 MB.",
+      "fileSize": "{size} MB"
+    },
+    "UpdateProfile": {
+      "personal": {
+        "title": "Personal Information",
+        "description": "Update your basic personal information."
+      },
+      "professional": {
+        "title": "Professional Information",
+        "description": "Tell people what you do and where you work."
+      },
+      "fields": {
+        "firstName": "First Name",
+        "lastName": "Last Name",
+        "email": "Email",
+        "role": "Role",
+        "professionalTitle": "Professional Title",
+        "company": "Company",
+        "phone": "Phone",
+        "address": "Address",
+        "aboutMe": "About Me"
+      },
+      "hints": {
+        "email": "Your email is managed by your account.",
+        "role": "Your account role cannot be changed here."
+      },
+      "placeholders": {
+        "firstName": "First name",
+        "lastName": "Last name",
+        "professionalTitle": "e.g. Full Stack Developer",
+        "company": "Company name",
+        "phone": "Phone number",
+        "address": "Your address",
+        "about": "Write something about yourself..."
+      },
+      "validation": {
+        "firstNameRequired": "First name is required.",
+        "lastNameRequired": "Last name is required."
+      },
+      "about": {
+        "title": "About",
+        "description": "Write a short introduction that describes who you are."
+      },
+      "photo": {
+        "title": "Profile Photo",
+        "description": "Choose a profile photo that represents you."
+      },
+      "social": {
+        "title": "Social Profiles",
+        "description": "Connect your public social and professional profiles."
+      },
+      "actions": {
+        "saving": "Saving...",
+        "saveChanges": "Save Changes"
+      }
     }
   
 }

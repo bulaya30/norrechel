@@ -1,13 +1,11 @@
 import { notFound, redirect } from "next/navigation";
+import { getTranslations } from "next-intl/server";
 
 import UpdateProfile from "@/features/users/components/edit/UpdateProfile";
 import { getCachedUserById } from "@/features/users/queries/user.queries";
+import { requireAuthenticatedUser } from "@/features/auth/lib/requireAuthenticatedUser";
 
-import {
-  requireAuthenticatedUser,
-} from "@/features/auth/lib/requireAuthenticatedUser";
-
-type SupportedLocale = "en" | "fr";
+import type { SupportedLocale } from "@/lib/dates/localizedValue";
 
 interface ProfileEditPageProps {
   params: Promise<{
@@ -20,6 +18,11 @@ export default async function ProfileEditPage({
   params,
 }: ProfileEditPageProps) {
   const { locale, id } = await params;
+
+  const t = await getTranslations({
+    locale,
+    namespace: "ProfileEditPage",
+  });
 
   const authUser = await requireAuthenticatedUser();
 
@@ -48,11 +51,11 @@ export default async function ProfileEditPage({
           id="profile-edit-heading"
           className="text-2xl font-bold tracking-tight sm:text-3xl"
         >
-          Edit Profile
+          {t("title")}
         </h1>
 
         <p className="mt-1 text-sm text-muted-foreground">
-          Update your personal and professional information.
+          {t("description")}
         </p>
       </div>
 
@@ -62,7 +65,7 @@ export default async function ProfileEditPage({
           href={`/${locale}/dashboard/profile`}
           className="text-sm font-medium text-muted-foreground transition hover:text-foreground"
         >
-          ← Back to Profile
+          ← {t("backToProfile")}
         </a>
       </div>
 
