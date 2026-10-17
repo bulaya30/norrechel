@@ -239,6 +239,17 @@
 
   },
   "Projects": {
+    "ProjectHeader": {
+      "projectLabel": "Project"
+    },
+    "ProjectContent": {
+      "emptyContent": "No content is available for this project."
+    },
+    "ProjectLinks": {
+      "sectionLabel": "Project links",
+      "viewProject": "View project",
+      "github": "GitHub"
+    },
     "Hero": {
       "eyebrow": "Project Portfolio",
       "title": "Projects, systems and digital products",
@@ -526,311 +537,445 @@
     "reset": "Reset",
     "articlesToolbarLabel": "Article management tools",
     "projectsToolbarLabel": "Project management tools"
+  },
+  "DashboardFilters": {
+    "status": "Status",
+    "category": "Category",
+    "sort": "Sort",
+    "allStatuses": "All statuses",
+    "published": "Published",
+    "draft": "Draft",
+    "allCategories": "All categories",
+    "newest": "Newest",
+    "oldest": "Oldest",
+    "mostViewed": "Most viewed"
+  },
+  "DashboardArticleList": {
+    "emptyTitle": "No articles found",
+    "emptyDescription": "Create your first article or adjust the current search and filters.",
+    "create": "Create article",
+    "listHeading": "Article list"
+  },
+  "DashboardArticleCard": {
+    "published": "Published",
+    "draft": "Draft",
+    "views": "Views",
+    "engagements": "Engagements",
+    "dateLabel": "Date:",
+    "preview": "View article",
+    "coverImage": "Article cover",
+    "noCoverImage": "No cover image",
+    "untitledArticle": "Untitled article"
+  },
+  "NewArticlePage": {
+    "eyebrow": "Content management",
+    "title": "New article",
+    "description": "Write, configure, and publish a new article.",
+    "unnamedCategory": "Unnamed category"
+  },
+  "CreateArticleForm": {
+    "basicTitle": "Basic information",
+    "basicDescription": "Define the article title, category, and essential information.",
+    "contentTitle": "Article content",
+    "contentDescription": "Write the main article content in the available languages.",
+    "coverTitle": "Cover image",
+    "coverDescription": "Add an image that will represent the article across the website."
+  },
+  "ArticleBasicFields": {
+    "englishTitle": "English title",
+    "frenchTitle": "French title",
+    "category": "Category",
+    "englishPlaceholder": "e.g. Building scalable applications with Next.js",
+    "frenchPlaceholder": "e.g. Construire des applications évolutives avec Next.js",
+    "selectCategory": "Select a category"
+  },
+  "ArticleContentEditor": {
+    "contentLanguage": "Content language",
+    "english": "English",
+    "french": "French",
+    "englishEditor": "English article content",
+    "frenchEditor": "French article content",
+    "englishHint": "Write the English version of the article.",
+    "frenchHint": "Write the French version of the article."
+  },
+  "ArticleCoverImage": {
+    "chooseImage": "Choose image",
+    "replaceImage": "Replace image",
+    "remove": "Remove",
+    "currentImage": "Current image",
+    "imageHint": "PNG, JPG or WEBP. Use a clear image suitable for a landscape layout.",
+    "previewAlt": "Cover image preview",
+    "fileSize": "{size} MB"
+  },
+  "FormActions": {
+    "cancel": "Cancel",
+    "save": "Save",
+    "saveChanges": "Save changes",
+    "saving": "Saving...",
+    "publishArticle": "Publish article",
+    "publishing": "Publishing..."
+  },
+  "ArticleValidation": {
+    "titleMin": "Title must contain at least 3 characters.",
+    "titleMax": "Title must not exceed 180 characters.",
+    "contentRequired": "Article content is required.",
+    "categoryRequired": "Category is required.",
+    "coverImageRequired": "Cover image is required."
+  },
+  "CategoryList": {
+    "emptyTitle": "No categories found",
+    "emptyDescription": "Create your first category to start organizing your articles and projects.",
+    "create": "Create category",
+    "listHeading": "Category list",
+    "category": "Category",
+    "content": "Content",
+    "status": "Status",
+    "created": "Created",
+    "actions": "Actions"
+  },
+  "CategoryToolbar": {
+    "searchPlaceholder": "Search categories...",
+    "create": "New category",
+    "clear": "Clear"
+  },
+  "CategoryRow": {
+    "active": "Active",
+    "inactive": "Inactive",
+    "articles": "Articles",
+    "projects": "Projects",
+    "edit": "Edit",
+    "delete": "Delete",
+    "restore": "Restore",
+    "noDate": "—"
+  },
+  "NewCategoryPage": {
+    "eyebrow": "Content management",
+    "title": "New category",
+    "description": "Create a category to organize your articles and projects."
+  },
+  "EditCategoryPage": {
+    "eyebrow": "Content management",
+    "title": "Edit category",
+    "description": "Update the category details used to organize your articles and projects."
+  },
+  "CategoryFields": {
+    "name": "Category name",
+    "namePlaceholder": "e.g. Technology"
+  },
+  "CreateCategoryForm": {
+    "categoryTitle": "Category name"
+  },
+  "EditCategoryForm": {
+    "title": "Category information",
+    "description": "Update the category name.",
+    "missingCategoryId": "Category ID is missing.",
+    "nameRequired": "Category name is required."
+  },
+  "ContactDetails": {
+    "backToContacts": "Back to contacts",
+    "updating": "Updating...",
+    "markAsReplied": "Mark as replied",
+    "missingContactId": "Contact ID is missing.",
+    "noSubject": "No subject",
+    "message": "Message",
+    "contactInformation": "Contact information",
+    "sourcePage": "Source page",
+    "contentType": "Content type",
+    "contentId": "Content ID",
+    "submitted": "Submitted",
+    "replied": "Replied"
+  },
+  "ContactFilters": {
+    "searchLabel": "Search contacts",
+    "searchPlaceholder": "Search by name, email, or subject...",
+    "statusLabel": "Status",
+    "all": "All",
+    "new": "New",
+    "replied": "Replied"
+  },
+  "ContactList": {
+    "title": "Contacts",
+    "contactCount": "{count, plural, =0 {No contacts} =1 {1 contact} other {# contacts}}",
+    "contact": "Contact",
+    "subject": "Subject",
+    "source": "Source",
+    "status": "Status",
+    "submitted": "Submitted",
+    "actions": "Actions"
+  },
+  "NotificationPage": {
+    "eyebrow": "Activity",
+    "title": "Notifications",
+    "description": "Review recent events related to your content and audience."
+  },
+  "NotificationSummary": {
+    "ariaLabel": "Notification summary",
+    "unreadLabel": "{count, plural, =1 {# unread notification} other {# unread notifications}}",
+    "totalLabel": "{count, plural, =1 {# notification in total} other {# notifications in total}}",
+    "allCaughtUp": "You are all caught up"
+  },
+  "NotificationCenter": {
+  "filters": {
+    "all": "All",
+    "articles": "Articles",
+    "projects": "Projects",
+    "subscribers": "Subscribers"
+  },
+  "markAllAsRead": "Mark all as read",
+    "emptyTitle": "No notifications",
+    "emptyDescription": "No notifications match this filter.",
+    "unreadCount": "{count, plural, =0 {No unread notifications} =1 {# unread notification} other {# unread notifications}}",
+    "recentActivity": "Recent activity",
+    "filterLabel": "Filter notifications"
+  },
+  "ProfileManager": {
+    "title": "Profile",
+    "description": "Manage your personal information and public profile."
+  },
+  "ProfileAboutCard": {
+    "title": "About Me",
+    "subtitle": "A brief introduction about you.",
+    "emptyDescription": "No information has been added to your profile yet."
+  },
+  "ProfileAccountCard": {
+    "title": "Account Information",
+    "description": "Your account status and access information.",
+    "role": "Role",
+    "status": "Status",
+    "created": "Created",
+    "lastUpdated": "Last Updated"
+  },
+  "ProfileContactCard": {
+    "title": "Contact Information",
+    "description": "Your primary contact details.",
+    "email": "Email",
+    "phone": "Phone",
+    "address": "Address"
+  },
+  "ProfileHero": {
+    "coverQuote": "Build. Learn. Share.\nMake an impact.",
+    "editProfile": "Edit Profile",
+    "profilePhotoAlt": "{name}'s profile photo",
+    "changeProfilePhoto": "Change profile photo",
+    "socialLinkLabel": "Visit {platform} profile"
+  },
+  "ProfileProfessionalCard": {
+    "title": "Professional Information",
+    "description": "Your professional identity and workplace details.",
+    "fullName": "Full Name",
+    "jobTitle": "Title",
+    "company": "Company",
+    "address": "Address"
+  },
+  "ProfileSocialCard": {
+    "title": "Social Profiles",
+    "description": "Your public social and professional profiles.",
+    "emptyDescription": "No social profiles have been added yet."
+  },
+  "ProfileEditPage": {
+    "title": "Edit Profile",
+    "description": "Update your personal and professional information.",
+    "backToProfile": "Back to Profile"
+  },
+  "ProfilePhotoField": {
+    "choose": "Choose profile photo",
+    "replace": "Replace photo",
+    "remove": "Remove photo",
+    "current": "Current profile photo",
+    "hint": "Add a profile photo to personalize your account.",
+    "formats": "PNG, JPG or WEBP. Maximum size: 5 MB.",
+    "previewAlt": "Profile photo preview",
+    "invalidType": "Please select a PNG, JPG or WEBP image.",
+    "tooLarge": "The image must not exceed 5 MB.",
+    "fileSize": "{size} MB"
+  },
+  "UpdateProfile": {
+    "personal": {
+      "title": "Personal Information",
+      "description": "Update your basic personal information."
     },
-    "DashboardFilters": {
-      "status": "Status",
-      "category": "Category",
-      "sort": "Sort",
-      "allStatuses": "All statuses",
-      "published": "Published",
-      "draft": "Draft",
-      "allCategories": "All categories",
-      "newest": "Newest",
-      "oldest": "Oldest",
-      "mostViewed": "Most viewed"
-    },
-    "DashboardArticleList": {
-      "emptyTitle": "No articles found",
-      "emptyDescription": "Create your first article or adjust the current search and filters.",
-      "create": "Create article",
-      "listHeading": "Article list"
-    },
-    "DashboardArticleCard": {
-      "published": "Published",
-      "draft": "Draft",
-      "views": "Views",
-      "engagements": "Engagements",
-      "dateLabel": "Date:",
-      "preview": "View article",
-      "coverImage": "Article cover",
-      "noCoverImage": "No cover image",
-      "untitledArticle": "Untitled article"
-    },
-    "NewArticlePage": {
-      "eyebrow": "Content management",
-      "title": "New article",
-      "description": "Write, configure, and publish a new article.",
-      "unnamedCategory": "Unnamed category"
-    },
-    "CreateArticleForm": {
-      "basicTitle": "Basic information",
-      "basicDescription": "Define the article title, category, and essential information.",
-      "contentTitle": "Article content",
-      "contentDescription": "Write the main article content in the available languages.",
-      "coverTitle": "Cover image",
-      "coverDescription": "Add an image that will represent the article across the website."
-    },
-    "ArticleBasicFields": {
-      "englishTitle": "English title",
-      "frenchTitle": "French title",
-      "category": "Category",
-      "englishPlaceholder": "e.g. Building scalable applications with Next.js",
-      "frenchPlaceholder": "e.g. Construire des applications évolutives avec Next.js",
-      "selectCategory": "Select a category"
-    },
-    "ArticleContentEditor": {
-      "contentLanguage": "Content language",
-      "english": "English",
-      "french": "French",
-      "englishEditor": "English article content",
-      "frenchEditor": "French article content",
-      "englishHint": "Write the English version of the article.",
-      "frenchHint": "Write the French version of the article."
-    },
-    "ArticleCoverImage": {
-      "chooseImage": "Choose image",
-      "replaceImage": "Replace image",
-      "remove": "Remove",
-      "currentImage": "Current image",
-      "imageHint": "PNG, JPG or WEBP. Use a clear image suitable for a landscape layout.",
-      "previewAlt": "Cover image preview",
-      "fileSize": "{size} MB"
-    },
-    "FormActions": {
-      "cancel": "Cancel",
-      "save": "Save",
-      "saveChanges": "Save changes",
-      "saving": "Saving...",
-      "publishArticle": "Publish article",
-      "publishing": "Publishing..."
-    },
-    "ArticleValidation": {
-      "titleMin": "Title must contain at least 3 characters.",
-      "titleMax": "Title must not exceed 180 characters.",
-      "contentRequired": "Article content is required.",
-      "categoryRequired": "Category is required.",
-      "coverImageRequired": "Cover image is required."
-    },
-    "CategoryList": {
-      "emptyTitle": "No categories found",
-      "emptyDescription": "Create your first category to start organizing your articles and projects.",
-      "create": "Create category",
-      "listHeading": "Category list",
-      "category": "Category",
-      "content": "Content",
-      "status": "Status",
-      "created": "Created",
-      "actions": "Actions"
-    },
-    "CategoryToolbar": {
-      "searchPlaceholder": "Search categories...",
-      "create": "New category",
-      "clear": "Clear"
-    },
-    "CategoryRow": {
-      "active": "Active",
-      "inactive": "Inactive",
-      "articles": "Articles",
-      "projects": "Projects",
-      "edit": "Edit",
-      "delete": "Delete",
-      "restore": "Restore",
-      "noDate": "—"
-    },
-    "NewCategoryPage": {
-      "eyebrow": "Content management",
-      "title": "New category",
-      "description": "Create a category to organize your articles and projects."
-    },
-    "EditCategoryPage": {
-      "eyebrow": "Content management",
-      "title": "Edit category",
-      "description": "Update the category details used to organize your articles and projects."
-    },
-    "CategoryFields": {
-      "name": "Category name",
-      "namePlaceholder": "e.g. Technology"
-    },
-    "CreateCategoryForm": {
-      "categoryTitle": "Category name"
-    },
-    "EditCategoryForm": {
-      "title": "Category information",
-      "description": "Update the category name.",
-      "missingCategoryId": "Category ID is missing.",
-      "nameRequired": "Category name is required."
-    },
-    "ContactDetails": {
-      "backToContacts": "Back to contacts",
-      "updating": "Updating...",
-      "markAsReplied": "Mark as replied",
-      "missingContactId": "Contact ID is missing.",
-      "noSubject": "No subject",
-      "message": "Message",
-      "contactInformation": "Contact information",
-      "sourcePage": "Source page",
-      "contentType": "Content type",
-      "contentId": "Content ID",
-      "submitted": "Submitted",
-      "replied": "Replied"
-    },
-    "ContactFilters": {
-      "searchLabel": "Search contacts",
-      "searchPlaceholder": "Search by name, email, or subject...",
-      "statusLabel": "Status",
-      "all": "All",
-      "new": "New",
-      "replied": "Replied"
-    },
-    "ContactList": {
-      "title": "Contacts",
-      "contactCount": "{count, plural, =0 {No contacts} =1 {1 contact} other {# contacts}}",
-      "contact": "Contact",
-      "subject": "Subject",
-      "source": "Source",
-      "status": "Status",
-      "submitted": "Submitted",
-      "actions": "Actions"
-    },
-    "NotificationPage": {
-      "eyebrow": "Activity",
-      "title": "Notifications",
-      "description": "Review recent events related to your content and audience."
-    },
-    "NotificationSummary": {
-      "ariaLabel": "Notification summary",
-      "unreadLabel": "{count, plural, =1 {# unread notification} other {# unread notifications}}",
-      "totalLabel": "{count, plural, =1 {# notification in total} other {# notifications in total}}",
-      "allCaughtUp": "You are all caught up"
-    },
-    "NotificationCenter": {
-    "filters": {
-      "all": "All",
-      "articles": "Articles",
-      "projects": "Projects",
-      "subscribers": "Subscribers"
-    },
-    "markAllAsRead": "Mark all as read",
-      "emptyTitle": "No notifications",
-      "emptyDescription": "No notifications match this filter.",
-      "unreadCount": "{count, plural, =0 {No unread notifications} =1 {# unread notification} other {# unread notifications}}",
-      "recentActivity": "Recent activity",
-      "filterLabel": "Filter notifications"
-    },
-    "ProfileManager": {
-      "title": "Profile",
-      "description": "Manage your personal information and public profile."
-    },
-    "ProfileAboutCard": {
-      "title": "About Me",
-      "subtitle": "A brief introduction about you.",
-      "emptyDescription": "No information has been added to your profile yet."
-    },
-    "ProfileAccountCard": {
-      "title": "Account Information",
-      "description": "Your account status and access information.",
-      "role": "Role",
-      "status": "Status",
-      "created": "Created",
-      "lastUpdated": "Last Updated"
-    },
-    "ProfileContactCard": {
-      "title": "Contact Information",
-      "description": "Your primary contact details.",
-      "email": "Email",
-      "phone": "Phone",
-      "address": "Address"
-    },
-    "ProfileHero": {
-      "coverQuote": "Build. Learn. Share.\nMake an impact.",
-      "editProfile": "Edit Profile",
-      "profilePhotoAlt": "{name}'s profile photo",
-      "changeProfilePhoto": "Change profile photo",
-      "socialLinkLabel": "Visit {platform} profile"
-    },
-    "ProfileProfessionalCard": {
+    "professional": {
       "title": "Professional Information",
-      "description": "Your professional identity and workplace details.",
-      "fullName": "Full Name",
-      "jobTitle": "Title",
+      "description": "Tell people what you do and where you work."
+    },
+    "fields": {
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "email": "Email",
+      "role": "Role",
+      "professionalTitle": "Professional Title",
       "company": "Company",
-      "address": "Address"
+      "phone": "Phone",
+      "address": "Address",
+      "aboutMe": "About Me"
     },
-    "ProfileSocialCard": {
+    "hints": {
+      "email": "Your email is managed by your account.",
+      "role": "Your account role cannot be changed here."
+    },
+    "placeholders": {
+      "firstName": "First name",
+      "lastName": "Last name",
+      "professionalTitle": "e.g. Full Stack Developer",
+      "company": "Company name",
+      "phone": "Phone number",
+      "address": "Your address",
+      "about": "Write something about yourself..."
+    },
+    "validation": {
+      "firstNameRequired": "First name is required.",
+      "lastNameRequired": "Last name is required."
+    },
+    "about": {
+      "title": "About",
+      "description": "Write a short introduction that describes who you are."
+    },
+    "photo": {
+      "title": "Profile Photo",
+      "description": "Choose a profile photo that represents you."
+    },
+    "social": {
       "title": "Social Profiles",
-      "description": "Your public social and professional profiles.",
-      "emptyDescription": "No social profiles have been added yet."
+      "description": "Connect your public social and professional profiles."
     },
-    "ProfileEditPage": {
-      "title": "Edit Profile",
-      "description": "Update your personal and professional information.",
-      "backToProfile": "Back to Profile"
-    },
-    "ProfilePhotoField": {
-      "choose": "Choose profile photo",
-      "replace": "Replace photo",
-      "remove": "Remove photo",
-      "current": "Current profile photo",
-      "hint": "Add a profile photo to personalize your account.",
-      "formats": "PNG, JPG or WEBP. Maximum size: 5 MB.",
-      "previewAlt": "Profile photo preview",
-      "invalidType": "Please select a PNG, JPG or WEBP image.",
-      "tooLarge": "The image must not exceed 5 MB.",
-      "fileSize": "{size} MB"
-    },
-    "UpdateProfile": {
-      "personal": {
-        "title": "Personal Information",
-        "description": "Update your basic personal information."
-      },
-      "professional": {
-        "title": "Professional Information",
-        "description": "Tell people what you do and where you work."
-      },
-      "fields": {
-        "firstName": "First Name",
-        "lastName": "Last Name",
-        "email": "Email",
-        "role": "Role",
-        "professionalTitle": "Professional Title",
-        "company": "Company",
-        "phone": "Phone",
-        "address": "Address",
-        "aboutMe": "About Me"
-      },
-      "hints": {
-        "email": "Your email is managed by your account.",
-        "role": "Your account role cannot be changed here."
-      },
-      "placeholders": {
-        "firstName": "First name",
-        "lastName": "Last name",
-        "professionalTitle": "e.g. Full Stack Developer",
-        "company": "Company name",
-        "phone": "Phone number",
-        "address": "Your address",
-        "about": "Write something about yourself..."
-      },
-      "validation": {
-        "firstNameRequired": "First name is required.",
-        "lastNameRequired": "Last name is required."
-      },
-      "about": {
-        "title": "About",
-        "description": "Write a short introduction that describes who you are."
-      },
-      "photo": {
-        "title": "Profile Photo",
-        "description": "Choose a profile photo that represents you."
-      },
-      "social": {
-        "title": "Social Profiles",
-        "description": "Connect your public social and professional profiles."
-      },
-      "actions": {
-        "saving": "Saving...",
-        "saveChanges": "Save Changes"
-      }
+    "actions": {
+      "saving": "Saving...",
+      "saveChanges": "Save Changes"
     }
-  
+  },
+  "ProjectsPage": {
+    "eyebrow": "Content management",
+    "title": "Projects",
+    "description": "Create, search, filter, and manage your published projects and drafts.",
+    "unnamedCategory": "Unnamed category"
+  },
+  "ProjectList": {
+    "emptyTitle": "No projects found",
+    "emptyDescription": "Create your first project or adjust the current search and filters.",
+    "create": "Create project",
+    "listHeading": "Project list"
+  },
+  "ProjectTable": {
+    "project": "Project",
+    "category": "Category",
+    "status": "Status",
+    "date": "Date",
+    "actions": "Actions",
+    "draft": "Draft",
+    "published": "Published",
+    "edit": "Edit",
+    "publish": "Publish",
+    "publishing": "Publishing...",
+    "delete": "Delete",
+    "deleting": "Deleting...",
+    "viewProject": "View project",
+    "github": "GitHub",
+    "noCategory": "No category",
+    "noDate": "—",
+    "untitledProject": "Untitled project",
+    "emptyTitle": "No projects",
+    "emptyDescription": "No projects have been created yet.",
+    "confirmDelete": "Are you sure you want to delete this project?"
+  },
+  "EditProjectForm": {
+    "sections": {
+      "basic": {
+        "title": "Basic information",
+        "description": "Update the project title, category, and essential information."
+      },
+      "content": {
+        "title": "Project content",
+        "description": "Update the main project content in the available languages."
+      },
+      "details": {
+        "title": "Project details",
+        "description": "Add or update additional project information."
+      },
+      "cover": {
+        "title": "Cover image",
+        "description": "Keep the current image or select a new one."
+      }
+    },
+    "validation": {
+      "projectIdMissing": "Project ID is missing.",
+      "englishTitleRequired": "English title is required.",
+      "frenchTitleRequired": "French title is required."
+    },
+    "messages": {
+      "updated": "Project updated successfully.",
+      "published": "Project published successfully."
+    }
+  },
+  "CreateProjectForm": {
+    "sections": {
+      "basic": {
+        "title": "Basic information",
+        "description": "Define the project title, category, and technologies used for this project."
+      },
+      "content": {
+        "title": "Project content",
+        "description": "Present the project in the available languages."
+      },
+      "details": {
+        "title": "Project details",
+        "description": "Add additional project information and links."
+      },
+      "cover": {
+        "title": "Cover image",
+        "description": "Add an image that will represent the project across the website."
+      }
+    },
+    "messages": {
+      "error": "An error occurred while saving the project."
+    }
+  },
+  "ProjectBasicFields": {
+    "englishTitle": "English title",
+    "frenchTitle": "French title",
+    "category": "Category",
+    "englishTitlePlaceholder": "Enter the project title in English",
+    "frenchTitlePlaceholder": "Enter the project title in French",
+    "categoryPlaceholder": "Select a category"
+  },
+  "ProjectContentEditor": {
+    "contentLanguage": "Content language",
+    "english": "English",
+    "french": "French",
+    "englishEditor": "English project content",
+    "frenchEditor": "French project content",
+    "englishHint": "Write the English version of the project.",
+    "frenchHint": "Write the French version of the project."
+  },
+  "ProjectCoverImage": {
+    "choose": "Choose image",
+    "replace": "Replace image",
+    "remove": "Remove image",
+    "selected": "Selected image",
+    "current": "Current image",
+    "hint": "Add a cover image to represent the project.",
+    "formats": "PNG, JPG or WEBP. Recommended size: 1600 × 900 px.",
+    "alt": "Cover image preview",
+    "fileSize": "{size} MB"
+  },
+  "ProjectDetailsFields": {
+    "contentLanguage": "Project details language",
+    "english": "English",
+    "french": "French",
+    "detailsEnglish": "English project details",
+    "detailsFrench": "French project details",
+    "detailsEnglishHint": "Describe the project's main features, functionality, or objectives.",
+    "detailsFrenchHint": "Describe the project's main features, functionality, or objectives in French.",
+    "technologies": "Technologies used",
+    "technologiesHint": "Add the technologies and tools used to build this project.",
+    "technologyPlaceholder": "e.g. Next.js",
+    "technologyInputLabel": "Add a technology",
+    "addTechnology": "Add",
+    "removeTechnology": "Remove",
+    "liveUrl": "Live project URL",
+    "liveUrlHint": "Link to the public or deployed version of the project.",
+    "liveUrlPlaceholder": "https://example.com",
+    "githubUrl": "GitHub repository",
+    "githubUrlHint": "Link to the project's GitHub repository.",
+    "githubUrlPlaceholder": "https://github.com/username/project"
+  }
 }

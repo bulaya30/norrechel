@@ -27,8 +27,6 @@ export default function ProjectMeta({
       .filter(Boolean)
       .join(" ") || "Unknown Author";
 
-//   const normalizedPublishedAt = normalizeDate(publishedAt);
-
   return (
     <section
       aria-label="Project information"

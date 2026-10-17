@@ -1,14 +1,15 @@
 "use client";
 
 import { useState } from "react";
-
+import { useTranslations } from "next-intl";
 import {
   Link as LinkIcon,
   Plus,
   X,
 } from "lucide-react";
-
 import { FaGithub } from "react-icons/fa";
+
+import type { SupportedLocale } from "@/lib/dates/localizedValue";
 
 import {
   Tabs,
@@ -18,12 +19,8 @@ import {
 } from "@/components/ui/tabs";
 
 import { Input } from "@/components/ui/input";
-
 import { Button } from "@/components/ui/button";
-
 import { Textarea } from "@/components/ui/textarea";
-
-type SupportedLocale = "en" | "fr";
 
 interface ProjectDetailsFieldsProps {
   locale: SupportedLocale;
@@ -36,19 +33,11 @@ interface ProjectDetailsFieldsProps {
   liveUrl: string;
   githubUrl: string;
 
-  onDetailsEnChange: ( value: string,) => void;
-
-  onDetailsFrChange: ( value: string,) => void;
-
-  onTechStackChange: ( value: string[],) => void;
-
-  onLiveUrlChange: (
-    value: string,
-  ) => void;
-
-  onGithubUrlChange: (
-    value: string,
-  ) => void;
+  onDetailsEnChange: (value: string) => void;
+  onDetailsFrChange: (value: string) => void;
+  onTechStackChange: (value: string[]) => void;
+  onLiveUrlChange: (value: string) => void;
+  onGithubUrlChange: (value: string) => void;
 
   errors?: {
     detailsEn?: string;
@@ -73,117 +62,50 @@ export default function ProjectDetailsFields({
   onGithubUrlChange,
   errors = {},
 }: ProjectDetailsFieldsProps) {
+  const t = useTranslations("ProjectDetailsFields");
   const [technology, setTechnology] = useState("");
-  const labels =
-    locale === "fr"
-      ? {
-          detailsEnglish: "Détails du projet en anglais",
-          detailsFrench: "Détails du projet en français",
-          detailsEnglishHint: "Décrivez les caractéristiques, fonctionnalités ou objectifs principaux du projet.",
-          detailsFrenchHint: "Décrivez les caractéristiques, fonctionnalités ou objectifs principaux du projet en français.",
-          english: "Anglais",
-          french: "Français",
-          technologies: "Technologies utilisées",
-          technologiesHint: "Ajoutez les technologies et outils utilisés pour réaliser ce projet.",
-          technologyPlaceholder: "Ex. Next.js",
-          addTechnology: "Ajouter",
-          liveUrl: "URL du projet",
-          liveUrlHint: "Lien vers la version publique ou déployée du projet.",
-          liveUrlPlaceholder: "https://example.com",
-          githubUrl: "Dépôt GitHub",
-          githubUrlHint: "Lien vers le dépôt GitHub du projet.",
-          githubUrlPlaceholder: "https://github.com/username/project",
-          removeTechnology: "Supprimer",
-        }
-      : {
-          detailsEnglish: "English project details",
-          detailsFrench: "French project details",
-          detailsEnglishHint: "Describe the project's main features, functionality, or objectives.",
-          detailsFrenchHint: "Describe the project's main features, functionality, or objectives in French.",
-          english: "English",
-          french: "French",
-          technologies: "Technologies used",
-          technologiesHint: "Add the technologies and tools used to build this project.",
-          technologyPlaceholder: "e.g. Next.js",
-          addTechnology: "Add",
-          liveUrl: "Live project URL",
-          liveUrlHint: "Link to the public or deployed version of the project.",
-          liveUrlPlaceholder: "https://example.com",
-          githubUrl: "GitHub repository",
-          githubUrlHint: "Link to the project's GitHub repository.",
-          githubUrlPlaceholder: "https://github.com/username/project",
-          removeTechnology: "Remove",
-        };
 
   function addTechnology() {
     const value = technology.trim();
 
-    if (!value) {
-      return;
-    }
+    if (!value) return;
 
-    /*
-     * Prevent duplicate technologies
-     * while preserving the original
-     * casing entered by the user.
-     */
+    // Prevent duplicates without changing the entered casing.
     const alreadyExists = techStack.some(
-        (item) =>
-          item.toLowerCase() ===
-          value.toLowerCase(),
-      );
+      (item) => item.toLowerCase() === value.toLowerCase(),
+    );
 
     if (alreadyExists) {
       setTechnology("");
       return;
     }
 
-    onTechStackChange([
-      ...techStack,
-      value,
-    ]);
-
+    onTechStackChange([...techStack, value]);
     setTechnology("");
   }
 
-  function removeTechnology(
-    technologyToRemove: string,
-  ) {
+  function removeTechnology(technologyToRemove: string) {
     onTechStackChange(
-      techStack.filter(
-        (item) =>
-          item !==
-          technologyToRemove,
-      ),
+      techStack.filter((item) => item !== technologyToRemove),
     );
   }
 
   function handleTechnologyKeyDown(
     event: React.KeyboardEvent<HTMLInputElement>,
   ) {
-    if (
-      event.key === "Enter"
-    ) {
+    if (event.key === "Enter") {
       event.preventDefault();
-
       addTechnology();
     }
   }
 
   return (
     <div className="space-y-8">
-
+      {/* Project details in English and French */}
       <div className="space-y-4">
-        <Tabs
-          defaultValue="en"
-          className="w-full"
-        >
+        <Tabs defaultValue="en" className="w-full">
           <TabsList
-            aria-label={
-              locale === "fr"
-                ? "Langue des détails du projet"
-                : "Project details language"
-            }
+            aria-label={t("contentLanguage")}
             className="
               h-auto w-full justify-start
               rounded-none border-0 border-b
@@ -195,29 +117,19 @@ export default function ProjectDetailsFields({
               className="
                 rounded-none border-b-2
                 border-transparent px-4 py-3
-                text-sm font-semibold
-                text-slate-500
+                text-sm font-semibold text-slate-500
                 shadow-none
-
-                data-[state=active]:
-                  border-b-blue-700
-                data-[state=active]:
-                  bg-transparent
-                data-[state=active]:
-                  text-blue-700
-                data-[state=active]:
-                  shadow-none
+                data-[state=active]:border-b-blue-700
+                data-[state=active]:bg-transparent
+                data-[state=active]:text-blue-700
+                data-[state=active]:shadow-none
               "
             >
-              {labels.english}
+              {t("english")}
 
               {errors.detailsEn && (
                 <span
-                  className="
-                    ml-2 size-2
-                    rounded-full
-                    bg-red-500
-                  "
+                  className="ml-2 size-2 rounded-full bg-red-500"
                   aria-hidden="true"
                 />
               )}
@@ -228,122 +140,91 @@ export default function ProjectDetailsFields({
               className="
                 rounded-none border-b-2
                 border-transparent px-4 py-3
-                text-sm font-semibold
-                text-slate-500
+                text-sm font-semibold text-slate-500
                 shadow-none
-
-                data-[state=active]:
-                  border-b-blue-700
-
-                data-[state=active]:
-                  bg-transparent
-
-                data-[state=active]:
-                  text-blue-700
-
-                data-[state=active]:
-                  shadow-none
+                data-[state=active]:border-b-blue-700
+                data-[state=active]:bg-transparent
+                data-[state=active]:text-blue-700
+                data-[state=active]:shadow-none
               "
             >
-              {labels.french}
+              {t("french")}
 
               {errors.detailsFr && (
                 <span
-                  className="
-                    ml-2 size-2
-                    rounded-full
-                    bg-red-500
-                  "
+                  className="ml-2 size-2 rounded-full bg-red-500"
                   aria-hidden="true"
                 />
               )}
             </TabsTrigger>
           </TabsList>
 
-          {/* English */}
-          <TabsContent
-            value="en"
-            className="mt-5 space-y-2"
-          >
+          {/* English details */}
+          <TabsContent value="en" className="mt-5 space-y-2">
             <p className="text-sm text-slate-500">
-              {labels.detailsEnglishHint}
+              {t("detailsEnglishHint")}
             </p>
 
             <Textarea
               value={detailsEn}
               onChange={(event) =>
-                onDetailsEnChange(
-                  event.target.value,
-                )
+                onDetailsEnChange(event.target.value)
               }
-              aria-label={
-                labels.detailsEnglish
-              }
-              aria-invalid={
-                Boolean(
-                  errors.detailsEn,
-                )
+              aria-label={t("detailsEnglish")}
+              aria-invalid={Boolean(errors.detailsEn)}
+              aria-describedby={
+                errors.detailsEn
+                  ? "project-details-en-error"
+                  : undefined
               }
               rows={5}
               className="
-                resize-y
-                border-slate-300
+                resize-y border-slate-300
                 focus-visible:ring-blue-600
               "
             />
 
             {errors.detailsEn && (
               <p
+                id="project-details-en-error"
                 role="alert"
-                className="
-                  text-sm font-medium
-                  text-red-600
-                "
+                className="text-sm font-medium text-red-600"
               >
                 {errors.detailsEn}
               </p>
             )}
           </TabsContent>
 
-          {/* French */}
-          <TabsContent
-            value="fr"
-            className="mt-5 space-y-2"
-          >
+          {/* French details */}
+          <TabsContent value="fr" className="mt-5 space-y-2">
             <p className="text-sm text-slate-500">
-              {labels.detailsFrenchHint}
+              {t("detailsFrenchHint")}
             </p>
 
             <Textarea
               value={detailsFr}
               onChange={(event) =>
-                onDetailsFrChange(
-                  event.target.value,
-                )
+                onDetailsFrChange(event.target.value)
               }
-              aria-label={
-                labels.detailsFrench
-              }
-              aria-invalid={
-                Boolean(
-                  errors.detailsFr,
-                )
+              aria-label={t("detailsFrench")}
+              aria-invalid={Boolean(errors.detailsFr)}
+              aria-describedby={
+                errors.detailsFr
+                  ? "project-details-fr-error"
+                  : undefined
               }
               rows={5}
               className="
-                resize-y
-                border-slate-300
+                resize-y border-slate-300
                 focus-visible:ring-blue-600
               "
             />
 
             {errors.detailsFr && (
               <p
+                id="project-details-fr-error"
                 role="alert"
-                className="
-                  text-sm font-medium
-                  text-red-600
-                "
+                className="text-sm font-medium text-red-600"
               >
                 {errors.detailsFr}
               </p>
@@ -352,45 +233,25 @@ export default function ProjectDetailsFields({
         </Tabs>
       </div>
 
-      {/* -------------------------------- */}
       {/* Technologies */}
-      {/* -------------------------------- */}
-
       <div className="space-y-3">
         <div>
-          <h3
-            className="
-              text-sm font-semibold
-              text-slate-900
-            "
-          >
-            {labels.technologies}
+          <h3 className="text-sm font-semibold text-slate-900">
+            {t("technologies")}
           </h3>
 
-          <p
-            className="
-              mt-1 text-sm
-              text-slate-500
-            "
-          >
-            {labels.technologiesHint}
+          <p className="mt-1 text-sm text-slate-500">
+            {t("technologiesHint")}
           </p>
         </div>
 
         <div className="flex gap-2">
           <Input
             value={technology}
-            onChange={(event) =>
-              setTechnology(
-                event.target.value,
-              )
-            }
-            onKeyDown={
-              handleTechnologyKeyDown
-            }
-            placeholder={
-              labels.technologyPlaceholder
-            }
+            onChange={(event) => setTechnology(event.target.value)}
+            onKeyDown={handleTechnologyKeyDown}
+            placeholder={t("technologyPlaceholder")}
+            aria-label={t("technologyInputLabel")}
             className="
               border-slate-300
               focus-visible:ring-blue-600
@@ -401,123 +262,73 @@ export default function ProjectDetailsFields({
             type="button"
             variant="outline"
             onClick={addTechnology}
-            // disabled={
-            //   !technology.trim()
-            // }
-            className="
-              shrink-0
-              border-slate-300
-            "
+            className="shrink-0 border-slate-300"
           >
-            <Plus
-              className="size-4"
-              aria-hidden="true"
-            />
-
-            {labels.addTechnology}
+            <Plus className="size-4" aria-hidden="true" />
+            {t("addTechnology")}
           </Button>
         </div>
 
         {techStack.length > 0 && (
           <div
             className="
-              flex flex-wrap gap-2
-              rounded-xl
-              border border-slate-200
-              bg-slate-50
-              p-3
+              flex flex-wrap gap-2 rounded-xl
+              border border-slate-200 bg-slate-50 p-3
             "
           >
-            {techStack.map(
-              (item) => (
-                <span
-                  key={item}
+            {techStack.map((item) => (
+              <span
+                key={item}
+                className="
+                  inline-flex items-center gap-1.5
+                  rounded-full border border-slate-200
+                  bg-white px-3 py-1.5
+                  text-sm font-medium text-slate-700
+                "
+              >
+                {item}
+
+                <button
+                  type="button"
+                  onClick={() => removeTechnology(item)}
+                  aria-label={`${t("removeTechnology")} ${item}`}
                   className="
-                    inline-flex
-                    items-center gap-1.5
-                    rounded-full
-                    border
-                    border-slate-200
-                    bg-white
-                    px-3 py-1.5
-                    text-sm font-medium
-                    text-slate-700
+                    rounded-full p-0.5 text-slate-400
+                    transition-colors hover:bg-slate-100
+                    hover:text-red-600
                   "
                 >
-                  {item}
-
-                  <button
-                    type="button"
-                    onClick={() =>
-                      removeTechnology(
-                        item,
-                      )
-                    }
-                    aria-label={`${labels.removeTechnology} ${item}`}
-                    className="
-                      rounded-full
-                      p-0.5
-                      text-slate-400
-                      transition-colors
-                      hover:bg-slate-100
-                      hover:text-red-600
-                    "
-                  >
-                    <X
-                      className="size-3.5"
-                      aria-hidden="true"
-                    />
-                  </button>
-                </span>
-              ),
-            )}
+                  <X className="size-3.5" aria-hidden="true" />
+                </button>
+              </span>
+            ))}
           </div>
         )}
 
         {errors.techStack && (
-          <p
-            role="alert"
-            className="
-              text-sm font-medium
-              text-red-600
-            "
-          >
+          <p role="alert" className="text-sm font-medium text-red-600">
             {errors.techStack}
           </p>
         )}
       </div>
 
-      {/* -------------------------------- */}
       {/* Project links */}
-      {/* -------------------------------- */}
-
       <div className="grid gap-6 md:grid-cols-2">
-        {/* Live URL */}
+        {/* Live project URL */}
         <div className="space-y-2">
           <label
             htmlFor="project-live-url"
-            className="
-              flex items-center gap-2
-              text-sm font-semibold
-              text-slate-900
-            "
+            className="flex items-center gap-2 text-sm font-semibold text-slate-900"
           >
             <LinkIcon
-              className="
-                size-4 text-blue-700
-              "
+              className="size-4 text-blue-700"
               aria-hidden="true"
             />
-
-            {labels.liveUrl}
+            {t("liveUrl")}
           </label>
 
-          <p
-            className="
-              text-sm text-slate-500
-            "
-          >
-            {labels.liveUrlHint}
+          <p className="text-sm text-slate-500">
+            {t("liveUrlHint")}
           </p>
 
           <Input
@@ -525,17 +336,12 @@ export default function ProjectDetailsFields({
             type="url"
             value={liveUrl}
             onChange={(event) =>
-              onLiveUrlChange(
-                event.target.value,
-              )
+              onLiveUrlChange(event.target.value)
             }
-            placeholder={
-              labels.liveUrlPlaceholder
-            }
-            aria-invalid={
-              Boolean(
-                errors.liveUrl,
-              )
+            placeholder={t("liveUrlPlaceholder")}
+            aria-invalid={Boolean(errors.liveUrl)}
+            aria-describedby={
+              errors.liveUrl ? "project-live-url-error" : undefined
             }
             className="
               border-slate-300
@@ -545,43 +351,30 @@ export default function ProjectDetailsFields({
 
           {errors.liveUrl && (
             <p
+              id="project-live-url-error"
               role="alert"
-              className="
-                text-sm font-medium
-                text-red-600
-            "
+              className="text-sm font-medium text-red-600"
             >
               {errors.liveUrl}
             </p>
           )}
         </div>
 
-        {/* GitHub URL */}
+        {/* GitHub repository URL */}
         <div className="space-y-2">
           <label
             htmlFor="project-github-url"
-            className="
-              flex items-center gap-2
-              text-sm font-semibold
-              text-slate-900
-            "
+            className="flex items-center gap-2 text-sm font-semibold text-slate-900"
           >
             <FaGithub
-              className="
-                size-4 text-slate-700
-              "
+              className="size-4 text-slate-700"
               aria-hidden="true"
             />
-
-            {labels.githubUrl}
+            {t("githubUrl")}
           </label>
 
-          <p
-            className="
-              text-sm text-slate-500
-            "
-          >
-            {labels.githubUrlHint}
+          <p className="text-sm text-slate-500">
+            {t("githubUrlHint")}
           </p>
 
           <Input
@@ -589,17 +382,14 @@ export default function ProjectDetailsFields({
             type="url"
             value={githubUrl}
             onChange={(event) =>
-              onGithubUrlChange(
-                event.target.value,
-              )
+              onGithubUrlChange(event.target.value)
             }
-            placeholder={
-              labels.githubUrlPlaceholder
-            }
-            aria-invalid={
-              Boolean(
-                errors.githubUrl,
-              )
+            placeholder={t("githubUrlPlaceholder")}
+            aria-invalid={Boolean(errors.githubUrl)}
+            aria-describedby={
+              errors.githubUrl
+                ? "project-github-url-error"
+                : undefined
             }
             className="
               border-slate-300
@@ -609,11 +399,9 @@ export default function ProjectDetailsFields({
 
           {errors.githubUrl && (
             <p
+              id="project-github-url-error"
               role="alert"
-              className="
-                text-sm font-medium
-                text-red-600
-              "
+              className="text-sm font-medium text-red-600"
             >
               {errors.githubUrl}
             </p>

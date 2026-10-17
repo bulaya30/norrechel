@@ -251,6 +251,17 @@
     }
   },
   "Projects": {
+    "ProjectHeader": {
+      "projectLabel": "Projet"
+    },
+    "ProjectContent": {
+      "emptyContent": "Aucun contenu n’est disponible pour ce projet."
+    },
+    "ProjectLinks": {
+      "sectionLabel": "Liens du projet",
+      "viewProject": "Voir le projet",
+      "github": "GitHub"
+    },
     "Hero": {
       "eyebrow": "Portfolio de projets",
       "title": "Projets, systèmes et produits numériques",
@@ -843,5 +854,140 @@
       "saving": "Enregistrement...",
       "saveChanges": "Enregistrer les modifications"
     }
+  },
+  "ProjectsPage": {
+    "eyebrow": "Gestion du contenu",
+    "title": "Projets",
+    "description": "Créez, recherchez, filtrez et gérez vos projets publiés et vos brouillons.",
+    "unnamedCategory": "Catégorie sans nom"
+  },
+  "ProjectList": {
+    "emptyTitle": "Aucun projet trouvé",
+    "emptyDescription": "Commencez par créer votre premier projet ou modifiez vos filtres de recherche.",
+    "create": "Créer un projet",
+    "listHeading": "Liste des projets"
+  },
+  "ProjectTable": {
+    "project": "Projet",
+    "category": "Catégorie",
+    "status": "Statut",
+    "date": "Date",
+    "actions": "Actions",
+    "draft": "Brouillon",
+    "published": "Publié",
+    "edit": "Modifier",
+    "publish": "Publier",
+    "publishing": "Publication...",
+    "delete": "Supprimer",
+    "deleting": "Suppression...",
+    "viewProject": "Voir le projet",
+    "github": "GitHub",
+    "noCategory": "Sans catégorie",
+    "noDate": "—",
+    "untitledProject": "Projet sans titre",
+    "emptyTitle": "Aucun projet",
+    "emptyDescription": "Aucun projet n’a encore été créé.",
+    "confirmDelete": "Voulez-vous vraiment supprimer ce projet ?"
+  },
+  "EditProjectForm": {
+    "sections": {
+      "basic": {
+        "title": "Informations principales",
+        "description": "Modifiez le titre, la catégorie et les informations essentielles du projet."
+      },
+      "content": {
+        "title": "Contenu du projet",
+        "description": "Modifiez le contenu principal du projet dans les langues disponibles."
+      },
+      "details": {
+        "title": "Détails du projet",
+        "description": "Ajoutez ou modifiez les informations complémentaires du projet."
+      },
+      "cover": {
+        "title": "Image de couverture",
+        "description": "Conservez l’image actuelle ou sélectionnez-en une nouvelle."
+      }
+    },
+    "validation": {
+      "projectIdMissing": "L’identifiant du projet est manquant.",
+      "englishTitleRequired": "Le titre en anglais est obligatoire.",
+      "frenchTitleRequired": "Le titre en français est obligatoire."
+    },
+    "messages": {
+      "updated": "Projet mis à jour avec succès.",
+      "published": "Projet publié avec succès."
+    }
+  },
+  "CreateProjectForm": {
+    "sections": {
+      "basic": {
+        "title": "Informations principales",
+        "description": "Définissez le titre, la catégorie et les technologies utilisées pour ce projet."
+      },
+      "content": {
+        "title": "Contenu du projet",
+        "description": "Présentez le projet dans les langues disponibles."
+      },
+      "details": {
+        "title": "Détails du projet",
+        "description": "Ajoutez les informations complémentaires et les liens du projet."
+      },
+      "cover": {
+        "title": "Image de couverture",
+        "description": "Ajoutez une image qui représentera le projet sur le site."
+      }
+    },
+    "messages": {
+      "error": "Une erreur est survenue lors de l’enregistrement du projet."
+    }
+  },
+  "ProjectBasicFields": {
+    "englishTitle": "Titre en anglais",
+    "frenchTitle": "Titre en français",
+    "category": "Catégorie",
+    "englishTitlePlaceholder": "Entrez le titre du projet en anglais",
+    "frenchTitlePlaceholder": "Entrez le titre du projet en français",
+    "categoryPlaceholder": "Sélectionnez une catégorie"
+  },
+  "ProjectContentEditor": {
+    "contentLanguage": "Langue du contenu",
+    "english": "Anglais",
+    "french": "Français",
+    "englishEditor": "Contenu du projet en anglais",
+    "frenchEditor": "Contenu du projet en français",
+    "englishHint": "Rédigez la présentation du projet en anglais.",
+    "frenchHint": "Rédigez la présentation du projet en français."
+  },
+  "ProjectCoverImage": {
+    "choose": "Choisir une image",
+    "replace": "Remplacer l’image",
+    "remove": "Supprimer l’image",
+    "selected": "Image sélectionnée",
+    "current": "Image actuelle",
+    "hint": "Ajoutez une image de couverture pour représenter le projet.",
+    "formats": "PNG, JPG ou WEBP. Taille recommandée : 1600 × 900 px.",
+    "alt": "Aperçu de l’image de couverture",
+    "fileSize": "{taille} Mo"
+  },
+  "ProjectDetailsFields": {
+    "contentLanguage": "Langue des détails du projet",
+    "english": "Anglais",
+    "french": "Français",
+    "detailsEnglish": "Détails du projet en anglais",
+    "detailsFrench": "Détails du projet en français",
+    "detailsEnglishHint": "Décrivez les caractéristiques, fonctionnalités ou objectifs principaux du projet.",
+    "detailsFrenchHint": "Décrivez les caractéristiques, fonctionnalités ou objectifs principaux du projet en français.",
+    "technologies": "Technologies utilisées",
+    "technologiesHint": "Ajoutez les technologies et outils utilisés pour réaliser ce projet.",
+    "technologyPlaceholder": "Ex. Next.js",
+    "technologyInputLabel": "Ajouter une technologie",
+    "addTechnology": "Ajouter",
+    "removeTechnology": "Supprimer",
+    "liveUrl": "URL du projet",
+    "liveUrlHint": "Lien vers la version publique ou déployée du projet.",
+    "liveUrlPlaceholder": "https://example.com",
+    "githubUrl": "Dépôt GitHub",
+    "githubUrlHint": "Lien vers le dépôt GitHub du projet.",
+    "githubUrlPlaceholder": "https://github.com/username/project"
   }
 }

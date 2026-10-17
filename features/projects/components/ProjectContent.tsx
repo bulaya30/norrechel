@@ -1,13 +1,16 @@
 import DOMPurify from "isomorphic-dompurify";
 import { decode } from "html-entities";
+import { getTranslations } from "next-intl/server";
 
 interface ProjectContentProps {
   content: string;
 }
 
-export default function ProjectContent({
+export default async function ProjectContent({
   content,
 }: ProjectContentProps) {
+  const t = await getTranslations("projects.ProjectContent");
+
   const decodedContent = decode(content);
 
   const sanitizedContent = DOMPurify.sanitize(decodedContent, {
@@ -19,7 +22,7 @@ export default function ProjectContent({
   if (!sanitizedContent.trim()) {
     return (
       <p className="text-sm italic text-slate-500">
-        No content is available for this project.
+        {t("emptyContent")}
       </p>
     );
   }

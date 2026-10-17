@@ -16,7 +16,6 @@ import {
   FaGithub
 } from "react-icons/fa";
 
-import ProjectActions  from "@/components/actions/ComponentActions"
 
 import type { Project } from "@/features/interfaces/project";
 import ComponentActions from "@/components/actions/ComponentActions";
@@ -147,9 +146,6 @@ export default function ProjectCard({
     locale,
   );
 
-  const publishedDate =
-    project.publishedAt ??
-    project.createdAt;
 
   const liveUrl = project.live_url ?? null;
   const githubUrl = project.github_url ?? null;

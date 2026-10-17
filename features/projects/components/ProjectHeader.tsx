@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { ArrowDown } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 interface ProjectHeaderProps {
   title: string;
@@ -16,6 +17,8 @@ export default function ProjectHeader({
   imageUrl,
   imageAlt,
 }: ProjectHeaderProps) {
+  const t = useTranslations("projects.ProjectHeader");
+
   return (
     <header className="mx-auto w-full max-w-6xl">
       {/* Editorial header */}
@@ -69,17 +72,17 @@ export default function ProjectHeader({
           )}
         </div>
 
-        {/* Small editorial marker */}
+        {/* Editorial marker */}
         <div className="hidden lg:flex lg:flex-col lg:items-center lg:gap-3">
           <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-slate-400">
-            Project
+            {t("projectLabel")}
           </span>
 
-          <div className="flex size-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500">
-            <ArrowDown
-              className="size-4"
-              aria-hidden="true"
-            />
+          <div
+            className="flex size-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500"
+            aria-hidden="true"
+          >
+            <ArrowDown className="size-4" />
           </div>
         </div>
       </div>

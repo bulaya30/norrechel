@@ -1,30 +1,22 @@
 "use client";
 
 import Image from "next/image";
-
-import { 
-  type ChangeEvent,
-  useState, 
-  useEffect, 
-  useRef 
-} from "react";
-
 import {
-  ImageIcon,
-  Upload,
-  Trash2,
-} from "lucide-react";
+  type ChangeEvent,
+  useEffect,
+  useState,
+} from "react";
+import { ImageIcon, Upload, Trash2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 
+import type { SupportedLocale } from "@/lib/dates/localizedValue";
 import { Button } from "@/components/ui/button";
-
-type SupportedLocale = "en" | "fr";
 
 interface ProjectCoverImageProps {
   locale: SupportedLocale;
   value: File | null;
   existingImageUrl?: string | null;
   onChange: (value: File | null) => void;
-
   error?: string;
 }
 
@@ -35,288 +27,137 @@ export default function ProjectCoverImage({
   onChange,
   error,
 }: ProjectCoverImageProps) {
-  const inputRef = useRef<HTMLInputElement>(null);
-
-   const [
-      previewUrl,
-      setPreviewUrl,
-    ] = useState<string | null>(null);
-
-  const labels =
-    locale === "fr"
-      ? {
-          choose: "Choisir une image",
-          replace: "Remplacer l’image",
-          remove: "Supprimer l’image",
-          selected: "Image sélectionnée",
-          current: "Image actuelle",
-          hint:
-            "Ajoutez une image de couverture pour représenter le projet.",
-          formats:
-            "PNG, JPG ou WEBP. Taille recommandée : 1600 × 900 px.",
-          alt: "Aperçu de l’image de couverture",
-        }
-      : {
-          choose: "Choose image",
-          replace: "Replace image",
-          remove: "Remove image",
-          selected: "Selected image",
-          current: "Current image",
-          hint: "Add a cover image to represent the project.",
-          formats: "PNG, JPG or WEBP. Recommended size: 1600 × 900 px.",
-          alt: "Cover image preview",
-        };
+  const t = useTranslations("ProjectCoverImage");
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
   useEffect(() => {
     if (!value) {
       setPreviewUrl(null);
-
       return;
     }
 
     const objectUrl = URL.createObjectURL(value);
-
     setPreviewUrl(objectUrl);
 
     return () => {
-      URL.revokeObjectURL(
-        objectUrl,
-      );
+      URL.revokeObjectURL(objectUrl);
     };
   }, [value]);
 
   const displayedImage = previewUrl ?? existingImageUrl ?? null;
 
-    function handleFileChange(
-      event: ChangeEvent<HTMLInputElement>,
-    ) {
-      const file = event.target.files?.[0];  
-      if (!file) {
-        return;
-      }  
-      onChange(file);
-      /*
-       * Allows selecting the same file again
-       * after removing/replacing it.
-       */
-      event.target.value = "";
-    }
+  function handleFileChange(event: ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0];
+
+    if (!file) return;
+
+    onChange(file);
+
+    // Allows selecting the same file again after removing or replacing it.
+    event.target.value = "";
+  }
 
   function handleRemove() {
-    
     onChange(null);
-
   }
 
   return (
     <div className="space-y-4">
       {displayedImage ? (
-        <div
-          className="
-            overflow-hidden rounded-2xl
-            border border-slate-200
-            bg-slate-50
-          "
-        >
+        <div className="overflow-hidden rounded-2xl border border-slate-200 bg-slate-50">
           <div className="relative aspect-[16/9] w-full">
             <Image
               src={displayedImage}
-              alt={labels.alt}
+              alt={t("alt")}
               fill
-              unoptimized={
-                previewUrl !== null
-              }
+              unoptimized={previewUrl !== null}
               className="object-cover"
+              sizes="(max-width: 768px) 100vw, 800px"
             />
           </div>
 
-          <div
-            className="
-              flex flex-col gap-3
-              border-t border-slate-200
-              bg-white p-4
-              sm:flex-row
-              sm:items-center
-              sm:justify-between
-            "
-          >
+          <div className="flex flex-col gap-3 border-t border-slate-200 bg-white p-4 sm:flex-row sm:items-center sm:justify-between">
             <div className="min-w-0">
               {value ? (
                 <>
-                  <p
-                    className="
-                      truncate text-sm
-                      font-semibold
-                      text-slate-900
-                    "
-                  >
+                  <p className="truncate text-sm font-semibold text-slate-900">
                     {value.name}
                   </p>
 
-                  <p
-                    className="
-                      mt-1 text-xs
-                      text-slate-500
-                    "
-                  >
-                    {`${(
-                      value.size /
-                      1024 /
-                      1024
-                    ).toFixed(2)} MB`}
+                  <p className="mt-1 text-xs text-slate-500">
+                    {t("fileSize", {
+                      size: (value.size / 1024 / 1024).toFixed(2),
+                    })}
                   </p>
                 </>
               ) : (
-                <p
-                  className="
-                    text-sm font-semibold
-                    text-slate-700
-                  "
-                >
-                  {labels.current}
+                <p className="text-sm font-semibold text-slate-700">
+                  {t("current")}
                 </p>
               )}
             </div>
 
             <div className="flex flex-wrap gap-2">
-              <Button
-                asChild
-                type="button"
-                variant="outline"
-                size="sm"
-              >
+              <Button asChild type="button" variant="outline" size="sm">
                 <label className="cursor-pointer">
-                  <Upload
-                    className="size-4"
-                    aria-hidden="true"
-                  />
-
-                  {labels.replace}
+                  <Upload className="size-4" aria-hidden="true" />
+                  {t("replace")}
 
                   <input
                     type="file"
-                    accept="
-                      image/png,
-                      image/jpeg,
-                      image/webp
-                    "
-                    onChange={
-                      handleFileChange
-                    }
+                    accept="image/png,image/jpeg,image/webp"
+                    onChange={handleFileChange}
                     className="sr-only"
+                    aria-label={t("replace")}
                   />
                 </label>
               </Button>
 
-              {/*
-                Only show "Remove" when the user has
-                selected a NEW local file.
-
-                Clicking it goes back to the existing
-                Cloudinary image in edit mode.
-              */}
               {value && (
                 <Button
                   type="button"
                   variant="outline"
                   size="sm"
-                  onClick={ handleRemove }
-                  className="
-                    border-red-200
-                    text-red-700
-                    hover:bg-red-50
-                    hover:text-red-800
-                  "
+                  onClick={handleRemove}
+                  className="border-red-200 text-red-700 hover:bg-red-50 hover:text-red-800"
                 >
-                  <Trash2
-                    className="size-4"
-                    aria-hidden="true"
-                  />
-
-                  {labels.remove}
+                  <Trash2 className="size-4" aria-hidden="true" />
+                  {t("remove")}
                 </Button>
               )}
             </div>
           </div>
         </div>
       ) : (
-        <label
-          className="
-            flex cursor-pointer
-            flex-col items-center
-            justify-center
-            rounded-2xl border
-            border-dashed
-            border-slate-300
-            bg-slate-50
-            px-6 py-12
-            text-center
-            transition-colors
-            hover:border-blue-300
-            hover:bg-blue-50/40
-          "
-        >
-          <div
-            className="
-              flex size-14
-              items-center
-              justify-center
-              rounded-2xl
-              bg-blue-50
-              text-blue-700
-              ring-1
-              ring-blue-100
-            "
-          >
-            <ImageIcon
-              className="size-6"
-              aria-hidden="true"
-            />
+        <label className="flex cursor-pointer flex-col items-center justify-center rounded-2xl border border-dashed border-slate-300 bg-slate-50 px-6 py-12 text-center transition-colors hover:border-blue-300 hover:bg-blue-50/40">
+          <div className="flex size-14 items-center justify-center rounded-2xl bg-blue-50 text-blue-700 ring-1 ring-blue-100">
+            <ImageIcon className="size-6" aria-hidden="true" />
           </div>
 
-          <p
-            className="
-              mt-4 text-sm
-              font-semibold
-              text-slate-900
-            "
-          >
-            {labels.choose}
+          <p className="mt-4 text-sm font-semibold text-slate-900">
+            {t("choose")}
           </p>
 
-          <p
-            className="
-              mt-2 max-w-sm
-              text-xs leading-5
-              text-slate-500
-            "
-          >
-            {labels.hint}
+          <p className="mt-2 max-w-sm text-xs leading-5 text-slate-500">
+            {t("hint")}
+          </p>
+
+          <p className="mt-2 text-xs text-slate-500">
+            {t("formats")}
           </p>
 
           <input
             type="file"
-            accept="
-              image/png,
-              image/jpeg,
-              image/webp
-            "
-            onChange={
-              handleFileChange
-            }
+            accept="image/png,image/jpeg,image/webp"
+            onChange={handleFileChange}
             className="sr-only"
+            aria-label={t("choose")}
           />
         </label>
       )}
 
       {error && (
-        <p
-          role="alert"
-          className="
-            text-sm font-medium
-            text-red-600
-          "
-        >
+        <p role="alert" className="text-sm font-medium text-red-600">
           {error}
         </p>
       )}

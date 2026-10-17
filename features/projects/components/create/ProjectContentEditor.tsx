@@ -1,5 +1,8 @@
 "use client";
 
+import { useTranslations } from "next-intl";
+import type { SupportedLocale } from "@/lib/dates/localizedValue";
+
 import {
   Tabs,
   TabsContent,
@@ -9,17 +12,12 @@ import {
 
 import WysiwygEditor from "@/components/editor/WysiwygEditor";
 
-type SupportedLocale = "en" | "fr";
-
 interface ProjectContentEditorProps {
   locale: SupportedLocale;
-
   contentEn: string;
   contentFr: string;
-
   onContentEnChange: (value: string) => void;
   onContentFrChange: (value: string) => void;
-
   errors?: {
     contentEn?: string;
     contentFr?: string;
@@ -34,40 +32,7 @@ export default function ProjectContentEditor({
   onContentFrChange,
   errors = {},
 }: ProjectContentEditorProps) {
-  const labels =
-    locale === "fr"
-      ? {
-          english: "Anglais",
-          french: "Français",
-
-          englishEditor:
-            "Contenu du projet en anglais",
-
-          frenchEditor:
-            "Contenu du projet en français",
-
-          englishHint:
-            "Rédigez la présentation du projet en anglais.",
-
-          frenchHint:
-            "Rédigez la présentation du projet en français.",
-        }
-      : {
-          english: "English",
-          french: "French",
-
-          englishEditor:
-            "English project content",
-
-          frenchEditor:
-            "French project content",
-
-          englishHint:
-            "Write the English version of the project.",
-
-          frenchHint:
-            "Write the French version of the project.",
-        };
+  const t = useTranslations("ProjectContentEditor");
 
   return (
     <div className="space-y-4">
@@ -76,11 +41,7 @@ export default function ProjectContentEditor({
         className="w-full bg-blue-50"
       >
         <TabsList
-          aria-label={
-            locale === "fr"
-              ? "Langue du contenu"
-              : "Content language"
-          }
+          aria-label={t("contentLanguage")}
           className="
             h-auto w-full justify-start
             rounded-none border-0 border-b
@@ -101,14 +62,11 @@ export default function ProjectContentEditor({
               data-[state=active]:shadow-none
             "
           >
-            {labels.english}
+            {t("english")}
 
             {errors.contentEn && (
               <span
-                className="
-                  ml-2 size-2 rounded-full
-                  bg-red-500
-                "
+                className="ml-2 size-2 rounded-full bg-red-500"
                 aria-hidden="true"
               />
             )}
@@ -128,14 +86,11 @@ export default function ProjectContentEditor({
               data-[state=active]:shadow-none
             "
           >
-            {labels.french}
+            {t("french")}
 
             {errors.contentFr && (
               <span
-                className="
-                  ml-2 size-2 rounded-full
-                  bg-red-500
-                "
+                className="ml-2 size-2 rounded-full bg-red-500"
                 aria-hidden="true"
               />
             )}
@@ -148,22 +103,19 @@ export default function ProjectContentEditor({
           className="mt-5 space-y-2"
         >
           <p className="px-4 text-sm text-slate-500">
-            {labels.englishHint}
+            {t("englishHint")}
           </p>
 
           <WysiwygEditor
             value={contentEn}
             onChange={onContentEnChange}
-            ariaLabel={labels.englishEditor}
+            ariaLabel={t("englishEditor")}
           />
 
           {errors.contentEn && (
             <p
               role="alert"
-              className="
-                text-sm font-medium
-                text-red-600
-              "
+              className="text-sm font-medium text-red-600"
             >
               {errors.contentEn}
             </p>
@@ -176,22 +128,19 @@ export default function ProjectContentEditor({
           className="mt-5 space-y-2"
         >
           <p className="px-4 text-sm text-slate-500">
-            {labels.frenchHint}
+            {t("frenchHint")}
           </p>
 
           <WysiwygEditor
             value={contentFr}
             onChange={onContentFrChange}
-            ariaLabel={labels.frenchEditor}
+            ariaLabel={t("frenchEditor")}
           />
 
           {errors.contentFr && (
             <p
               role="alert"
-              className="
-                text-sm font-medium
-                text-red-600
-              "
+              className="text-sm font-medium text-red-600"
             >
               {errors.contentFr}
             </p>

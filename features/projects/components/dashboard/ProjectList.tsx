@@ -1,16 +1,17 @@
+"use client";
+
 import {
   FolderKanban,
   Plus,
 } from "lucide-react";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 import { Button } from "@/components/ui/button";
-
 import ProjectCard from "./ProjectCard";
 
 import type { Project } from "@/features/interfaces/project";
-
-type SupportedLocale = "en" | "fr";
+import type { SupportedLocale } from "@/lib/dates/localizedValue";
 
 interface ProjectListProps {
   projects: Project[];
@@ -21,30 +22,11 @@ export default function ProjectList({
   projects,
   locale,
 }: ProjectListProps) {
+  const t = useTranslations("ProjectList");
+
   const safeProjects = Array.isArray(projects)
     ? projects.filter(Boolean)
     : [];
-
-  const labels =
-    locale === "fr"
-      ? {
-          emptyTitle: "Aucun projet trouvé",
-          emptyDescription:
-            "Commencez par créer votre premier projet ou modifiez vos filtres de recherche.",
-          create: "Créer un projet",
-        }
-      : {
-          emptyTitle: "No projects found",
-          emptyDescription:
-            "Create your first project or adjust the current search and filters.",
-          create: "Create project",
-        };
-
-  /*
-   * -------------------------------------------
-   * Empty state
-   * -------------------------------------------
-   */
 
   if (safeProjects.length === 0) {
     return (
@@ -77,7 +59,7 @@ export default function ProjectList({
             text-slate-950
           "
         >
-          {labels.emptyTitle}
+          {t("emptyTitle")}
         </h2>
 
         <p
@@ -87,7 +69,7 @@ export default function ProjectList({
             text-slate-600
           "
         >
-          {labels.emptyDescription}
+          {t("emptyDescription")}
         </p>
 
         <Button
@@ -98,38 +80,25 @@ export default function ProjectList({
             hover:bg-orange-500
           "
         >
-          <Link
-            href={`/${locale}/dashboard/projects/new`}
-          >
+          <Link href={`/${locale}/dashboard/projects/new`}>
             <Plus
               className="size-4"
               aria-hidden="true"
             />
-
-            {labels.create}
+            {t("create")}
           </Link>
         </Button>
       </section>
     );
   }
 
-  /*
-   * -------------------------------------------
-   * Project grid
-   * -------------------------------------------
-   */
-
   return (
-    <section
-      aria-labelledby="project-list-heading"
-    >
+    <section aria-labelledby="project-list-heading">
       <h2
         id="project-list-heading"
         className="sr-only"
       >
-        {locale === "fr"
-          ? "Liste des projets"
-          : "Project list"}
+        {t("listHeading")}
       </h2>
 
       <div

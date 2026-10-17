@@ -1,5 +1,6 @@
 import { ExternalLink } from "lucide-react";
 import { FaGithub } from "react-icons/fa";
+import { getTranslations } from "next-intl/server";
 
 interface ProjectLinksProps {
   liveUrl?: string | null;
@@ -7,22 +8,23 @@ interface ProjectLinksProps {
   locale?: "en" | "fr";
 }
 
-export default function ProjectLinks({
+export default async function ProjectLinks({
   liveUrl,
   githubUrl,
   locale = "en",
 }: ProjectLinksProps) {
+  const t = await getTranslations({
+    locale,
+    namespace: "projects.ProjectLinks",
+  });
+
   if (!liveUrl && !githubUrl) {
     return null;
   }
 
   return (
     <section
-      aria-label={
-        locale === "fr"
-          ? "Liens du projet"
-          : "Project links"
-      }
+      aria-label={t("sectionLabel")}
       className="border-t border-slate-200 pt-6"
     >
       <div className="flex flex-wrap gap-3">
@@ -32,28 +34,17 @@ export default function ProjectLinks({
             target="_blank"
             rel="noopener noreferrer"
             className="
-              inline-flex
-              items-center
-              gap-2
-              rounded-lg
-              bg-slate-950
-              px-5
-              py-2.5
-              text-sm
-              font-semibold
-              text-white
-              transition-colors
-              hover:bg-orange-600
+              inline-flex items-center gap-2
+              rounded-lg bg-slate-950 px-5 py-2.5
+              text-sm font-semibold text-white
+              transition-colors hover:bg-orange-600
             "
           >
             <ExternalLink
               className="size-4"
               aria-hidden="true"
             />
-
-            {locale === "fr"
-              ? "Voir le projet"
-              : "View project"}
+            {t("viewProject")}
           </a>
         )}
 
@@ -63,20 +54,11 @@ export default function ProjectLinks({
             target="_blank"
             rel="noopener noreferrer"
             className="
-              inline-flex
-              items-center
-              gap-2
-              rounded-lg
-              border
-              border-slate-200
-              bg-white
-              px-5
-              py-2.5
-              text-sm
-              font-semibold
-              text-slate-700
-              transition-colors
-              hover:border-slate-300
+              inline-flex items-center gap-2
+              rounded-lg border border-slate-200
+              bg-white px-5 py-2.5 text-sm
+              font-semibold text-slate-700
+              transition-colors hover:border-slate-300
               hover:bg-slate-50
             "
           >
@@ -84,8 +66,7 @@ export default function ProjectLinks({
               className="size-4"
               aria-hidden="true"
             />
-
-            GitHub
+            {t("github")}
           </a>
         )}
       </div>
