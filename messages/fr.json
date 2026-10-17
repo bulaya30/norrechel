@@ -703,5 +703,30 @@
     "status": "Statut",
     "submitted": "Soumis le",
     "actions": "Actions"
+  },
+  "NotificationPage": {
+    "eyebrow": "Activité",
+    "title": "Notifications",
+    "description": "Consultez les événements récents liés à votre contenu et à votre audience."
+  },
+  "NotificationSummary": {
+    "ariaLabel": "Résumé des notifications",
+    "unreadLabel": "{count, plural, =0 {Aucune notification non lue} =1 {# notification non lue} other {# notifications non lues}}",
+    "totalLabel": "{count, plural, =0 {Aucune notification au total} =1 {# notification au total} other {# notifications au total}}",
+    "allCaughtUp": "Tout est à jour"
+  },
+  "NotificationCenter": {
+    "filters": {
+      "all": "Toutes",
+      "articles": "Articles",
+      "projects": "Projets",
+      "subscribers": "Abonnements"
+    },
+    "markAllAsRead": "Tout marquer comme lu",
+    "emptyTitle": "Aucune notification",
+    "emptyDescription": "Aucune notification ne correspond à ce filtre.",
+    "unreadCount": "{count, plural, =0 {Aucune notification non lue} =1 {# notification non lue} other {# notifications non lues}}",
+    "recentActivity": "Activité récente",
+    "filterLabel": "Filtrer les notifications"
   }
 }

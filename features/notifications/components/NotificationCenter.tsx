@@ -1,6 +1,7 @@
 "use client";
 
 import { useOptimistic, useTransition } from "react";
+import { useTranslations } from "next-intl";
 
 import {
   Bell,
@@ -25,12 +26,8 @@ import {
   markNotificationAsReadAction,
 } from "@/features/notifications/actions/notification.actions";
 
-import type {
-  Notification,
-  NotificationType,
-} from "@/features/interfaces/notification";
-
-type SupportedLocale = "en" | "fr";
+import type { Notification } from "@/features/interfaces/notification";
+import type { SupportedLocale } from "@/lib/dates/localizedValue";
 
 type NotificationFilter =
   | "all"
@@ -56,8 +53,9 @@ export default function NotificationCenter({
   notifications,
   locale,
 }: NotificationCenterProps) {
-  const [isPending, startTransition] =
-    useTransition();
+  const t = useTranslations("NotificationCenter");
+
+  const [isPending, startTransition] = useTransition();
 
   const [
     optimisticNotifications,
@@ -69,52 +67,22 @@ export default function NotificationCenter({
       action: OptimisticAction,
     ) => {
       if (action.type === "mark-all") {
-        return currentNotifications.map(
-          (notification) => ({
-            ...notification,
-            read: true,
-          }),
-        );
+        return currentNotifications.map((notification) => ({
+          ...notification,
+          read: true,
+        }));
       }
 
-      return currentNotifications.map(
-        (notification) =>
-          notification.id === action.id
-            ? {
-                ...notification,
-                read: true,
-              }
-            : notification,
+      return currentNotifications.map((notification) =>
+        notification.id === action.id
+          ? {
+              ...notification,
+              read: true,
+            }
+          : notification,
       );
     },
   );
-
-  const labels =
-    locale === "fr"
-      ? {
-          all: "Toutes",
-          articles: "Articles",
-          projects: "Projets",
-          subscribers: "Abonnements",
-          markAll: "Tout marquer comme lu",
-          emptyTitle: "Aucune notification",
-          emptyDescription:
-            "Aucune notification ne correspond à ce filtre.",
-          unread: "non lue",
-          unreadPlural: "non lues",
-        }
-      : {
-          all: "All",
-          articles: "Articles",
-          projects: "Projects",
-          subscribers: "Subscribers",
-          markAll: "Mark all as read",
-          emptyTitle: "No notifications",
-          emptyDescription:
-            "No notifications match this filter.",
-          unread: "unread",
-          unreadPlural: "unread",
-        };
 
   const filters: Array<{
     value: NotificationFilter;
@@ -123,31 +91,29 @@ export default function NotificationCenter({
   }> = [
     {
       value: "all",
-      label: labels.all,
+      label: t("filters.all"),
       icon: Bell,
     },
     {
       value: "article",
-      label: labels.articles,
+      label: t("filters.articles"),
       icon: BookOpen,
     },
     {
       value: "project",
-      label: labels.projects,
+      label: t("filters.projects"),
       icon: CodeXml,
     },
     {
       value: "subscriber",
-      label: labels.subscribers,
+      label: t("filters.subscribers"),
       icon: UserPlus,
     },
   ];
 
-  const unreadCount =
-    optimisticNotifications.filter(
-      (notification) =>
-        notification.read === false,
-    ).length;
+  const unreadCount = optimisticNotifications.filter(
+    (notification) => notification.read === false,
+  ).length;
 
   function handleMarkAsRead(id: string) {
     startTransition(async () => {
@@ -178,16 +144,12 @@ export default function NotificationCenter({
     }
 
     return optimisticNotifications.filter(
-      (notification) =>
-        notification.type === filter,
+      (notification) => notification.type === filter,
     );
   }
 
-  function renderNotificationList(
-    filter: NotificationFilter,
-  ) {
-    const filteredNotifications =
-      getFilteredNotifications(filter);
+  function renderNotificationList(filter: NotificationFilter) {
+    const filteredNotifications = getFilteredNotifications(filter);
 
     if (filteredNotifications.length === 0) {
       return (
@@ -207,18 +169,15 @@ export default function NotificationCenter({
               ring-1 ring-slate-200
             "
           >
-            <Bell
-              className="size-5"
-              aria-hidden="true"
-            />
+            <Bell className="size-5" aria-hidden="true" />
           </div>
 
           <h3 className="mt-4 font-bold text-slate-900">
-            {labels.emptyTitle}
+            {t("emptyTitle")}
           </h3>
 
           <p className="mt-2 text-sm text-slate-600">
-            {labels.emptyDescription}
+            {t("emptyDescription")}
           </p>
         </div>
       );
@@ -226,27 +185,23 @@ export default function NotificationCenter({
 
     return (
       <ul className="space-y-3">
-        {filteredNotifications.map(
-          (notification, index) => (
-            <li
-              key={
-                notification.id ??
-                `${notification.type}-${index}`
+        {filteredNotifications.map((notification, index) => (
+          <li
+            key={
+              notification.id ??
+              `${notification.type}-${index}`
+            }
+          >
+            <NotificationItem
+              notification={notification}
+              locale={locale}
+              isPending={isPending}
+              onMarkAsRead={
+                notification.id ? handleMarkAsRead : undefined
               }
-            >
-              <NotificationItem
-                notification={notification}
-                locale={locale}
-                isPending={isPending}
-                onMarkAsRead={
-                  notification.id
-                    ? handleMarkAsRead
-                    : undefined
-                }
-              />
-            </li>
-          ),
-        )}
+            />
+          </li>
+        ))}
       </ul>
     );
   }
@@ -278,16 +233,11 @@ export default function NotificationCenter({
               text-slate-950
             "
           >
-            {locale === "fr"
-              ? "Activité récente"
-              : "Recent activity"}
+            {t("recentActivity")}
           </h2>
 
           <p className="mt-1 text-sm text-slate-500">
-            {unreadCount}{" "}
-            {unreadCount === 1
-              ? labels.unread
-              : labels.unreadPlural}
+            {t("unreadCount", { count: unreadCount })}
           </p>
         </div>
 
@@ -303,26 +253,15 @@ export default function NotificationCenter({
               hover:text-blue-900
             "
           >
-            <CheckCircle2
-              className="size-4"
-              aria-hidden="true"
-            />
-
-            {labels.markAll}
+            <CheckCircle2 className="size-4" aria-hidden="true" />
+            {t("markAllAsRead")}
           </Button>
         )}
       </header>
 
-      <Tabs
-        defaultValue="all"
-        className="w-full"
-      >
+      <Tabs defaultValue="all" className="w-full">
         <TabsList
-          aria-label={
-            locale === "fr"
-              ? "Filtrer les notifications"
-              : "Filter notifications"
-          }
+          aria-label={t("filterLabel")}
           className="
             h-auto w-full justify-start gap-1
             overflow-x-auto rounded-none
@@ -332,11 +271,7 @@ export default function NotificationCenter({
         >
           {filters.map((filter) => {
             const Icon = filter.icon;
-
-            const count =
-              getFilteredNotifications(
-                filter.value,
-              ).length;
+            const count = getFilteredNotifications(filter.value).length;
 
             return (
               <TabsTrigger
@@ -355,10 +290,7 @@ export default function NotificationCenter({
                   data-[state=active]:shadow-none
                 "
               >
-                <Icon
-                  className="size-4"
-                  aria-hidden="true"
-                />
+                <Icon className="size-4" aria-hidden="true" />
 
                 <span>{filter.label}</span>
 
@@ -382,9 +314,7 @@ export default function NotificationCenter({
             value={filter.value}
             className="mt-5 focus-visible:outline-none"
           >
-            {renderNotificationList(
-              filter.value,
-            )}
+            {renderNotificationList(filter.value)}
           </TabsContent>
         ))}
       </Tabs>

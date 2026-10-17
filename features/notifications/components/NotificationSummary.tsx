@@ -1,12 +1,14 @@
-import {
-  Bell,
-  CircleCheck,
-} from "lucide-react";
+"use client";
+
+import { Bell, CircleCheck } from "lucide-react";
+import { useTranslations } from "next-intl";
+
+import type { SupportedLocale } from "@/lib/dates/localizedValue";
 
 interface NotificationSummaryProps {
   total: number;
   unread: number;
-  locale: "en" | "fr";
+  locale: SupportedLocale;
 }
 
 export default function NotificationSummary({
@@ -14,31 +16,11 @@ export default function NotificationSummary({
   unread,
   locale,
 }: NotificationSummaryProps) {
-  const unreadLabel =
-    locale === "fr"
-      ? `${unread} notification${
-          unread > 1 ? "s" : ""
-        } non lue${unread > 1 ? "s" : ""}`
-      : `${unread} unread notification${
-          unread === 1 ? "" : "s"
-        }`;
-
-  const totalLabel =
-    locale === "fr"
-      ? `${total} notification${
-          total > 1 ? "s" : ""
-        } au total`
-      : `${total} notification${
-          total === 1 ? "" : "s"
-        } in total`;
+  const t = useTranslations("NotificationSummary");
 
   return (
     <section
-      aria-label={
-        locale === "fr"
-          ? "Résumé des notifications"
-          : "Notification summary"
-      }
+      aria-label={t("ariaLabel")}
       className="
         mb-6 flex flex-col gap-4
         rounded-2xl border
@@ -64,11 +46,11 @@ export default function NotificationSummary({
 
         <div>
           <p className="font-semibold text-slate-900">
-            {unreadLabel}
+            {t("unreadLabel", { count: unread })}
           </p>
 
           <p className="mt-1 text-sm text-slate-500">
-            {totalLabel}
+            {t("totalLabel", { count: total })}
           </p>
         </div>
       </div>
@@ -81,14 +63,8 @@ export default function NotificationSummary({
             text-emerald-700
           "
         >
-          <CircleCheck
-            className="size-4"
-            aria-hidden="true"
-          />
-
-          {locale === "fr"
-            ? "Tout est à jour"
-            : "You are all caught up"}
+          <CircleCheck className="size-4" aria-hidden="true" />
+          {t("allCaughtUp")}
         </div>
       )}
     </section>

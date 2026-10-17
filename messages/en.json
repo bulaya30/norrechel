@@ -691,6 +691,31 @@
       "status": "Status",
       "submitted": "Submitted",
       "actions": "Actions"
+    },
+    "NotificationPage": {
+      "eyebrow": "Activity",
+      "title": "Notifications",
+      "description": "Review recent events related to your content and audience."
+    },
+    "NotificationSummary": {
+      "ariaLabel": "Notification summary",
+      "unreadLabel": "{count, plural, =1 {# unread notification} other {# unread notifications}}",
+      "totalLabel": "{count, plural, =1 {# notification in total} other {# notifications in total}}",
+      "allCaughtUp": "You are all caught up"
+    },
+    "NotificationCenter": {
+    "filters": {
+      "all": "All",
+      "articles": "Articles",
+      "projects": "Projects",
+      "subscribers": "Subscribers"
+    },
+    "markAllAsRead": "Mark all as read",
+      "emptyTitle": "No notifications",
+      "emptyDescription": "No notifications match this filter.",
+      "unreadCount": "{count, plural, =0 {No unread notifications} =1 {# unread notification} other {# unread notifications}}",
+      "recentActivity": "Recent activity",
+      "filterLabel": "Filter notifications"
     }
   
 }

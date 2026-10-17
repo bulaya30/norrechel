@@ -1,13 +1,14 @@
+import { getTranslations } from "next-intl/server";
+
 import DashboardPageHeader from "@/features/dashboard/components/DashboardPageHeader";
 
 import NotificationCenter from "@/features/notifications/components/NotificationCenter";
 import NotificationSummary from "@/features/notifications/components/NotificationSummary";
 
 import { getCachedUserNotifications } from "@/features/notifications/queries/notification.queries";
-
 import { requireAuthenticatedUser } from "@/features/auth/lib/requireAuthenticatedUser";
 
-type SupportedLocale = "en" | "fr";
+import type { SupportedLocale } from "@/lib/dates/localizedValue";
 
 interface NotificationPageProps {
   params: Promise<{
@@ -20,6 +21,11 @@ export default async function NotificationPage({
 }: NotificationPageProps) {
   const { locale } = await params;
 
+  const t = await getTranslations({
+    locale,
+    namespace: "NotificationPage",
+  });
+
   const { userId } = await requireAuthenticatedUser();
 
   const result = await getCachedUserNotifications(userId);
@@ -28,26 +34,16 @@ export default async function NotificationPage({
     ? result.filter(Boolean)
     : [];
 
-  const unreadCount =
-    notifications.filter(
-      (notification) =>
-        notification.read === false,
-    ).length;
+  const unreadCount = notifications.filter(
+    (notification) => notification.read === false,
+  ).length;
 
   return (
     <>
       <DashboardPageHeader
-        eyebrow={
-          locale === "fr"
-            ? "Activité"
-            : "Activity"
-        }
-        title="Notifications"
-        description={
-          locale === "fr"
-            ? "Consultez les événements récents liés à votre contenu et à votre audience."
-            : "Review recent events related to your content and audience."
-        }
+        eyebrow={t("eyebrow")}
+        title={t("title")}
+        description={t("description")}
       />
 
       <NotificationSummary
