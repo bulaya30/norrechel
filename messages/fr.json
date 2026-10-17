@@ -671,5 +671,37 @@
     "description": "Modifiez le nom de la catégorie.",
     "missingCategoryId": "L’identifiant de la catégorie est manquant.",
     "nameRequired": "Le nom de la catégorie est obligatoire."
+  },
+  "ContactDetails": {
+    "backToContacts": "Retour aux contacts",
+    "updating": "Mise à jour...",
+    "markAsReplied": "Marquer comme répondu",
+    "missingContactId": "L’identifiant du contact est manquant.",
+    "noSubject": "Sans objet",
+    "message": "Message",
+    "contactInformation": "Informations du contact",
+    "sourcePage": "Page source",
+    "contentType": "Type de contenu",
+    "contentId": "Identifiant du contenu",
+    "submitted": "Soumis le",
+    "replied": "Répondu le"
+  },
+  "ContactFilters": {
+    "searchLabel": "Rechercher des contacts",
+    "searchPlaceholder": "Rechercher par nom, e-mail ou objet...",
+    "statusLabel": "Statut",
+    "all": "Tous",
+    "new": "Nouveau",
+    "replied": "Répondu"
+  },
+  "ContactList": {
+    "title": "Contacts",
+    "contactCount": "{count, plural, =0 {Aucun contact} =1 {1 contact} other {# contacts}}",
+    "contact": "Contact",
+    "subject": "Objet",
+    "source": "Source",
+    "status": "Statut",
+    "submitted": "Soumis le",
+    "actions": "Actions"
   }
 }

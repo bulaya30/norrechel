@@ -1,3 +1,7 @@
+"use client";
+
+import { useTranslations } from "next-intl";
+
 import type { Status } from "@/features/interfaces/contact";
 
 type ContactFilter = "all" | Status;
@@ -15,6 +19,8 @@ export default function ContactFilters({
   onSearchChange,
   onStatusChange,
 }: ContactFiltersProps) {
+  const t = useTranslations("ContactFilters");
+
   return (
     <div
       className="
@@ -31,21 +37,16 @@ export default function ContactFilters({
     >
       {/* Search */}
       <div className="w-full sm:max-w-md">
-        <label
-          htmlFor="contact-search"
-          className="sr-only"
-        >
-          Search contacts
+        <label htmlFor="contact-search" className="sr-only">
+          {t("searchLabel")}
         </label>
 
         <input
           id="contact-search"
           type="search"
           value={searchQuery}
-          onChange={(event) =>
-            onSearchChange(event.target.value)
-          }
-          placeholder="Search by name, email, or subject..."
+          onChange={(event) => onSearchChange(event.target.value)}
+          placeholder={t("searchPlaceholder")}
           className="
             w-full
             rounded-lg
@@ -70,16 +71,14 @@ export default function ContactFilters({
           htmlFor="contact-status"
           className="text-sm font-medium text-slate-600"
         >
-          Status
+          {t("statusLabel")}
         </label>
 
         <select
           id="contact-status"
           value={statusFilter}
           onChange={(event) =>
-            onStatusChange(
-              event.target.value as ContactFilter,
-            )
+            onStatusChange(event.target.value as ContactFilter)
           }
           className="
             rounded-lg
@@ -95,9 +94,9 @@ export default function ContactFilters({
             focus:ring-blue-500/20
           "
         >
-          <option value="all">All</option>
-          <option value="new">New</option>
-          <option value="replied">Replied</option>
+          <option value="all">{t("all")}</option>
+          <option value="new">{t("new")}</option>
+          <option value="replied">{t("replied")}</option>
         </select>
       </div>
     </div>

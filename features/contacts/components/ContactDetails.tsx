@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import {
   ArrowLeft,
   CheckCircle2,
@@ -18,14 +19,12 @@ import {
 } from "@/components/ui/card";
 
 import { markContactAsRepliedAction } from "@/features/contacts/actions/contact.actions";
-
 import StatusBadge from "@/components/StatusBadge";
 
 import type { Contact } from "@/features/interfaces/contact";
+import type { SupportedLocale } from "@/lib/dates/localizedValue";
 
 import { readableDate } from "@/lib/dates/utils";
-
-type SupportedLocale = "en" | "fr";
 
 interface ContactDetailsProps {
   locale: SupportedLocale;
@@ -37,13 +36,10 @@ export default function ContactDetails({
   contact,
 }: ContactDetailsProps) {
   const router = useRouter();
+  const t = useTranslations("ContactDetails");
 
-  const [isPending, startTransition] =
-    useTransition();
-
-  const [error, setError] = useState<string | null>(
-    null,
-  );
+  const [isPending, startTransition] = useTransition();
+  const [error, setError] = useState<string | null>(null);
 
   function handleBack() {
     router.push(`/${locale}/dashboard/contacts`);
@@ -51,17 +47,14 @@ export default function ContactDetails({
 
   function handleMarkAsReplied() {
     if (!contact.id) {
-      setError("Contact ID is missing.");
+      setError(t("missingContactId"));
       return;
     }
 
     setError(null);
 
     startTransition(async () => {
-      const response =
-        await markContactAsRepliedAction(
-          contact.id!,
-        );
+      const response = await markContactAsRepliedAction(contact.id!);
 
       if (!response.success) {
         setError(response.message);
@@ -74,10 +67,7 @@ export default function ContactDetails({
 
   return (
     <div className="space-y-6">
-      {/* -------------------------------------------
-       * Header
-       * ------------------------------------------- */}
-
+      {/* Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <button
           type="button"
@@ -91,15 +81,11 @@ export default function ContactDetails({
             hover:text-slate-950
           "
         >
-          <ArrowLeft
-            className="size-4"
-            aria-hidden="true"
-          />
-
-          Back to contacts
+          <ArrowLeft className="size-4" aria-hidden="true" />
+          {t("backToContacts")}
         </button>
 
-        {contact?.status === "new" && (
+        {contact.status === "new" && (
           <button
             type="button"
             onClick={handleMarkAsReplied}
@@ -119,22 +105,13 @@ export default function ContactDetails({
               disabled:opacity-60
             "
           >
-            <CheckCircle2
-              className="size-4"
-              aria-hidden="true"
-            />
-
-            {isPending
-              ? "Updating..."
-              : "Mark as replied"}
+            <CheckCircle2 className="size-4" aria-hidden="true" />
+            {isPending ? t("updating") : t("markAsReplied")}
           </button>
         )}
       </div>
 
-      {/* -------------------------------------------
-       * Error
-       * ------------------------------------------- */}
-
+      {/* Error */}
       {error && (
         <div
           role="alert"
@@ -151,10 +128,7 @@ export default function ContactDetails({
         </div>
       )}
 
-      {/* -------------------------------------------
-       * Contact header
-       * ------------------------------------------- */}
-
+      {/* Contact header */}
       <Card className="border-slate-200 shadow-sm">
         <CardHeader>
           <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
@@ -169,10 +143,7 @@ export default function ContactDetails({
                   ring-1 ring-blue-100
                 "
               >
-                <User
-                  className="size-5"
-                  aria-hidden="true"
-                />
+                <User className="size-5" aria-hidden="true" />
               </div>
 
               <div className="min-w-0">
@@ -190,25 +161,18 @@ export default function ContactDetails({
                     hover:text-blue-700
                   "
                 >
-                  <Mail
-                    className="size-4"
-                    aria-hidden="true"
-                  />
-
+                  <Mail className="size-4" aria-hidden="true" />
                   {contact.email}
                 </a>
               </div>
             </div>
 
-            <StatusBadge status={contact?.status ?? null} />
+            <StatusBadge status={contact.status ?? null} />
           </div>
         </CardHeader>
       </Card>
 
-      {/* -------------------------------------------
-       * Message
-       * ------------------------------------------- */}
-
+      {/* Message */}
       <Card className="border-slate-200 shadow-sm">
         <CardHeader>
           <div className="flex items-center gap-3">
@@ -222,19 +186,16 @@ export default function ContactDetails({
                 ring-1 ring-blue-100
               "
             >
-              <MessageSquare
-                className="size-5"
-                aria-hidden="true"
-              />
+              <MessageSquare className="size-5" aria-hidden="true" />
             </div>
 
             <div>
               <CardTitle className="text-lg font-bold text-slate-950">
-                {contact.subject || "No subject"}
+                {contact.subject || t("noSubject")}
               </CardTitle>
 
               <p className="mt-1 text-sm text-slate-500">
-                Message
+                {t("message")}
               </p>
             </div>
           </div>
@@ -257,42 +218,36 @@ export default function ContactDetails({
         </CardContent>
       </Card>
 
-      {/* -------------------------------------------
-       * Contact metadata
-       * ------------------------------------------- */}
-
+      {/* Contact metadata */}
       <Card className="border-slate-200 shadow-sm">
         <CardHeader>
           <CardTitle className="text-lg font-bold text-slate-950">
-            Contact information
+            {t("contactInformation")}
           </CardTitle>
         </CardHeader>
 
         <CardContent>
           <dl className="grid gap-5 sm:grid-cols-2">
-            <InfoItem
-              label="Source page"
-              value={contact.source_page}
-            />
+            <InfoItem label={t("sourcePage")} value={contact.source_page} />
 
             <InfoItem
-              label="Content type"
+              label={t("contentType")}
               value={contact.content_type}
             />
 
             <InfoItem
-              label="Content ID"
+              label={t("contentId")}
               value={contact.content_id || "—"}
             />
 
             <InfoItem
-              label="Submitted"
-              value={readableDate(contact.submittedAt)}
+              label={t("submitted")}
+              value={readableDate(contact.submittedAt, locale)}
             />
 
             <InfoItem
-              label="Replied"
-              value={readableDate(contact.repliedAt)}
+              label={t("replied")}
+              value={readableDate(contact.repliedAt, locale)}
             />
           </dl>
         </CardContent>
@@ -301,21 +256,12 @@ export default function ContactDetails({
   );
 }
 
-/*
- * -------------------------------------------
- * Information item
- * -------------------------------------------
- */
-
 interface InfoItemProps {
   label: string;
   value: string;
 }
 
-function InfoItem({
-  label,
-  value,
-}: InfoItemProps) {
+function InfoItem({ label, value }: InfoItemProps) {
   return (
     <div>
       <dt className="text-xs font-semibold uppercase tracking-wider text-slate-500">

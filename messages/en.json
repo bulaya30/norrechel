@@ -659,6 +659,38 @@
       "description": "Update the category name.",
       "missingCategoryId": "Category ID is missing.",
       "nameRequired": "Category name is required."
+    },
+    "ContactDetails": {
+      "backToContacts": "Back to contacts",
+      "updating": "Updating...",
+      "markAsReplied": "Mark as replied",
+      "missingContactId": "Contact ID is missing.",
+      "noSubject": "No subject",
+      "message": "Message",
+      "contactInformation": "Contact information",
+      "sourcePage": "Source page",
+      "contentType": "Content type",
+      "contentId": "Content ID",
+      "submitted": "Submitted",
+      "replied": "Replied"
+    },
+    "ContactFilters": {
+      "searchLabel": "Search contacts",
+      "searchPlaceholder": "Search by name, email, or subject...",
+      "statusLabel": "Status",
+      "all": "All",
+      "new": "New",
+      "replied": "Replied"
+    },
+    "ContactList": {
+      "title": "Contacts",
+      "contactCount": "{count, plural, =0 {No contacts} =1 {1 contact} other {# contacts}}",
+      "contact": "Contact",
+      "subject": "Subject",
+      "source": "Source",
+      "status": "Status",
+      "submitted": "Submitted",
+      "actions": "Actions"
     }
   
 }

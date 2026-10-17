@@ -20,13 +20,9 @@ export default async function NotificationPage({
 }: NotificationPageProps) {
   const { locale } = await params;
 
-  // Dynamic/request-specific operation happens OUTSIDE cache.
-  const { userId } =
-    await requireAuthenticatedUser();
+  const { userId } = await requireAuthenticatedUser();
 
-  // Only stable data is passed into the cached query.
-  const result =
-    await getCachedUserNotifications(userId);
+  const result = await getCachedUserNotifications(userId);
 
   const notifications = Array.isArray(result)
     ? result.filter(Boolean)
