@@ -610,6 +610,55 @@
       "contentRequired": "Article content is required.",
       "categoryRequired": "Category is required.",
       "coverImageRequired": "Cover image is required."
+    },
+    "CategoryList": {
+      "emptyTitle": "No categories found",
+      "emptyDescription": "Create your first category to start organizing your articles and projects.",
+      "create": "Create category",
+      "listHeading": "Category list",
+      "category": "Category",
+      "content": "Content",
+      "status": "Status",
+      "created": "Created",
+      "actions": "Actions"
+    },
+    "CategoryToolbar": {
+      "searchPlaceholder": "Search categories...",
+      "create": "New category",
+      "clear": "Clear"
+    },
+    "CategoryRow": {
+      "active": "Active",
+      "inactive": "Inactive",
+      "articles": "Articles",
+      "projects": "Projects",
+      "edit": "Edit",
+      "delete": "Delete",
+      "restore": "Restore",
+      "noDate": "—"
+    },
+    "NewCategoryPage": {
+      "eyebrow": "Content management",
+      "title": "New category",
+      "description": "Create a category to organize your articles and projects."
+    },
+    "EditCategoryPage": {
+      "eyebrow": "Content management",
+      "title": "Edit category",
+      "description": "Update the category details used to organize your articles and projects."
+    },
+    "CategoryFields": {
+      "name": "Category name",
+      "namePlaceholder": "e.g. Technology"
+    },
+    "CreateCategoryForm": {
+      "categoryTitle": "Category name"
+    },
+    "EditCategoryForm": {
+      "title": "Category information",
+      "description": "Update the category name.",
+      "missingCategoryId": "Category ID is missing.",
+      "nameRequired": "Category name is required."
     }
   
 }

@@ -1,8 +1,14 @@
+
 "use client";
 
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { useController, useForm } from "react-hook-form";
+import { useTranslations } from "next-intl";
+
+import {
+  useController,
+  useForm,
+} from "react-hook-form";
 
 import { Layers3 } from "lucide-react";
 
@@ -20,8 +26,7 @@ import FormActions from "@/components/form/FormActions";
 import { updateCategoryAction } from "@/features/categories/actions/category.actions";
 
 import type { Category } from "@/features/interfaces/category";
-
-type SupportedLocale = "en" | "fr";
+import type { SupportedLocale } from "@/lib/dates/localizedValue";
 
 interface EditCategoryFormProps {
   locale: SupportedLocale;
@@ -38,11 +43,10 @@ export default function EditCategoryForm({
 }: EditCategoryFormProps) {
   const router = useRouter();
 
-  const [isSaving, startSavingTransition] = useTransition();
+  const t = useTranslations("EditCategoryForm");
 
-  const [serverError, setServerError] = useState<string | null>(
-    null,
-  );
+  const [isSaving, startSavingTransition] = useTransition();
+  const [serverError, setServerError] = useState<string | null>(null);
 
   const {
     control,
@@ -61,16 +65,12 @@ export default function EditCategoryForm({
     name: "name",
   }).field;
 
-  
-
-
   function validateForm(): boolean {
     clearErrors();
     setServerError(null);
 
     if (!category.id) {
-      setServerError("Category ID is missing.");
-
+      setServerError(t("missingCategoryId"));
       return false;
     }
 
@@ -79,7 +79,7 @@ export default function EditCategoryForm({
     if (!values.name.trim()) {
       setError("name", {
         type: "manual",
-        message: "Category name is required.",
+        message: t("nameRequired"),
       });
 
       return false;
@@ -102,7 +102,6 @@ export default function EditCategoryForm({
 
       if (!response.success) {
         setServerError(response.message);
-
         return;
       }
 
@@ -150,16 +149,8 @@ export default function EditCategoryForm({
         <CardHeader>
           <SectionHeader
             icon={Layers3}
-            title={
-              locale === "fr"
-                ? "Informations de la catégorie"
-                : "Category information"
-            }
-            description={
-              locale === "fr"
-                ? "Modifiez le nom de la catégorie."
-                : "Update the category name."
-            }
+            title={t("title")}
+            description={t("description")}
             variant="blue"
           />
         </CardHeader>
@@ -179,23 +170,19 @@ export default function EditCategoryForm({
       {/* Actions */}
       <FormActions
         locale={locale}
-        component={"categories"}
-        isCategory={true}
-        mode={"edit"}
+        component="categories"
+        isCategory
+        mode="edit"
         isSaving={isSaving}
         onSaveDraft={handleSave}
       />
-
     </form>
   );
 }
 
 /*
- * -------------------------------------------
  * Section header
- * -------------------------------------------
  */
-
 interface SectionHeaderProps {
   icon: typeof Layers3;
   title: string;
@@ -232,10 +219,7 @@ function SectionHeader({
               `
         }
       >
-        <Icon
-          className="size-5"
-          aria-hidden="true"
-        />
+        <Icon className="size-5" aria-hidden="true" />
       </div>
 
       <div>

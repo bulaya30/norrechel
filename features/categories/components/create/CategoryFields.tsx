@@ -1,9 +1,12 @@
+
 "use client";
+
+import { useTranslations } from "next-intl";
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-type SupportedLocale = "en" | "fr";
+import type { SupportedLocale } from "@/lib/dates/localizedValue";
 
 interface CategoryFieldsProps {
   locale: SupportedLocale;
@@ -20,24 +23,7 @@ export default function CategoryFields({
   onNameChange,
   errors = {},
 }: CategoryFieldsProps) {
-  const labels =
-    locale === "fr"
-      ? {
-          name: "Nom de la catégorie",
-          slug: "Slug",
-          namePlaceholder: "Ex. Technologie",
-          slugPlaceholder: "Ex. technologie",
-          activeDescription:
-            "Une catégorie active peut être utilisée pour organiser le contenu.",
-        }
-      : {
-          name: "Category name",
-          slug: "URL slug",
-          namePlaceholder: "e.g. Technology",
-          slugPlaceholder: "e.g. technology",
-          activeDescription:
-            "An active category can be used to organize content.",
-        };
+  const t = useTranslations("CategoryFields");
 
   return (
     <div className="space-y-6">
@@ -47,7 +33,7 @@ export default function CategoryFields({
           htmlFor="category-name"
           className="font-semibold text-slate-800"
         >
-          {labels.name}
+          {t("name")}
         </Label>
 
         <Input
@@ -57,10 +43,8 @@ export default function CategoryFields({
           onChange={(event) =>
             onNameChange(event.target.value)
           }
-          placeholder={labels.namePlaceholder}
-          aria-invalid={
-            errors.name ? "true" : "false"
-          }
+          placeholder={t("namePlaceholder")}
+          aria-invalid={errors.name ? "true" : "false"}
           aria-describedby={
             errors.name
               ? "category-name-error"

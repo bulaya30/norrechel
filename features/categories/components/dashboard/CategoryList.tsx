@@ -1,3 +1,8 @@
+
+"use client";
+
+import { useTranslations } from "next-intl";
+
 import {
   FolderTree,
   Plus,
@@ -10,8 +15,7 @@ import { Button } from "@/components/ui/button";
 import CategoryRow from "./CategoryRow";
 
 import type { CategoryDashboardItem } from "@/features/interfaces/category";
-
-type SupportedLocale = "en" | "fr";
+import type { SupportedLocale } from "@/lib/dates/localizedValue";
 
 interface CategoryListProps {
   categories: CategoryDashboardItem[];
@@ -22,34 +26,11 @@ export default function CategoryList({
   categories,
   locale,
 }: CategoryListProps) {
+  const t = useTranslations("CategoryList");
+
   const safeCategories = Array.isArray(categories)
     ? categories.filter(Boolean)
     : [];
-
-  const labels =
-    locale === "fr"
-      ? {
-          emptyTitle: "Aucune catégorie trouvée",
-          emptyDescription:
-            "Créez votre première catégorie pour commencer à organiser vos articles et projets.",
-          create: "Créer une catégorie",
-          category: "Catégorie",
-          content: "Contenu",
-          status: "Statut",
-          created: "Créée",
-          actions: "Actions",
-        }
-      : {
-          emptyTitle: "No categories found",
-          emptyDescription:
-            "Create your first category to start organizing your articles and projects.",
-          create: "Create category",
-          category: "Category",
-          content: "Content",
-          status: "Status",
-          created: "Created",
-          actions: "Actions",
-        };
 
   if (safeCategories.length === 0) {
     return (
@@ -87,7 +68,7 @@ export default function CategoryList({
             text-slate-950
           "
         >
-          {labels.emptyTitle}
+          {t("emptyTitle")}
         </h2>
 
         <p
@@ -99,7 +80,7 @@ export default function CategoryList({
             text-slate-600
           "
         >
-          {labels.emptyDescription}
+          {t("emptyDescription")}
         </p>
 
         <Button
@@ -112,15 +93,13 @@ export default function CategoryList({
             hover:bg-orange-500
           "
         >
-          <Link
-            href={`/${locale}/dashboard/categories/new`}
-          >
+          <Link href={`/${locale}/dashboard/categories/new`}>
             <Plus
               className="size-4"
               aria-hidden="true"
             />
 
-            {labels.create}
+            {t("create")}
           </Link>
         </Button>
       </section>
@@ -142,9 +121,7 @@ export default function CategoryList({
         id="category-list-heading"
         className="sr-only"
       >
-        {locale === "fr"
-          ? "Liste des catégories"
-          : "Category list"}
+        {t("listHeading")}
       </h2>
 
       {/* Desktop table */}
@@ -170,7 +147,7 @@ export default function CategoryList({
                   text-slate-500
                 "
               >
-                {labels.category}
+                {t("category")}
               </th>
 
               <th
@@ -185,7 +162,7 @@ export default function CategoryList({
                   text-slate-500
                 "
               >
-                {labels.content}
+                {t("content")}
               </th>
 
               <th
@@ -200,7 +177,7 @@ export default function CategoryList({
                   text-slate-500
                 "
               >
-                {labels.status}
+                {t("status")}
               </th>
 
               <th
@@ -215,7 +192,7 @@ export default function CategoryList({
                   text-slate-500
                 "
               >
-                {labels.created}
+                {t("created")}
               </th>
 
               <th
@@ -230,7 +207,7 @@ export default function CategoryList({
                   text-slate-500
                 "
               >
-                {labels.actions}
+                {t("actions")}
               </th>
             </tr>
           </thead>

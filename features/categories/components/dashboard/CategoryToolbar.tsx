@@ -1,6 +1,8 @@
+
 "use client";
 
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 import {
   Plus,
@@ -10,8 +12,7 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-
-type SupportedLocale = "en" | "fr";
+import type { SupportedLocale } from "@/lib/dates/localizedValue";
 
 interface CategoryToolbarProps {
   locale: SupportedLocale;
@@ -26,20 +27,7 @@ export default function CategoryToolbar({
   onSearchChange,
   onReset,
 }: CategoryToolbarProps) {
-  const labels =
-    locale === "fr"
-      ? {
-          searchPlaceholder:
-            "Rechercher des catégories...",
-          create: "Nouvelle catégorie",
-          clear: "Effacer",
-        }
-      : {
-          searchPlaceholder:
-            "Search categories...",
-          create: "New Category",
-          clear: "Clear",
-        };
+  const t = useTranslations("CategoryToolbar");
 
   return (
     <div
@@ -68,12 +56,8 @@ export default function CategoryToolbar({
           onChange={(event) =>
             onSearchChange(event.target.value)
           }
-          placeholder={
-            labels.searchPlaceholder
-          }
-          aria-label={
-            labels.searchPlaceholder
-          }
+          placeholder={t("searchPlaceholder")}
+          aria-label={t("searchPlaceholder")}
           className="
             h-11
             border-slate-200
@@ -91,7 +75,7 @@ export default function CategoryToolbar({
           <button
             type="button"
             onClick={onReset}
-            aria-label={labels.clear}
+            aria-label={t("clear")}
             className="
               absolute right-3 top-1/2
               -translate-y-1/2
@@ -120,15 +104,13 @@ export default function CategoryToolbar({
           hover:bg-orange-500
         "
       >
-        <Link
-          href={`/${locale}/dashboard/categories/new`}
-        >
+        <Link href={`/${locale}/dashboard/categories/new`}>
           <Plus
             className="size-4"
             aria-hidden="true"
           />
 
-          {labels.create}
+          {t("create")}
         </Link>
       </Button>
     </div>

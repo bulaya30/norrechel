@@ -622,5 +622,54 @@
     "contentRequired": "Le contenu de l’article est obligatoire.",
     "categoryRequired": "La catégorie est obligatoire.",
     "coverImageRequired": "L’image de couverture est obligatoire."
+  },
+  "CategoryList": {
+    "emptyTitle": "Aucune catégorie trouvée",
+    "emptyDescription": "Créez votre première catégorie pour commencer à organiser vos articles et projets.",
+    "create": "Créer une catégorie",
+    "listHeading": "Liste des catégories",
+    "category": "Catégorie",
+    "content": "Contenu",
+    "status": "Statut",
+    "created": "Créée",
+    "actions": "Actions"
+  },
+  "CategoryToolbar": {
+    "searchPlaceholder": "Rechercher des catégories...",
+    "create": "Nouvelle catégorie",
+    "clear": "Effacer"
+  },
+  "CategoryRow": {
+    "active": "Active",
+    "inactive": "Inactive",
+    "articles": "Articles",
+    "projects": "Projets",
+    "edit": "Modifier",
+    "delete": "Supprimer",
+    "restore": "Restaurer",
+    "noDate": "—"
+  },
+  "NewCategoryPage": {
+    "eyebrow": "Gestion du contenu",
+    "title": "Nouvelle catégorie",
+    "description": "Créez une catégorie pour organiser vos articles et vos projets."
+  },
+  "EditCategoryPage": {
+    "eyebrow": "Gestion du contenu",
+    "title": "Modifier la catégorie",
+    "description": "Modifiez les informations de la catégorie utilisée pour organiser vos articles et vos projets."
+  },
+  "CategoryFields": {
+    "name": "Nom de la catégorie",
+    "namePlaceholder": "Ex. Technologie"
+  },
+  "CreateCategoryForm": {
+    "categoryTitle": "Nom de la catégorie"
+  },
+  "EditCategoryForm": {
+    "title": "Informations de la catégorie",
+    "description": "Modifiez le nom de la catégorie.",
+    "missingCategoryId": "L’identifiant de la catégorie est manquant.",
+    "nameRequired": "Le nom de la catégorie est obligatoire."
   }
 }

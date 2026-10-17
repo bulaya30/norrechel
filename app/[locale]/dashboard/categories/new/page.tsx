@@ -1,7 +1,8 @@
+import { getTranslations } from "next-intl/server";
+
 import DashboardPageHeader from "@/features/dashboard/components/DashboardPageHeader";
 import CreateCategoryForm from "@/features/categories/components/create/CreateCategoryForm";
-
-type SupportedLocale = "en" | "fr";
+import type { SupportedLocale } from "@/lib/dates/localizedValue";
 
 interface NewCategoryPageProps {
   params: Promise<{
@@ -10,27 +11,23 @@ interface NewCategoryPageProps {
 }
 
 export default async function NewCategoryPage({
-    params,
-}: NewCategoryPageProps)  {
-    const { locale } = await params;
-    return (
-        <>
-            <DashboardPageHeader
-                eyebrow={
-                  locale === "fr"
-                    ? "Gestion du contenu"
-                    : "Content management"
-                }
-                title={
-                  locale === "fr"
-                    ? "Nouveau category"
-                    : "New category"
-                }
-                description={""}
-            />
-            <CreateCategoryForm
-                locale={locale}
-            />
-        </>
-    )
+  params,
+}: NewCategoryPageProps) {
+  const { locale } = await params;
+  const t = await getTranslations({
+    locale,
+    namespace: "NewCategoryPage",
+  });
+
+  return (
+    <>
+      <DashboardPageHeader
+        eyebrow={t("eyebrow")}
+        title={t("title")}
+        description={t("description")}
+      />
+
+      <CreateCategoryForm locale={locale} />
+    </>
+  );
 }

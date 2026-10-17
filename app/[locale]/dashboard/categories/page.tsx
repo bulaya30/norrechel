@@ -47,8 +47,6 @@ export default async function CategoriesPage({
         })
     );
 
-    // console.log(categoriesWithContent)
-
   return (
     <CategoryManager
       categories={categoriesWithContent}
