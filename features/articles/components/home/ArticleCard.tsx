@@ -5,8 +5,9 @@ import { ArrowUpRight, Clock3 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import type { Article } from "@/features/interfaces/article";
+import type { SupportedLocale } from "@/lib/dates/localizedValue";
+import { readableDate } from "@/lib/dates/utils";
 
-type SupportedLocale = "en" | "fr";
 type LangValue = string | Record<string, string> | null | undefined;
 
 interface ArticleCardProps {
@@ -55,44 +56,6 @@ function getReadingTime(content: string): number {
   return Math.max(1, Math.ceil(words / 200));
 }
 
-function formatPublishedDate(
-  value: Article["publishedAt"] | Article["date"] | Article["createdAt"],
-  locale: SupportedLocale,
-): string {
-  if (!value) return "";
-
-  let date: Date;
-
-  if (
-    typeof value === "object" &&
-    value !== null &&
-    "toDate" in value &&
-    typeof value.toDate === "function"
-  ) {
-    date = value.toDate();
-  } else if (
-    typeof value === "object" &&
-    value !== null &&
-    "seconds" in value &&
-    typeof value.seconds === "number"
-  ) {
-    date = new Date(value.seconds * 1000);
-  } else {
-    date = new Date(value as string | number | Date);
-  }
-
-  if (Number.isNaN(date.getTime())) return "";
-
-  return new Intl.DateTimeFormat(
-    locale === "fr" ? "fr-FR" : "en-US",
-    {
-      day: "numeric",
-      month: "short",
-      year: "numeric",
-    },
-  ).format(date);
-}
-
 export default function ArticleCard({
   article,
   locale,
@@ -109,7 +72,7 @@ export default function ArticleCard({
   const readingTime = getReadingTime(content);
 
   const coverImage = article.cover_image;
-  const publishedDate = formatPublishedDate(
+  const publishedDate = readableDate(
     article.publishedAt ?? article.date ?? article.createdAt,
     locale,
   );

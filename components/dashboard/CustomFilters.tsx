@@ -2,6 +2,8 @@
 
 import { useTranslations } from "next-intl";
 
+import type { SupportedLocale } from "@/lib/dates/localizedValue";
+
 import {
   Select,
   SelectContent,
@@ -9,8 +11,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-
-type SupportedLocale = "en" | "fr";
 
 interface CategoryOption {
   id: string;

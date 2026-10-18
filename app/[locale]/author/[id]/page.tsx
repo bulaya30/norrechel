@@ -257,6 +257,7 @@ export default async function AuthorPage({
       <div className="container mx-auto px-4 pb-20 pt-24">
         <div className="mx-auto max-w-7xl">
           <AuthorHero
+            locale={locale}
             firstName={author.firstName ?? ""}
             lastName={author.lastName ?? ""}
             title={authorTitle || t("defaultTitle")}
@@ -270,6 +271,7 @@ export default async function AuthorPage({
           />
 
           <AuthorStats
+          locale={locale}
             articles={formatNumber(articles.length, locale)}
             projects={formatNumber(projects.length, locale)}
             views={formatNumber(totalArticleViews, locale)}
@@ -277,7 +279,6 @@ export default async function AuthorPage({
           />
 
           <AuthorTabs
-            locale={locale}
             articlesContent={
               <AuthorArticles
                 articles={articles}

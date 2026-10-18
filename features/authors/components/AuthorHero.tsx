@@ -1,17 +1,18 @@
 import Image from "next/image";
 import Link from "next/link";
+import { getTranslations } from "next-intl/server";
+import type { ReactNode } from "react";
 import {
   ExternalLink,
   Globe,
   Mail,
 } from "lucide-react";
-
 import { FaGithub, FaLinkedin } from "react-icons/fa";
-  
 
 interface AuthorHeroProps {
   firstName: string;
   lastName: string;
+  locale: "en" | "fr";
   title?: string;
   description?: string;
   photo?: string | null;
@@ -26,7 +27,7 @@ interface SocialLinkProps {
   href?: string;
   label: string;
   external?: boolean;
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 function SocialLink({
@@ -64,11 +65,12 @@ function SocialLink({
   );
 }
 
-export default function AuthorHero({
+export default async function AuthorHero({
   firstName,
   lastName,
-  title = "Software Engineer · Builder · Entrepreneur",
-  description = "I build practical digital products, explore data-driven solutions, and share lessons from technology, entrepreneurship, and continuous learning.",
+  locale,
+  title,
+  description,
   photo,
   email,
   github,
@@ -76,13 +78,16 @@ export default function AuthorHero({
   website,
   skills = [],
 }: AuthorHeroProps) {
+  const t = await getTranslations({
+    locale,
+    namespace: "AuthorHero",
+  });
+
   const fullName =
     [firstName, lastName].filter(Boolean).join(" ") ||
-    "Unknown author";
+    t("unknownAuthor");
 
   const profileImage = photo || "/img/logo.png";
-
-  console.log(profileImage)
 
   return (
     <section
@@ -123,7 +128,7 @@ export default function AuthorHero({
             >
               <Image
                 src={profileImage}
-                alt={`${fullName} profile picture`}
+                alt={t("profileImageAlt", { name: fullName })}
                 fill
                 priority
                 sizes="(max-width: 640px) 144px, 160px"
@@ -135,31 +140,28 @@ export default function AuthorHero({
           <div className="min-w-0 flex-1">
             <header>
               <p className="text-sm font-semibold uppercase tracking-[0.2em] text-orange-400">
-                About the creator
+                {t("eyebrow")}
               </p>
 
               <h1
                 id="author-heading"
-                className="
-                  mt-3 text-4xl font-bold tracking-tight
-                  sm:text-5xl
-                "
+                className="mt-3 text-4xl font-bold tracking-tight sm:text-5xl"
               >
                 {fullName}
               </h1>
 
               <p className="mt-3 text-base font-medium text-blue-200 sm:text-lg">
-                {title}
+                {title || t("defaultTitle")}
               </p>
             </header>
 
             <p className="mx-auto mt-5 max-w-3xl text-base leading-8 text-slate-300 lg:mx-0">
-              {description}
+              {description || t("defaultDescription")}
             </p>
 
             {skills.length > 0 && (
               <ul
-                aria-label="Professional skills"
+                aria-label={t("skillsLabel")}
                 className="mt-6 flex flex-wrap justify-center gap-2 lg:justify-start"
               >
                 {skills.map((skill) => (
@@ -179,12 +181,12 @@ export default function AuthorHero({
             )}
 
             <nav
-              aria-label={`${fullName} social and contact links`}
+              aria-label={t("socialLinksLabel", { name: fullName })}
               className="mt-7 flex items-center justify-center gap-3 lg:justify-start"
             >
               <SocialLink
                 href={github}
-                label={`Visit ${fullName}'s GitHub profile`}
+                label={t("githubLabel", { name: fullName })}
                 external
               >
                 <FaGithub className="size-5" aria-hidden="true" />
@@ -192,7 +194,7 @@ export default function AuthorHero({
 
               <SocialLink
                 href={linkedin}
-                label={`Visit ${fullName}'s LinkedIn profile`}
+                label={t("linkedinLabel", { name: fullName })}
                 external
               >
                 <FaLinkedin className="size-5" aria-hidden="true" />
@@ -200,7 +202,7 @@ export default function AuthorHero({
 
               <SocialLink
                 href={website}
-                label={`Visit ${fullName}'s website`}
+                label={t("websiteLabel", { name: fullName })}
                 external
               >
                 <Globe className="size-5" aria-hidden="true" />
@@ -208,7 +210,7 @@ export default function AuthorHero({
 
               <SocialLink
                 href={email ? `mailto:${email}` : undefined}
-                label={`Send an email to ${fullName}`}
+                label={t("emailLabel", { name: fullName })}
               >
                 <Mail className="size-5" aria-hidden="true" />
               </SocialLink>
@@ -228,7 +230,7 @@ export default function AuthorHero({
                   focus-visible:ring-orange-400
                 "
               >
-                Visit personal website
+                {t("visitWebsite")}
                 <ExternalLink className="size-4" aria-hidden="true" />
               </Link>
             )}

@@ -1,43 +1,42 @@
 import Link from "next/link";
-import {
-  ArrowLeft,
-  FileQuestion,
-} from "lucide-react";
+import { getTranslations } from "next-intl/server";
+import type { SupportedLocale } from "@/lib/dates/localizedValue";
+import { ArrowLeft, FileQuestion } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 
 type ContentNotFoundProps = {
-  locale: "en" | "fr";
+  locale: SupportedLocale;
   component: string;
 };
 
-export default function ContentNotFound({
+export default async function ContentNotFound({
   locale,
   component,
 }: ContentNotFoundProps) {
-  const isArticle = component.toLocaleLowerCase() === "article";
+  const t = await getTranslations({
+    locale,
+    namespace: "ContentNotFound",
+  });
 
-  const content = locale === "fr"
-      ? {
-          title: `${component} introuvable`,
+  const normalizedComponent = component.toLowerCase();
+  const isArticle = normalizedComponent === "article";
 
-          description: isArticle
-            ? "L’article que vous recherchez n’existe pas ou a peut-être été supprimé."
-            : `Le ${component.toLocaleLowerCase()} que vous recherchez n’existe pas ou a peut-être été supprimé.`,
+  const title = t("title", {
+    component,
+  });
 
-          back: `Retour aux ${component.toLocaleLowerCase()}s`,
+  const description = isArticle
+    ? t("articleDescription")
+    : t("description", {
+        component: normalizedComponent,
+      });
 
-          href: `/${locale}/dashboard/${component.toLocaleLowerCase()}s`,
-        }
-      : {
-          title: `${component} not found`,
+  const back = t("back", {
+    component: normalizedComponent,
+  });
 
-          description: `The ${component.toLocaleLowerCase()} you're looking for does not exist or may have been deleted.`,
-
-          back: `Back to ${component.toLocaleLowerCase()}s`,
-
-          href: `/${locale}/dashboard/${component.toLocaleLowerCase()}s`,
-        };
+  const href = `/${locale}/dashboard/${normalizedComponent}s`;
 
   return (
     <div className="flex min-h-[60vh] items-center justify-center px-6">
@@ -50,10 +49,7 @@ export default function ContentNotFound({
             ring-1 ring-slate-200
           "
         >
-          <FileQuestion
-            className="size-7"
-            aria-hidden="true"
-          />
+          <FileQuestion className="size-7" aria-hidden="true" />
         </div>
 
         <h1
@@ -62,7 +58,7 @@ export default function ContentNotFound({
             text-slate-950
           "
         >
-          {content.title}
+          {title}
         </h1>
 
         <p
@@ -71,20 +67,13 @@ export default function ContentNotFound({
             text-slate-500
           "
         >
-          {content.description}
+          {description}
         </p>
 
-        <Button
-          asChild
-          className="mt-6"
-        >
-          <Link href={content.href}>
-            <ArrowLeft
-              className="size-4"
-              aria-hidden="true"
-            />
-
-            {content.back}
+        <Button asChild className="mt-6">
+          <Link href={href}>
+            <ArrowLeft className="size-4" aria-hidden="true" />
+            {back}
           </Link>
         </Button>
       </div>

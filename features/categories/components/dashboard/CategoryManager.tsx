@@ -6,8 +6,7 @@ import CategoryToolbar from "@/features/categories/components/dashboard/Category
 import CategoryList from "./CategoryList";
 
 import type { CategoryDashboardItem } from "@/features/interfaces/category";
-
-type SupportedLocale = "en" | "fr";
+import type { SupportedLocale } from "@/lib/dates/localizedValue";
 
 interface CategoryManagerProps {
   categories: CategoryDashboardItem[];

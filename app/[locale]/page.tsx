@@ -15,9 +15,8 @@ import { getCachedPublishedArticles } from "@/features/articles/queries/article.
 import { getCachedPublishedProjects } from "@/features/projects/queries/project.queries";
 
 import NewsletterSection from "@/features/newsletter/components/NewsletterSection";
-import PageBackground from "@/components/PageBackground";
 
-type SupportedLocale = "en" | "fr";
+import type { SupportedLocale } from "@/lib/dates/localizedValue";
 
 export default async function Page() {
   const locale = (await getLocale()) as SupportedLocale;

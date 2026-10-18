@@ -4,8 +4,10 @@ import {
   Database,
   Lightbulb,
 } from "lucide-react";
+import { getTranslations } from "next-intl/server";
+import type { ReactNode } from "react";
 
-type SupportedLocale = "en" | "fr";
+import type { SupportedLocale } from "@/lib/dates/localizedValue";
 
 interface AuthorAboutProps {
   locale: SupportedLocale;
@@ -16,82 +18,49 @@ interface AuthorAboutProps {
 interface FocusItem {
   title: string;
   description: string;
-  icon: React.ReactNode;
+  icon: ReactNode;
 }
 
-export default function AuthorAbout({
+const focusItems = [
+  {
+    key: "softwareDevelopment",
+    icon: CodeXml,
+  },
+  {
+    key: "dataAnalytics",
+    icon: Database,
+  },
+  {
+    key: "problemSolving",
+    icon: BrainCircuit,
+  },
+  {
+    key: "entrepreneurship",
+    icon: Lightbulb,
+  },
+] as const;
+
+export default async function AuthorAbout({
   locale,
   bio,
   skills = [],
 }: AuthorAboutProps) {
-  const content =
-    locale === "fr"
-      ? {
-          heading: "À propos de l’auteur",
-          introduction:
-            bio ||
-            "Je conçois des applications modernes, j’explore les données et je partage des connaissances pratiques autour de la technologie, de l’entrepreneuriat et du développement personnel.",
-          skillsHeading: "Compétences principales",
-          focus: [
-            {
-              title: "Développement logiciel",
-              description:
-                "Conception d’applications web modernes, maintenables et centrées sur les besoins réels des utilisateurs.",
-              icon: <CodeXml className="size-6" aria-hidden="true" />,
-            },
-            {
-              title: "Données et analyse",
-              description:
-                "Transformation des données brutes en informations utiles pour mieux comprendre les problèmes et guider les décisions.",
-              icon: <Database className="size-6" aria-hidden="true" />,
-            },
-            {
-              title: "Résolution de problèmes",
-              description:
-                "Approche structurée pour transformer des idées complexes en solutions pratiques et mesurables.",
-              icon: <BrainCircuit className="size-6" aria-hidden="true" />,
-            },
-            {
-              title: "Entrepreneuriat",
-              description:
-                "Exploration d’idées, création de projets et apprentissage continu autour de la construction d’entreprises utiles.",
-              icon: <Lightbulb className="size-6" aria-hidden="true" />,
-            },
-          ] satisfies FocusItem[],
-        }
-      : {
-          heading: "About the author",
-          introduction:
-            bio ||
-            "I build modern applications, explore data, and share practical knowledge around technology, entrepreneurship, and personal development.",
-          skillsHeading: "Core skills",
-          focus: [
-            {
-              title: "Software development",
-              description:
-                "Building modern, maintainable web applications around real user needs and practical business requirements.",
-              icon: <CodeXml className="size-6" aria-hidden="true" />,
-            },
-            {
-              title: "Data and analytics",
-              description:
-                "Turning raw data into useful insights that help explain problems and support better decisions.",
-              icon: <Database className="size-6" aria-hidden="true" />,
-            },
-            {
-              title: "Problem solving",
-              description:
-                "Using structured thinking to transform complex ideas into practical and measurable solutions.",
-              icon: <BrainCircuit className="size-6" aria-hidden="true" />,
-            },
-            {
-              title: "Entrepreneurship",
-              description:
-                "Exploring ideas, building projects, and learning how useful businesses are created and sustained.",
-              icon: <Lightbulb className="size-6" aria-hidden="true" />,
-            },
-          ] satisfies FocusItem[],
-        };
+  const t = await getTranslations({
+    locale,
+    namespace: "AuthorAbout",
+  });
+
+  const focus: FocusItem[] = focusItems.map((item) => {
+    const Icon = item.icon;
+
+    return {
+      title: t(`focus.${item.key}.title`),
+      description: t(`focus.${item.key}.description`),
+      icon: <Icon className="size-6" aria-hidden="true" />,
+    };
+  });
+
+  const introduction = bio || t("introduction");
 
   return (
     <section
@@ -103,16 +72,16 @@ export default function AuthorAbout({
           id="author-about-heading"
           className="text-2xl font-bold tracking-tight text-slate-900"
         >
-          {content.heading}
+          {t("heading")}
         </h3>
 
         <p className="mt-4 text-base leading-8 text-slate-600">
-          {content.introduction}
+          {introduction}
         </p>
       </header>
 
       <div className="grid gap-5 md:grid-cols-2">
-        {content.focus.map((item) => (
+        {focus.map((item) => (
           <article
             key={item.title}
             className="
@@ -130,6 +99,7 @@ export default function AuthorAbout({
                 rounded-2xl bg-blue-50 text-blue-700
                 ring-1 ring-blue-100
               "
+              aria-hidden="true"
             >
               {item.icon}
             </div>
@@ -151,11 +121,11 @@ export default function AuthorAbout({
             id="author-skills-heading"
             className="text-lg font-bold text-slate-900"
           >
-            {content.skillsHeading}
+            {t("skillsHeading")}
           </h4>
 
           <ul
-            aria-label={content.skillsHeading}
+            aria-label={t("skillsHeading")}
             className="mt-4 flex flex-wrap gap-2"
           >
             {skills.map((skill) => (

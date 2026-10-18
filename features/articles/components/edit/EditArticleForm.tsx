@@ -1,21 +1,10 @@
 "use client";
 
-import {
-  useState,
-  useTransition,
-} from "react";
-
+import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-
-import {
-  useController,
-  useForm,
-} from "react-hook-form";
-
-import {
-  FileText,
-  ImageIcon,
-} from "lucide-react";
+import { useTranslations } from "next-intl";
+import { useController, useForm } from "react-hook-form";
+import { FileText, ImageIcon } from "lucide-react";
 
 import {
   Card,
@@ -35,11 +24,8 @@ import {
   publishArticleAction,
 } from "@/features/articles/actions/article.actions";
 
-import type {
-  Article,
-} from "@/features/interfaces/article";
-
-type SupportedLocale = "en" | "fr";
+import type { Article } from "@/features/interfaces/article";
+import type { SupportedLocale } from "@/lib/dates/localizedValue";
 
 interface CategoryOption {
   id: string;
@@ -57,15 +43,19 @@ interface EditArticleFormValues {
     en: string;
     fr: string;
   };
-
   content: {
     en: string;
     fr: string;
   };
-
   categoryId: string;
-
   coverImage: File | null;
+}
+
+interface SectionHeaderProps {
+  icon: typeof FileText;
+  title: string;
+  description: string;
+  variant: "blue" | "orange";
 }
 
 export default function EditArticleForm({
@@ -73,173 +63,83 @@ export default function EditArticleForm({
   article,
   categories,
 }: EditArticleFormProps) {
+  const t = useTranslations("EditArticleForm");
   const router = useRouter();
 
-  /*
-   * -------------------------------------------
-   * Saving
-   * -------------------------------------------
-   */
+  const [isSaving, startSavingTransition] = useTransition();
+  const [isPublishing, startPublishingTransition] = useTransition();
 
-  const [
-    isSaving,
-    startSavingTransition,
-  ] = useTransition();
-
-  /*
-   * -------------------------------------------
-   * Publishing
-   * -------------------------------------------
-   */
-
-  const [
-    isPublishing,
-    startPublishingTransition,
-  ] = useTransition();
-
-  /*
-   * -------------------------------------------
-   * Server error
-   * -------------------------------------------
-   */
-
-  const [
-    serverError,
-    setServerError,
-  ] = useState<string | null>(
-    null,
-  );
-
-  /*
-   * -------------------------------------------
-   * Form
-   * -------------------------------------------
-   */
+  const [serverError, setServerError] = useState<string | null>(null);
 
   const {
     control,
     getValues,
     setError,
     clearErrors,
-    formState: {
-      errors,
-    },
+    formState: { errors },
   } = useForm<EditArticleFormValues>({
     defaultValues: {
       title: {
-        en:
-          article.title?.en ?? "",
-
-        fr:
-          article.title?.fr ?? "",
+        en: article.title?.en ?? "",
+        fr: article.title?.fr ?? "",
       },
-
       content: {
         en: article.content?.en ?? "",
-
         fr: article.content?.fr ?? "",
       },
-
       categoryId: article.categoryId ?? "",
-
-      /*
-       * Only a newly selected file
-       * lives in the form state.
-       */
       coverImage: null,
     },
   });
 
-  /*
-   * -------------------------------------------
-   * Fields
-   * -------------------------------------------
-   */
+  const titleEnField = useController({
+    control,
+    name: "title.en",
+  }).field;
 
-  const titleEnField =
-    useController({
-      control,
-      name: "title.en",
-    }).field;
+  const titleFrField = useController({
+    control,
+    name: "title.fr",
+  }).field;
 
-  const titleFrField =
-    useController({
-      control,
-      name: "title.fr",
-    }).field;
+  const categoryField = useController({
+    control,
+    name: "categoryId",
+  }).field;
 
-  const categoryField =
-    useController({
-      control,
-      name: "categoryId",
-    }).field;
+  const contentEnField = useController({
+    control,
+    name: "content.en",
+  }).field;
 
-  const contentEnField =
-    useController({
-      control,
-      name: "content.en",
-    }).field;
+  const contentFrField = useController({
+    control,
+    name: "content.fr",
+  }).field;
 
-  const contentFrField =
-    useController({
-      control,
-      name: "content.fr",
-    }).field;
+  const coverImageField = useController({
+    control,
+    name: "coverImage",
+  }).field;
 
-  const coverImageField =
-    useController({
-      control,
-      name: "coverImage",
-    }).field;
-
-  /*
-   * -------------------------------------------
-   * Scroll helpers
-   * -------------------------------------------
-   */
-
-  function scrollToField(
-    fieldPath: string,
-  ): void {
-    const fieldTargets: Record<
-      string,
-      string
-    > = {
-      "title.en":
-        "article-title-en",
-
-      "title.fr":
-        "article-title-fr",
-
-      categoryId:
-        "article-category",
-
-      "content.en":
-        "article-content-section",
-
-      "content.fr":
-        "article-content-section",
-
-      coverImage:
-        "article-cover-section",
+  function scrollToField(fieldPath: string): void {
+    const fieldTargets: Record<string, string> = {
+      "title.en": "article-title-en",
+      "title.fr": "article-title-fr",
+      categoryId: "article-category",
+      "content.en": "article-content-section",
+      "content.fr": "article-content-section",
+      coverImage: "article-cover-section",
     };
 
-    const targetId =
-      fieldTargets[fieldPath];
+    const targetId = fieldTargets[fieldPath];
 
-    if (!targetId) {
-      return;
-    }
+    if (!targetId) return;
 
     requestAnimationFrame(() => {
-      const element =
-        document.getElementById(
-          targetId,
-        );
+      const element = document.getElementById(targetId);
 
-      if (!element) {
-        return;
-      }
+      if (!element) return;
 
       element.scrollIntoView({
         behavior: "smooth",
@@ -247,16 +147,11 @@ export default function EditArticleForm({
       });
 
       if (
-        element instanceof
-          HTMLInputElement ||
-        element instanceof
-          HTMLTextAreaElement ||
-        element instanceof
-          HTMLButtonElement
+        element instanceof HTMLInputElement ||
+        element instanceof HTMLTextAreaElement ||
+        element instanceof HTMLButtonElement
       ) {
-        element.focus({
-          preventScroll: true,
-        });
+        element.focus({ preventScroll: true });
       }
     });
   }
@@ -264,9 +159,7 @@ export default function EditArticleForm({
   function scrollToServerError(): void {
     requestAnimationFrame(() => {
       document
-        .getElementById(
-          "article-edit-server-error",
-        )
+        .getElementById("article-edit-server-error")
         ?.scrollIntoView({
           behavior: "smooth",
           block: "center",
@@ -274,195 +167,113 @@ export default function EditArticleForm({
     });
   }
 
-  /*
-   * -------------------------------------------
-   * Validate
-   * -------------------------------------------
-   */
-
   function validateForm(): boolean {
     clearErrors();
     setServerError(null);
 
     if (!article.id) {
-      setServerError(
-        "Article ID is missing.",
-      );
-
+      setServerError(t("validation.articleIdMissing"));
       scrollToServerError();
-
       return false;
     }
 
-    const values =
-      getValues();
+    const values = getValues();
 
-    /*
-     * English title.
-     */
-    if (
-      !values.title.en.trim()
-    ) {
-      setError(
-        "title.en",
-        {
-          type: "manual",
-          message:
-            "English title is required.",
-        },
-      );
+    if (!values.title.en.trim()) {
+      setError("title.en", {
+        type: "manual",
+        message: t("validation.englishTitleRequired"),
+      });
 
-      scrollToField(
-        "title.en",
-      );
-
+      scrollToField("title.en");
       return false;
     }
 
-    /*
-     * French title.
-     */
-    if (
-      !values.title.fr.trim()
-    ) {
-      setError(
-        "title.fr",
-        {
-          type: "manual",
-          message:
-            "French title is required.",
-        },
-      );
+    if (!values.title.fr.trim()) {
+      setError("title.fr", {
+        type: "manual",
+        message: t("validation.frenchTitleRequired"),
+      });
 
-      scrollToField(
-        "title.fr",
-      );
-
+      scrollToField("title.fr");
       return false;
     }
 
     return true;
   }
 
-  /*
-   * -------------------------------------------
-   * Save changes
-   * -------------------------------------------
-   */
-
-  function handleSaveDraft() {
-    if (!validateForm()) {
-      return;
-    }
+  function handleSaveDraft(): void {
+    if (!validateForm() || !article.id) return;
 
     const values = getValues();
 
-    startSavingTransition(
-      async () => {
-        const response = await updateArticleAction(
-            article.id!,
-            {
-              title: values.title,
-              content: values.content,
-              categoryId: values.categoryId,
-
-              /*
-               * null means no new image.
-               *
-               * The service keeps the existing
-               * Cloudinary image in that case.
-               */
-              ...(values.coverImage && { coverImage: values.coverImage, }),
-            },
-          );
+    startSavingTransition(async () => {
+      try {
+        const response = await updateArticleAction(article.id!, {
+          title: values.title,
+          content: values.content,
+          categoryId: values.categoryId,
+          ...(values.coverImage && {
+            coverImage: values.coverImage,
+          }),
+        });
 
         if (!response.success) {
           setServerError(
-            response.message,
+            response.message || t("messages.saveError"),
           );
-
           scrollToServerError();
-
           return;
         }
 
-        /*
-         * Return to article management
-         * after successful save.
-         */
-        router.push(
-          `/${locale}/dashboard/articles`,
-        );
-
+        router.push(`/${locale}/dashboard/articles`);
         router.refresh();
-      },
-    );
+      } catch {
+        setServerError(t("messages.saveError"));
+        scrollToServerError();
+      }
+    });
   }
 
-  /*
-   * -------------------------------------------
-   * Publish
-   * -------------------------------------------*/
+  function handlePublish(): void {
+    if (!validateForm() || !article.id) return;
 
-  function handlePublish() {
-    if (!validateForm()) {
-      return;
-    }
-
-    const values = getValues();
-
-    startPublishingTransition(
-      async () => {
-        if(!article.id) return
-
-        const response = await publishArticleAction( article.id);
+    startPublishingTransition(async () => {
+      try {
+        const response = await publishArticleAction(article.id!);
 
         if (!response.success) {
           setServerError(
-            response.message,
+            response.message || t("messages.publishError"),
           );
-
           scrollToServerError();
-
           return;
-        } 
+        }
 
-        console.log(
-          "Publish article:",
-          article.id,
-          values,
-        );
-      },
-    );
+        router.push(`/${locale}/dashboard/articles`);
+        router.refresh();
+      } catch {
+        setServerError(t("messages.publishError"));
+        scrollToServerError();
+      }
+    });
   }
-
-  /*
-   * -------------------------------------------
-   * Render
-   * -------------------------------------------
-   */
 
   return (
     <form
       noValidate
       className="space-y-6"
-      onSubmit={(event) => {
-        event.preventDefault();
-      }}
+      onSubmit={(event) => event.preventDefault()}
     >
-      {/* Server error */}
       {serverError && (
         <div
           id="article-edit-server-error"
           role="alert"
           tabIndex={-1}
           className="
-            rounded-xl border
-            border-red-200
-            bg-red-50
-            px-4 py-3
-            text-sm font-medium
-            text-red-700
+            rounded-xl border border-red-200
+            bg-red-50 px-4 py-3
+            text-sm font-medium text-red-700
           "
         >
           {serverError}
@@ -472,25 +283,13 @@ export default function EditArticleForm({
       {/* Basic information */}
       <Card
         id="article-basic-section"
-        className="
-          scroll-mt-24
-          border-slate-200
-          shadow-sm
-        "
+        className="scroll-mt-24 border-slate-200 shadow-sm"
       >
         <CardHeader>
           <SectionHeader
             icon={FileText}
-            title={
-              locale === "fr"
-                ? "Informations principales"
-                : "Basic information"
-            }
-            description={
-              locale === "fr"
-                ? "Modifiez les informations principales de l’article."
-                : "Update the article's basic information."
-            }
+            title={t("sections.basic.title")}
+            description={t("sections.basic.description")}
             variant="blue"
           />
         </CardHeader>
@@ -498,68 +297,32 @@ export default function EditArticleForm({
         <CardContent>
           <ArticleFields
             locale={locale}
-            titleEn={
-              titleEnField.value
-            }
-            titleFr={
-              titleFrField.value
-            }
-            categoryId={
-              categoryField.value
-            }
-            categories={
-              categories
-            }
-            onTitleEnChange={
-              titleEnField.onChange
-            }
-            onTitleFrChange={
-              titleFrField.onChange
-            }
-            onCategoryChange={
-              categoryField.onChange
-            }
+            titleEn={titleEnField.value}
+            titleFr={titleFrField.value}
+            categoryId={categoryField.value}
+            categories={categories}
+            onTitleEnChange={titleEnField.onChange}
+            onTitleFrChange={titleFrField.onChange}
+            onCategoryChange={categoryField.onChange}
             errors={{
-              titleEn:
-                errors.title
-                  ?.en
-                  ?.message,
-
-              titleFr:
-                errors.title
-                  ?.fr
-                  ?.message,
-
-              categoryId:
-                errors.categoryId
-                  ?.message,
+              titleEn: errors.title?.en?.message,
+              titleFr: errors.title?.fr?.message,
+              categoryId: errors.categoryId?.message,
             }}
           />
         </CardContent>
       </Card>
 
-      {/* Content */}
+      {/* Article content */}
       <Card
         id="article-content-section"
-        className="
-          scroll-mt-24
-          border-slate-200
-          shadow-sm
-        "
+        className="scroll-mt-24 border-slate-200 shadow-sm"
       >
         <CardHeader>
           <SectionHeader
             icon={FileText}
-            title={
-              locale === "fr"
-                ? "Contenu de l’article"
-                : "Article content"
-            }
-            description={
-              locale === "fr"
-                ? "Modifiez les versions anglaise et française."
-                : "Update the English and French versions."
-            }
+            title={t("sections.content.title")}
+            description={t("sections.content.description")}
             variant="blue"
           />
         </CardHeader>
@@ -567,28 +330,13 @@ export default function EditArticleForm({
         <CardContent>
           <ArticleContentEditor
             locale={locale}
-            contentEn={
-              contentEnField.value
-            }
-            contentFr={
-              contentFrField.value
-            }
-            onContentEnChange={
-              contentEnField.onChange
-            }
-            onContentFrChange={
-              contentFrField.onChange
-            }
+            contentEn={contentEnField.value}
+            contentFr={contentFrField.value}
+            onContentEnChange={contentEnField.onChange}
+            onContentFrChange={contentFrField.onChange}
             errors={{
-              contentEn:
-                errors.content
-                  ?.en
-                  ?.message,
-
-              contentFr:
-                errors.content
-                  ?.fr
-                  ?.message,
+              contentEn: errors.content?.en?.message,
+              contentFr: errors.content?.fr?.message,
             }}
           />
         </CardContent>
@@ -597,25 +345,13 @@ export default function EditArticleForm({
       {/* Cover image */}
       <Card
         id="article-cover-section"
-        className="
-          scroll-mt-24
-          border-slate-200
-          shadow-sm
-        "
+        className="scroll-mt-24 border-slate-200 shadow-sm"
       >
         <CardHeader>
           <SectionHeader
             icon={ImageIcon}
-            title={
-              locale === "fr"
-                ? "Image de couverture"
-                : "Cover image"
-            }
-            description={
-              locale === "fr"
-                ? "Conservez l’image actuelle ou sélectionnez-en une nouvelle."
-                : "Keep the current image or select a new one."
-            }
+            title={t("sections.cover.title")}
+            description={t("sections.cover.description")}
             variant="orange"
           />
         </CardHeader>
@@ -623,51 +359,26 @@ export default function EditArticleForm({
         <CardContent>
           <ArticleCoverImage
             locale={locale}
-            value={
-              coverImageField.value
-            }
-            existingImageUrl={
-              article.cover_image
-            }
-            onChange={
-              coverImageField.onChange
-            }
-            error={
-              errors.coverImage
-                ?.message
-            }
+            value={coverImageField.value}
+            existingImageUrl={article.cover_image}
+            onChange={coverImageField.onChange}
+            error={errors.coverImage?.message}
           />
         </CardContent>
       </Card>
 
-      {/* Actions */}
+      {/* Form actions */}
       <ArticleFormActions
         locale={locale}
-        component={"articles"}
-        mode={"edit"}
+        component="articles"
+        mode="edit"
         isSaving={isSaving}
-        isPublishing={ isPublishing }
-        onSaveDraft={ handleSaveDraft }
-        onPublish={ handlePublish }
+        isPublishing={isPublishing}
+        onSaveDraft={handleSaveDraft}
+        onPublish={handlePublish}
       />
     </form>
   );
-}
-
-/*
- * -------------------------------------------
- * Section header
- * -------------------------------------------
- */
-
-interface SectionHeaderProps {
-  icon: typeof FileText;
-  title: string;
-  description: string;
-
-  variant:
-    | "blue"
-    | "orange";
 }
 
 function SectionHeader({
@@ -684,42 +395,26 @@ function SectionHeader({
             ? `
                 flex size-11 shrink-0
                 items-center justify-center
-                rounded-2xl
-                bg-blue-50
-                text-blue-700
-                ring-1 ring-blue-100
+                rounded-2xl bg-blue-50
+                text-blue-700 ring-1 ring-blue-100
               `
             : `
                 flex size-11 shrink-0
                 items-center justify-center
-                rounded-2xl
-                bg-orange-50
-                text-orange-700
-                ring-1 ring-orange-100
+                rounded-2xl bg-orange-50
+                text-orange-700 ring-1 ring-orange-100
               `
         }
       >
-        <Icon
-          className="size-5"
-          aria-hidden="true"
-        />
+        <Icon className="size-5" aria-hidden="true" />
       </div>
 
       <div>
-        <CardTitle
-          className="
-            text-lg font-bold
-            text-slate-950
-          "
-        >
+        <CardTitle className="text-lg font-bold text-slate-950">
           {title}
         </CardTitle>
 
-        <CardDescription
-          className="
-            mt-1 leading-6
-          "
-        >
+        <CardDescription className="mt-1 leading-6">
           {description}
         </CardDescription>
       </div>

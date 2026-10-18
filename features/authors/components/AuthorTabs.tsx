@@ -1,6 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
+import { useTranslations } from "next-intl";
 
 import {
   Tabs,
@@ -13,52 +14,24 @@ interface AuthorTabsProps {
   articlesContent: ReactNode;
   projectsContent: ReactNode;
   aboutContent: ReactNode;
-  locale?: "en" | "fr";
 }
 
 export default function AuthorTabs({
   articlesContent,
   projectsContent,
   aboutContent,
-  locale = "en",
 }: AuthorTabsProps) {
-  const labels =
-    locale === "fr"
-      ? {
-          articles: "Articles",
-          projects: "Projets",
-          about: "À propos",
-        }
-      : {
-          articles: "Articles",
-          projects: "Projects",
-          about: "About",
-        };
+  const t = useTranslations("AuthorTabs");
 
   return (
-    <section
-      aria-labelledby="author-content-heading"
-      className="my-10"
-    >
-      <h2
-        id="author-content-heading"
-        className="sr-only"
-      >
-        {locale === "fr"
-          ? "Contenu de l’auteur"
-          : "Author content"}
+    <section aria-labelledby="author-content-heading" className="my-10">
+      <h2 id="author-content-heading" className="sr-only">
+        {t("heading")}
       </h2>
 
-      <Tabs
-        defaultValue="articles"
-        className="w-full"
-      >
+      <Tabs defaultValue="articles" className="w-full">
         <TabsList
-          aria-label={
-            locale === "fr"
-              ? "Sections du profil de l’auteur"
-              : "Author profile sections"
-          }
+          aria-label={t("sectionsLabel")}
           className="
             h-auto w-full justify-start gap-1
             rounded-none border-b border-slate-200
@@ -82,7 +55,7 @@ export default function AuthorTabs({
               data-[state=active]:shadow-none
             "
           >
-            {labels.articles}
+            {t("articles")}
           </TabsTrigger>
 
           <TabsTrigger
@@ -102,7 +75,7 @@ export default function AuthorTabs({
               data-[state=active]:shadow-none
             "
           >
-            {labels.projects}
+            {t("projects")}
           </TabsTrigger>
 
           <TabsTrigger
@@ -122,7 +95,7 @@ export default function AuthorTabs({
               data-[state=active]:shadow-none
             "
           >
-            {labels.about}
+            {t("about")}
           </TabsTrigger>
         </TabsList>
 

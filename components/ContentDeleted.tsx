@@ -1,46 +1,38 @@
 import Link from "next/link";
-import {
-  ArrowLeft,
-  Trash2,
-} from "lucide-react";
+import { getTranslations } from "next-intl/server";
+import type { SupportedLocale } from "@/lib/dates/localizedValue";
+import { ArrowLeft, Trash2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 
 type ContentDeletedProps = {
-  locale: "en" | "fr";
-  component: string
+  locale: SupportedLocale;
+  component: string;
 };
 
-export default function ContentDeleted({
+export default async function ContentDeleted({
   locale,
   component,
 }: ContentDeletedProps) {
-  const isArticle = component.toLocaleLowerCase() === "article";
+  const t = await getTranslations({
+    locale,
+    namespace: "ContentDeleted",
+  });
 
-  const content = locale === "fr"
-      ? {
-          title: isArticle
-            ? "Article supprimé"
-            : `${component.toLocaleLowerCase()} supprimé`,
+  const normalizedComponent = component.toLowerCase();
+  const isArticle = normalizedComponent === "article";
 
-          description: isArticle
-            ? "Cet article a été supprimé et n’est plus disponible pour modification."
-            : `Ce ${component.toLocaleLowerCase()} a été supprimé et n’est plus disponible pour modification.`,
+  const title = isArticle
+    ? t("articleTitle")
+    : t("title", { component: normalizedComponent });
 
-          back: `Retour aux${component.toLocaleLowerCase()}s`,
+  const description = isArticle
+    ? t("articleDescription")
+    : t("description", { component: normalizedComponent });
 
-          href: `/${locale}/dashboard/${component}s`,
-        }
-      : {
-          title: `${component} deleted`,
+  const back = t("back", { component: normalizedComponent });
 
-          description: `The ${component.toLocaleLowerCase()} you're looking for has been deleted and is no longer available for editing.`,
-           
-          back: `Back to ${component.toLocaleLowerCase()}s`,
-
-          href: `/${locale}/dashboard/${component}s`,
-
-        };
+  const href = `/${locale}/dashboard/${normalizedComponent}s`;
 
   return (
     <div className="flex min-h-[60vh] items-center justify-center px-6">
@@ -53,10 +45,7 @@ export default function ContentDeleted({
             ring-1 ring-red-100
           "
         >
-          <Trash2
-            className="size-7"
-            aria-hidden="true"
-          />
+          <Trash2 className="size-7" aria-hidden="true" />
         </div>
 
         <h1
@@ -65,7 +54,7 @@ export default function ContentDeleted({
             text-slate-950
           "
         >
-          {content.title}
+          {title}
         </h1>
 
         <p
@@ -74,20 +63,13 @@ export default function ContentDeleted({
             text-slate-500
           "
         >
-          {content.description}
+          {description}
         </p>
 
-        <Button
-          asChild
-          className="mt-6"
-        >
-          <Link href={content.href}>
-            <ArrowLeft
-              className="size-4"
-              aria-hidden="true"
-            />
-
-            {content.back}
+        <Button asChild className="mt-6">
+          <Link href={href}>
+            <ArrowLeft className="size-4" aria-hidden="true" />
+            {back}
           </Link>
         </Button>
       </div>

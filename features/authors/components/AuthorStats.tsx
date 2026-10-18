@@ -4,8 +4,11 @@ import {
   FolderKanban,
   Users,
 } from "lucide-react";
+import { getTranslations } from "next-intl/server";
+import type { ReactNode } from "react";
 
 interface AuthorStatsProps {
+  locale: "en" | "fr";
   articles: number | string;
   projects: number | string;
   views: number | string;
@@ -15,7 +18,7 @@ interface AuthorStatsProps {
 interface StatItemProps {
   label: string;
   value: number | string;
-  icon: React.ReactNode;
+  icon: ReactNode;
 }
 
 function StatItem({
@@ -59,12 +62,18 @@ function StatItem({
   );
 }
 
-export default function AuthorStats({
+export default async function AuthorStats({
+  locale,
   articles,
   projects,
   views,
   subscribers,
 }: AuthorStatsProps) {
+  const t = await getTranslations({
+    locale,
+    namespace: "AuthorStats",
+  });
+
   return (
     <section
       aria-labelledby="author-statistics-heading"
@@ -74,12 +83,12 @@ export default function AuthorStats({
         id="author-statistics-heading"
         className="sr-only"
       >
-        Author statistics
+        {t("heading")}
       </h2>
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatItem
-          label="Articles"
+          label={t("articles")}
           value={articles}
           icon={
             <BookOpen
@@ -90,7 +99,7 @@ export default function AuthorStats({
         />
 
         <StatItem
-          label="Projects"
+          label={t("projects")}
           value={projects}
           icon={
             <FolderKanban
@@ -101,7 +110,7 @@ export default function AuthorStats({
         />
 
         <StatItem
-          label="Views"
+          label={t("views")}
           value={views}
           icon={
             <Eye
@@ -112,7 +121,7 @@ export default function AuthorStats({
         />
 
         <StatItem
-          label="Subscribers"
+          label={t("subscribers")}
           value={subscribers}
           icon={
             <Users

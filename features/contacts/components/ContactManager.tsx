@@ -11,7 +11,7 @@ import type {
   Status,
 } from "@/features/interfaces/contact";
 
-type SupportedLocale = "en" | "fr";
+import type { SupportedLocale } from "../schema/contact.schema";
 
 interface ContactManagerProps {
   locale: SupportedLocale;

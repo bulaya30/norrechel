@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 import type { Editor } from "@tiptap/react";
 import { Link2, Link2Off } from "lucide-react";
 
@@ -20,6 +21,8 @@ interface EditorLinkButtonProps {
 export default function EditorLinkButton({
   editor,
 }: EditorLinkButtonProps) {
+  const t = useTranslations("EditorLinkButton");
+
   const [open, setOpen] = useState(false);
   const [url, setUrl] = useState("");
   const [isActive, setIsActive] = useState(false);
@@ -29,7 +32,6 @@ export default function EditorLinkButton({
       setIsActive(editor.isActive("link"));
 
       const href = editor.getAttributes("link").href;
-
       setUrl(href ?? "");
     };
 
@@ -44,7 +46,7 @@ export default function EditorLinkButton({
     };
   }, [editor]);
 
-  const handleOpenChange = (nextOpen: boolean) => {
+  function handleOpenChange(nextOpen: boolean) {
     if (!nextOpen) {
       setOpen(false);
       return;
@@ -63,9 +65,9 @@ export default function EditorLinkButton({
     setUrl(href ?? "");
     setIsActive(linkActive);
     setOpen(true);
-  };
+  }
 
-  const handleApply = () => {
+  function handleApply() {
     const trimmedUrl = url.trim();
 
     if (!trimmedUrl) {
@@ -77,20 +79,18 @@ export default function EditorLinkButton({
     editor
       .chain()
       .focus()
-      .setLink({
-        href: trimmedUrl,
-      })
+      .setLink({ href: trimmedUrl })
       .run();
 
     setOpen(false);
-  };
+  }
 
-  const handleRemove = () => {
+  function handleRemove() {
     editor.chain().focus().unsetLink().run();
 
     setUrl("");
     setOpen(false);
-  };
+  }
 
   return (
     <Popover open={open} onOpenChange={handleOpenChange}>
@@ -99,7 +99,7 @@ export default function EditorLinkButton({
           type="button"
           variant="ghost"
           size="icon"
-          aria-label="Add link"
+          aria-label={t("addLink")}
           aria-pressed={isActive}
           className={[
             "size-9 shrink-0 rounded-lg",
@@ -112,7 +112,7 @@ export default function EditorLinkButton({
               : "",
           ].join(" ")}
         >
-          <Link2 className="size-4" />
+          <Link2 className="size-4" aria-hidden="true" />
         </Button>
       </PopoverTrigger>
 
@@ -123,11 +123,11 @@ export default function EditorLinkButton({
         <div className="space-y-4">
           <div>
             <h3 className="text-sm font-semibold text-slate-950">
-              {isActive ? "Edit link" : "Add link"}
+              {isActive ? t("editLink") : t("addLink")}
             </h3>
 
             <p className="mt-1 text-xs text-slate-500">
-              Enter the URL for the selected text.
+              {t("urlHint")}
             </p>
           </div>
 
@@ -136,15 +136,13 @@ export default function EditorLinkButton({
               htmlFor="editor-link-url"
               className="text-xs font-medium text-slate-700"
             >
-              URL
+              {t("urlLabel")}
             </Label>
 
             <Input
               id="editor-link-url"
               value={url}
-              onChange={(event) => {
-                setUrl(event.target.value);
-              }}
+              onChange={(event) => setUrl(event.target.value)}
               onKeyDown={(event) => {
                 if (event.key === "Enter") {
                   event.preventDefault();
@@ -157,7 +155,7 @@ export default function EditorLinkButton({
                 }
               }}
               placeholder="https://example.com"
-              autoComplete="off"
+              autoComplete="url"
               className="h-9 rounded-lg text-sm focus-visible:ring-orange-500/30"
             />
           </div>
@@ -170,8 +168,8 @@ export default function EditorLinkButton({
                 onClick={handleRemove}
                 className="h-9 gap-2 rounded-lg px-3 text-xs font-medium text-red-600 hover:bg-red-50 hover:text-red-700"
               >
-                <Link2Off className="size-3.5" />
-                Remove
+                <Link2Off className="size-3.5" aria-hidden="true" />
+                {t("remove")}
               </Button>
             ) : (
               <span />
@@ -184,7 +182,7 @@ export default function EditorLinkButton({
                 onClick={() => setOpen(false)}
                 className="h-9 rounded-lg px-3 text-xs font-medium text-slate-600"
               >
-                Cancel
+                {t("cancel")}
               </Button>
 
               <Button
@@ -192,7 +190,7 @@ export default function EditorLinkButton({
                 onClick={handleApply}
                 className="h-9 rounded-lg bg-slate-950 px-3 text-xs font-semibold text-white hover:bg-orange-600"
               >
-                Apply
+                {t("apply")}
               </Button>
             </div>
           </div>

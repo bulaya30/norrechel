@@ -1,5 +1,8 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import {
   ArrowUpRight,
   CalendarDays,
@@ -29,6 +32,8 @@ export default function ArticlePreviewCard({
   readingTime,
   className = "",
 }: ArticlePreviewCardProps) {
+  const t = useTranslations("Home.ArticlePreviewCard");
+
   return (
     <article
       className={`
@@ -45,7 +50,7 @@ export default function ArticlePreviewCard({
       {/* Cover image */}
       <Link
         href={href}
-        aria-label={`Read ${title}`}
+        aria-label={t("readArticleLabel", { title })}
         className="
           relative block aspect-[18/10]
           overflow-hidden bg-slate-100
@@ -79,7 +84,7 @@ export default function ArticlePreviewCard({
               text-sm font-medium text-slate-400
             "
           >
-            No cover image
+            {t("noCoverImage")}
           </div>
         )}
 
@@ -97,12 +102,16 @@ export default function ArticlePreviewCard({
             group-hover:opacity-100
           "
         />
-
-        
       </Link>
 
       {/* Content */}
       <div className="flex flex-1 flex-col p-6 sm:p-7">
+        {category && (
+          <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-orange-600">
+            {category}
+          </p>
+        )}
+
         <h3
           className="
             text-xl font-bold
@@ -169,6 +178,7 @@ export default function ArticlePreviewCard({
         <div className="mt-auto pt-7">
           <Link
             href={href}
+            aria-label={t("readArticleLabel", { title })}
             className="
               inline-flex items-center gap-2
               text-sm font-semibold
@@ -181,7 +191,7 @@ export default function ArticlePreviewCard({
               focus-visible:ring-orange-600
             "
           >
-            Read article
+            {t("readArticle")}
 
             <ArrowUpRight
               className="

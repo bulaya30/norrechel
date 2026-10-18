@@ -1,8 +1,7 @@
 import Link from "next/link";
 
 import type { AnalyticsPeriod } from "@/analytics/types";
-
-type SupportedLocale = "en" | "fr";
+import type { SupportedLocale } from "@/lib/dates/localizedValue";
 
 interface AnalyticsPeriodSelectorProps {
   locale: SupportedLocale;

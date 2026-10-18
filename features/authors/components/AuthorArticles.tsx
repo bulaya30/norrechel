@@ -1,10 +1,10 @@
 import Link from "next/link";
+import { getTranslations } from "next-intl/server";
 import { ExternalLink } from "lucide-react";
 
 import type { Article } from "@/features/interfaces/article";
 import { readableDate } from "@/lib/dates/utils";
-
-type SupportedLocale = "en" | "fr";
+import type { SupportedLocale } from "@/lib/dates/localizedValue";
 
 interface AuthorArticlesProps {
   articles: Article[];
@@ -12,11 +12,16 @@ interface AuthorArticlesProps {
   views: Record<string, number>;
 }
 
-export default function AuthorArticles({
+export default async function AuthorArticles({
   articles,
   locale,
   views,
 }: AuthorArticlesProps) {
+  const t = await getTranslations({
+    locale,
+    namespace: "AuthorArticles",
+  });
+
   const safeArticles = Array.isArray(articles)
     ? articles.filter(Boolean)
     : [];
@@ -25,21 +30,21 @@ export default function AuthorArticles({
     return (
       <section
         aria-labelledby="author-articles-heading"
-        className="rounded-2xl border border-dashed border-slate-300 bg-slate-50 px-6 py-12 text-center"
+        className="
+          rounded-2xl border border-dashed
+          border-slate-300 bg-slate-50
+          px-6 py-12 text-center
+        "
       >
         <h3
           id="author-articles-heading"
           className="text-xl font-bold text-slate-900"
         >
-          {locale === "fr"
-            ? "Aucun article publié"
-            : "No published articles"}
+          {t("emptyTitle")}
         </h3>
 
         <p className="mt-2 text-sm leading-6 text-slate-600">
-          {locale === "fr"
-            ? "Les articles publiés par cet auteur apparaîtront ici."
-            : "Articles published by this author will appear here."}
+          {t("emptyDescription")}
         </p>
       </section>
     );
@@ -52,20 +57,11 @@ export default function AuthorArticles({
           id="author-articles-heading"
           className="text-2xl font-bold tracking-tight text-slate-900"
         >
-          {locale === "fr"
-            ? "Articles publiés"
-            : "Published articles"}
+          {t("heading")}
         </h3>
 
         <p className="mt-2 text-sm text-slate-600">
-          {safeArticles.length}{" "}
-          {locale === "fr"
-            ? safeArticles.length === 1
-              ? "article"
-              : "articles"
-            : safeArticles.length === 1
-              ? "article"
-              : "articles"}
+          {t("articleCount", { count: safeArticles.length })}
         </p>
       </header>
 
@@ -75,9 +71,7 @@ export default function AuthorArticles({
             article.title?.[locale] ??
             article.title?.en ??
             article.title?.fr ??
-            (locale === "fr"
-              ? "Article sans titre"
-              : "Untitled article");
+            t("untitled");
 
           const slug =
             article.slug?.[locale] ??
@@ -135,24 +129,24 @@ export default function AuthorArticles({
                 </p>
               )}
 
-              <footer className="mt-6 flex flex-col gap-4 border-t border-slate-100 pt-5 sm:flex-row sm:items-center sm:justify-between">
+              <footer
+                className="
+                  mt-6 flex flex-col gap-4
+                  border-t border-slate-100 pt-5
+                  sm:flex-row sm:items-center
+                  sm:justify-between
+                "
+              >
                 <div className="flex flex-wrap items-center gap-4 text-sm text-slate-500">
                   <span>
-                    {viewCount}{" "}
-                    {locale === "fr"
-                      ? "vues"
-                      : viewCount === 1
-                        ? "view"
-                        : "views"}
+                    {t("viewCount", { count: viewCount })}
                   </span>
 
                   {date && (
                     <time>
                       {readableDate(
                         date,
-                        locale === "fr"
-                          ? "fr-FR"
-                          : "en-US",
+                        locale === "fr" ? "fr-FR" : "en-US",
                       )}
                     </time>
                   )}
@@ -160,25 +154,22 @@ export default function AuthorArticles({
 
                 <Link
                   href={`/${locale}/blogs/${slug}`}
+                  aria-label={t("readArticleLabel", { title })}
                   className="
                     inline-flex items-center gap-2
                     text-sm font-semibold text-blue-700
-                    transition-colors
-                    hover:text-orange-600
+                    transition-colors hover:text-orange-600
                     focus-visible:outline-none
                     focus-visible:ring-2
                     focus-visible:ring-blue-600
                     focus-visible:ring-offset-2
                   "
                 >
-                  {locale === "fr"
-                    ? "Lire l’article"
-                    : "Read article"}
+                  {t("readArticle")}
 
                   <ExternalLink
                     className="
-                      size-4
-                      transition-transform duration-200
+                      size-4 transition-transform duration-200
                       group-hover:translate-x-0.5
                     "
                     aria-hidden="true"

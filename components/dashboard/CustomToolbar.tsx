@@ -15,8 +15,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import CustomFilters from "./CustomFilters";
+import type { SupportedLocale } from "@/lib/dates/localizedValue";
 
-type SupportedLocale = "en" | "fr";
 type Component = "articles" | "projects";
 
 interface CategoryOption {

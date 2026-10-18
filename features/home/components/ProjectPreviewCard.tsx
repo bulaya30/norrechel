@@ -1,9 +1,10 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { ArrowUpRight, ExternalLink } from "lucide-react";
 import { FaGithub } from "react-icons/fa";
-
-
 
 interface ProjectPreviewCardProps {
   title: string;
@@ -28,6 +29,8 @@ export default function ProjectPreviewCard({
   githubUrl,
   className = "",
 }: ProjectPreviewCardProps) {
+  const t = useTranslations("Home.ProjectPreviewCard");
+
   return (
     <article
       className={`
@@ -41,12 +44,10 @@ export default function ProjectPreviewCard({
         ${className}
       `}
     >
-      {/* =====================================================
-          COVER IMAGE
-      ===================================================== */}
+      {/* Cover image */}
       <Link
         href={href}
-        aria-label={`View ${title}`}
+        aria-label={t("viewProjectLabel", { title })}
         className="
           relative block aspect-[18/10]
           overflow-hidden bg-slate-100
@@ -82,7 +83,7 @@ export default function ProjectPreviewCard({
               text-sm font-medium text-slate-400
             "
           >
-            No project image
+            {t("noProjectImage")}
           </div>
         )}
 
@@ -101,7 +102,6 @@ export default function ProjectPreviewCard({
           "
         />
 
-        
         {/* View icon */}
         <span
           aria-hidden="true"
@@ -124,10 +124,14 @@ export default function ProjectPreviewCard({
         </span>
       </Link>
 
-      {/* =====================================================
-          CONTENT
-      ===================================================== */}
+      {/* Content */}
       <div className="flex flex-1 flex-col p-6 sm:p-7">
+        {category && (
+          <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-orange-600">
+            {category}
+          </p>
+        )}
+
         <h3
           className="
             text-xl font-bold
@@ -157,11 +161,12 @@ export default function ProjectPreviewCard({
           </p>
         )}
 
-        {/* ===================================================
-            TECHNOLOGY STACK
-        =================================================== */}
+        {/* Technology stack */}
         {technologies.length > 0 && (
-          <div className="mt-5 flex flex-wrap gap-2">
+          <div
+            className="mt-5 flex flex-wrap gap-2"
+            aria-label={t("technologiesLabel")}
+          >
             {technologies.slice(0, 6).map((technology) => (
               <span
                 key={technology}
@@ -181,16 +186,13 @@ export default function ProjectPreviewCard({
           </div>
         )}
 
-        {/* ===================================================
-            FOOTER
-        =================================================== */}
+        {/* Footer */}
         <footer
           className="
-            mt-auto flex flex-wrap items-center
+            mt-auto mt-7 flex flex-wrap items-center
             justify-between gap-4
             border-t border-slate-100
             pt-6
-            mt-7
           "
         >
           <Link
@@ -207,7 +209,7 @@ export default function ProjectPreviewCard({
               focus-visible:ring-orange-600
             "
           >
-            View project
+            {t("viewProject")}
 
             <ArrowUpRight
               className="
@@ -228,7 +230,7 @@ export default function ProjectPreviewCard({
                   href={liveUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label={`Visit live ${title} project`}
+                  aria-label={t("liveDemoLabel", { title })}
                   className="
                     flex size-9 items-center justify-center
                     rounded-lg
@@ -256,7 +258,7 @@ export default function ProjectPreviewCard({
                   href={githubUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label={`View ${title} source code on GitHub`}
+                  aria-label={t("githubLabel", { title })}
                   className="
                     flex size-9 items-center justify-center
                     rounded-lg

@@ -1,15 +1,14 @@
 import Link from "next/link";
+import { getTranslations } from "next-intl/server";
 import {
   ExternalLink,
   Globe,
 } from "lucide-react";
-
 import { FaGithub } from "react-icons/fa";
 
 import type { Project } from "@/features/interfaces/project";
 import { readableDate } from "@/lib/dates/utils";
-
-type SupportedLocale = "en" | "fr";
+import type { SupportedLocale } from "@/lib/dates/localizedValue";
 
 interface AuthorProjectsProps {
   projects: Project[];
@@ -37,11 +36,16 @@ function createPlainTextPreview(
   return `${plainText.slice(0, maximumLength).trimEnd()}...`;
 }
 
-export default function AuthorProjects({
+export default async function AuthorProjects({
   projects,
   views,
   locale,
 }: AuthorProjectsProps) {
+  const t = await getTranslations({
+    locale,
+    namespace: "AuthorProjects",
+  });
+
   const safeProjects = Array.isArray(projects)
     ? projects.filter(Boolean)
     : [];
@@ -59,15 +63,11 @@ export default function AuthorProjects({
           id="author-projects-heading"
           className="text-xl font-bold text-slate-900"
         >
-          {locale === "fr"
-            ? "Aucun projet publié"
-            : "No published projects"}
+          {t("emptyTitle")}
         </h3>
 
         <p className="mt-2 text-sm leading-6 text-slate-600">
-          {locale === "fr"
-            ? "Les projets publiés par cet auteur apparaîtront ici."
-            : "Projects published by this author will appear here."}
+          {t("emptyDescription")}
         </p>
       </section>
     );
@@ -80,19 +80,11 @@ export default function AuthorProjects({
           id="author-projects-heading"
           className="text-2xl font-bold tracking-tight text-slate-900"
         >
-          {locale === "fr"
-            ? "Projets publiés"
-            : "Published projects"}
+          {t("heading")}
         </h3>
 
         <p className="mt-2 text-sm text-slate-600">
-          {locale === "fr"
-            ? `${safeProjects.length} projet${
-                safeProjects.length > 1 ? "s" : ""
-              }`
-            : `${safeProjects.length} project${
-                safeProjects.length > 1 ? "s" : ""
-              }`}
+          {t("projectCount", { count: safeProjects.length })}
         </p>
       </header>
 
@@ -102,9 +94,7 @@ export default function AuthorProjects({
             project.title?.[locale] ??
             project.title?.en ??
             project.title?.fr ??
-            (locale === "fr"
-              ? "Projet sans titre"
-              : "Untitled project");
+            t("untitled");
 
           const slug =
             project.slug?.[locale] ??
@@ -129,10 +119,10 @@ export default function AuthorProjects({
                 .filter(Boolean)
             : [];
 
-
-            const viewCount = project.id
+          const viewCount = project.id
             ? views[project.id] ?? 0
             : 0;
+
           const date =
             project.publishedAt ??
             project.createdAt ??
@@ -164,11 +154,7 @@ export default function AuthorProjects({
 
               {technologies.length > 0 && (
                 <ul
-                  aria-label={
-                    locale === "fr"
-                      ? "Technologies utilisées"
-                      : "Technologies used"
-                  }
+                  aria-label={t("technologiesLabel")}
                   className="mt-5 flex flex-wrap gap-2"
                 >
                   {technologies.map((technology) => (
@@ -196,20 +182,14 @@ export default function AuthorProjects({
               >
                 <div className="flex flex-wrap items-center gap-4 text-sm text-slate-500">
                   <span>
-                    {viewCount}{" "}
-                    {locale === "fr"
-                      ? "vues"
-                      : viewCount === 1
-                        ? "view"
-                        : "views"}
+                    {t("viewCount", { count: viewCount })}
                   </span>
+
                   {date && (
                     <time>
                       {readableDate(
                         date,
-                        locale === "fr"
-                          ? "fr-FR"
-                          : "en-US",
+                        locale === "fr" ? "fr-FR" : "en-US",
                       )}
                     </time>
                   )}
@@ -222,12 +202,8 @@ export default function AuthorProjects({
                     }
                   >
                     {project.status === "published"
-                      ? locale === "fr"
-                        ? "Publié"
-                        : "Published"
-                      : locale === "fr"
-                        ? "Brouillon"
-                        : "Draft"}
+                      ? t("published")
+                      : t("draft")}
                   </span>
                 </div>
 
@@ -237,22 +213,21 @@ export default function AuthorProjects({
                       href={project.github_url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      aria-label={`View ${title} source code`}
+                      aria-label={t("sourceCodeLabel", { title })}
                       className="
                         inline-flex items-center gap-2
                         text-sm font-semibold text-slate-600
-                        transition-colors
-                        hover:text-slate-950
+                        transition-colors hover:text-slate-950
                         focus-visible:outline-none
                         focus-visible:ring-2
                         focus-visible:ring-slate-600
                         focus-visible:ring-offset-2
                       "
                     >
-                    <FaGithub
+                      <FaGithub
                         className="size-4"
                         aria-hidden="true"
-                    />
+                      />
                       GitHub
                     </Link>
                   )}
@@ -262,12 +237,11 @@ export default function AuthorProjects({
                       href={project.live_url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      aria-label={`Open ${title} live website`}
+                      aria-label={t("liveDemoLabel", { title })}
                       className="
                         inline-flex items-center gap-2
                         text-sm font-semibold text-slate-600
-                        transition-colors
-                        hover:text-slate-950
+                        transition-colors hover:text-slate-950
                         focus-visible:outline-none
                         focus-visible:ring-2
                         focus-visible:ring-slate-600
@@ -278,34 +252,29 @@ export default function AuthorProjects({
                         className="size-4"
                         aria-hidden="true"
                       />
-                      {locale === "fr"
-                        ? "Démo"
-                        : "Live demo"}
+                      {t("liveDemo")}
                     </Link>
                   )}
 
                   {slug && (
                     <Link
                       href={`/${locale}/projects/${slug}`}
+                      aria-label={t("viewProjectLabel", { title })}
                       className="
                         inline-flex items-center gap-2
                         text-sm font-semibold text-blue-700
-                        transition-colors
-                        hover:text-orange-600
+                        transition-colors hover:text-orange-600
                         focus-visible:outline-none
                         focus-visible:ring-2
                         focus-visible:ring-blue-600
                         focus-visible:ring-offset-2
                       "
                     >
-                      {locale === "fr"
-                        ? "Voir le projet"
-                        : "View project"}
+                      {t("viewProject")}
 
                       <ExternalLink
                         className="
-                          size-4 transition-transform
-                          duration-200
+                          size-4 transition-transform duration-200
                           group-hover:translate-x-0.5
                         "
                         aria-hidden="true"

@@ -2,11 +2,11 @@ import { ArrowRight, BookOpen } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 
 import { Link } from "@/i18n/navigation";
-import type { Article } from "@/features/interfaces/article";
 import ArticlePreviewCard from "./ArticlePreviewCard";
 import { readableDate } from "@/lib/dates/utils";
 
-type SupportedLocale = "en" | "fr";
+import type { Article } from "@/features/interfaces/article";
+import type { SupportedLocale } from "@/lib/dates/localizedValue";
 
 interface LatestArticlesProps {
   articles: Article[];

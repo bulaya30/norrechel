@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import DOMPurify from "isomorphic-dompurify";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 import {
   Accordion,
@@ -12,12 +12,11 @@ import {
 } from "@/components/ui/accordion";
 
 import type { Article } from "../../interfaces/article";
+import type { SupportedLocale } from "@/lib/dates/localizedValue";
 
 interface SummaryProps {
   blogs?: Article | Article[] | null;
 }
-
-type SupportedLocale = "en" | "fr";
 
 type LocalizedValue =
   | string
@@ -62,8 +61,8 @@ function escapeHtml(value: string): string {
 
 function stripHtml(html: string): string {
   return html
-    .replace(/<script[\s\S]*?>[\s\S]*?<\/script>/gi, "")
-    .replace(/<style[\s\S]*?>[\s\S]*?<\/style>/gi, "")
+    .replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, "")
+    .replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi, "")
     .replace(/<[^>]+>/g, " ")
     .replace(/&nbsp;/gi, " ")
     .replace(/&amp;/gi, "&")
@@ -77,7 +76,7 @@ function stripHtml(html: string): string {
 
 function normalizePreviewHeadings(html: string): string {
   return html
-    .replace(/<h1(\s[^>]*)?>/gi, "<h3$1>")
+    .replace(/<h1(\s[^>]*)?>/gi, "<h3>")
     .replace(/<\/h1>/gi, "</h3>");
 }
 
@@ -114,26 +113,17 @@ function createContentPreview(
       "code",
       "br",
     ],
-    ALLOWED_ATTR: [
-      "href",
-      "target",
-      "rel",
-      "title",
-    ],
+    ALLOWED_ATTR: ["href", "target", "rel", "title"],
   });
 
-  /*
-   * Extract complete top-level WYSIWYG blocks.
-   * This prevents HTML such as <p> or <ul> from being cut in half.
-   */
+  // Extract complete top-level blocks so the preview never cuts
+  // an HTML element in half.
   const blockPattern =
     /<(h[1-4]|p|ul|ol|blockquote|pre)(?:\s[^>]*)?>[\s\S]*?<\/\1>/gi;
 
   const blocks = sanitizedHtml.match(blockPattern) ?? [];
 
-  /*
-   * Some editors may store plain text or inline HTML without paragraphs.
-   */
+  // Handle plain text or inline HTML without block elements.
   if (blocks.length === 0) {
     const plainText = stripHtml(sanitizedHtml);
 
@@ -165,41 +155,29 @@ function createContentPreview(
       continue;
     }
 
-    const remainingCharacters =
-      maximumCharacters - usedCharacters;
+    const remainingCharacters = maximumCharacters - usedCharacters;
 
     if (remainingCharacters <= 0) {
       wasTruncated = true;
       break;
     }
 
-    /*
-     * Keep complete headings because headings are usually short and
-     * should not be truncated.
-     */
+    // Preserve complete headings because they are usually short.
     const isHeading = /^<h[1-4][\s>]/i.test(block);
 
-    if (
-      blockText.length <= remainingCharacters ||
-      isHeading
-    ) {
+    if (blockText.length <= remainingCharacters || isHeading) {
       previewBlocks.push(block);
       usedCharacters += blockText.length;
       continue;
     }
 
-    /*
-     * If a paragraph is longer than the remaining limit, use a safe
-     * plain-text paragraph instead of cutting the HTML string.
-     */
+    // Use a safe plain-text paragraph when a block exceeds the limit.
     const truncatedText = blockText
       .slice(0, remainingCharacters)
       .trimEnd();
 
     if (truncatedText) {
-      previewBlocks.push(
-        `<p>${escapeHtml(truncatedText)}…</p>`,
-      );
+      previewBlocks.push(`<p>${escapeHtml(truncatedText)}…</p>`);
     }
 
     wasTruncated = true;
@@ -224,10 +202,9 @@ function createContentPreview(
   return `${previewHtml}<p class="content-preview-ellipsis" aria-hidden="true">…</p>`;
 }
 
-export default function Summary({
-  blogs,
-}: SummaryProps) {
+export default function Summary({ blogs }: SummaryProps) {
   const locale = useLocale() as SupportedLocale;
+  const t = useTranslations("ArticleSummary");
 
   const safeBlogs: Article[] = Array.isArray(blogs)
     ? blogs
@@ -244,9 +221,7 @@ export default function Summary({
           px-5 py-6 text-center text-sm text-slate-600
         "
       >
-        {locale === "fr"
-          ? "Aucun résumé d’article n’est disponible."
-          : "No article summaries are currently available."}
+        {t("empty")}
       </p>
     );
   }
@@ -256,20 +231,11 @@ export default function Summary({
       aria-labelledby="article-summaries-heading"
       className="w-full"
     >
-      <h2
-        id="article-summaries-heading"
-        className="sr-only"
-      >
-        {locale === "fr"
-          ? "Résumés des articles"
-          : "Article summaries"}
+      <h2 id="article-summaries-heading" className="sr-only">
+        {t("heading")}
       </h2>
 
-      <Accordion
-        type="single"
-        collapsible
-        className="space-y-4"
-      >
+      <Accordion type="single" collapsible className="space-y-4">
         {safeBlogs.map((blog, index) => {
           const itemId = String(blog.id ?? index);
 
@@ -277,18 +243,14 @@ export default function Summary({
             getLocalizedValue(
               blog.title as LocalizedValue,
               locale,
-            ) ||
-            (locale === "fr"
-              ? "Article sans titre"
-              : "Untitled article");
+            ) || t("untitled");
 
           const content = getLocalizedValue(
             blog.content as LocalizedValue,
             locale,
           );
 
-          const previewContent =
-            createContentPreview(content);
+          const previewContent = createContentPreview(content);
 
           const localizedSlug = getLocalizedValue(
             blog.slug as LocalizedValue,
@@ -325,9 +287,7 @@ export default function Summary({
                   [&>svg]:text-blue-700
                 "
               >
-                <span className="pr-4">
-                  {title}
-                </span>
+                <span className="pr-4">{title}</span>
               </AccordionTrigger>
 
               <AccordionContent className="pb-5">
@@ -341,20 +301,16 @@ export default function Summary({
                     />
                   ) : (
                     <p className="text-sm italic text-slate-500">
-                      {locale === "fr"
-                        ? "Aucun contenu n’est disponible pour cet article."
-                        : "No content is available for this article."}
+                      {t("noContent")}
                     </p>
                   )}
 
                   <footer className="mt-6 border-t border-slate-100 pt-5">
                     <Link
                       href={articleUrl}
-                      aria-label={
-                        locale === "fr"
-                          ? `Lire l’article complet : ${title}`
-                          : `Read the full article: ${title}`
-                      }
+                      aria-label={t("readFullArticleLabel", {
+                        title,
+                      })}
                       className="
                         inline-flex items-center rounded-md
                         text-sm font-semibold text-orange-600
@@ -366,14 +322,9 @@ export default function Summary({
                         focus-visible:ring-offset-2
                       "
                     >
-                      {locale === "fr"
-                        ? "Lire l’article complet"
-                        : "Read full article"}
+                      {t("readFullArticle")}
 
-                      <span
-                        aria-hidden="true"
-                        className="ml-2"
-                      >
+                      <span aria-hidden="true" className="ml-2">
                         →
                       </span>
                     </Link>

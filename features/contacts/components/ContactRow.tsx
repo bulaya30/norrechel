@@ -16,8 +16,8 @@ import StatusBadge from "@/components/StatusBadge";
 import { readableDate } from "@/lib/dates/utils";
 
 import type { Contact } from "@/features/interfaces/contact";
+import type { SupportedLocale } from "../schema/contact.schema";
 
-type SupportedLocale = "en" | "fr";
 interface ContactRowProps {
   locale: SupportedLocale
   contact: Contact;

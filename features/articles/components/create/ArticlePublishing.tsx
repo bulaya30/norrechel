@@ -6,6 +6,7 @@ import {
   EyeOff,
   FilePenLine,
 } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
@@ -15,23 +16,16 @@ import {
 } from "@/components/ui/radio-group";
 
 import { cn } from "@/lib/utils";
+import type { SupportedLocale } from "@/lib/dates/localizedValue";
 
-export type ArticlePublishStatus =
-  | "draft"
-  | "published";
+export type ArticlePublishStatus = "draft" | "published";
 
 interface ArticlePublishingProps {
-  locale: "en" | "fr";
-
+  locale: SupportedLocale;
   status: ArticlePublishStatus;
   active: boolean;
-
-  onStatusChange: (
-    status: ArticlePublishStatus,
-  ) => void;
-
+  onStatusChange: (status: ArticlePublishStatus) => void;
   onActiveChange: (active: boolean) => void;
-
   errors?: {
     status?: string;
     active?: string;
@@ -46,72 +40,23 @@ export default function ArticlePublishing({
   onActiveChange,
   errors = {},
 }: ArticlePublishingProps) {
-  const labels =
-    locale === "fr"
-      ? {
-          status: "Statut de publication",
-
-          draft: "Brouillon",
-          draftDescription:
-            "Enregistrez l’article sans le publier sur le site.",
-
-          published: "Publié",
-          publishedDescription:
-            "Rendez l’article disponible pour publication.",
-
-          visibility: "Visibilité",
-
-          active: "Article actif",
-          activeDescription:
-            "Un article actif peut être affiché sur le site.",
-
-          inactiveDescription:
-            "Cet article est actuellement masqué du site.",
-        }
-      : {
-          status: "Publishing status",
-
-          draft: "Draft",
-          draftDescription:
-            "Save the article without publishing it on the website.",
-
-          published: "Published",
-          publishedDescription:
-            "Make the article available for publication.",
-
-          visibility: "Visibility",
-
-          active: "Active article",
-          activeDescription:
-            "An active article can be displayed on the website.",
-
-          inactiveDescription:
-            "This article is currently hidden from the website.",
-        };
+  const t = useTranslations("ArticlePublishing");
 
   return (
     <div className="space-y-7">
       <fieldset className="space-y-3">
-        <legend
-          className="
-            text-sm font-semibold
-            text-slate-900
-          "
-        >
-          {labels.status}
+        <legend className="text-sm font-semibold text-slate-900">
+          {t("status")}
         </legend>
 
         <RadioGroup
-            value={status}
-            onValueChange={(value: string) => {
-                if (
-                value === "draft" ||
-                value === "published"
-                ) {
-                onStatusChange(value);
-                }
-            }}
-            className="grid gap-3"
+          value={status}
+          onValueChange={(value: string) => {
+            if (value === "draft" || value === "published") {
+              onStatusChange(value);
+            }
+          }}
+          className="grid gap-3"
         >
           <Label
             htmlFor="article-status-draft"
@@ -123,14 +68,8 @@ export default function ArticlePublishing({
                 p-4 transition-colors
               `,
               status === "draft"
-                ? `
-                    border-blue-300
-                    bg-blue-50/60
-                  `
-                : `
-                    border-slate-200
-                    hover:bg-slate-50
-                  `,
+                ? "border-blue-300 bg-blue-50/60"
+                : "border-slate-200 hover:bg-slate-50",
             )}
           >
             <RadioGroupItem
@@ -140,31 +79,17 @@ export default function ArticlePublishing({
             />
 
             <FilePenLine
-              className="
-                mt-0.5 size-5 shrink-0
-                text-slate-500
-              "
+              className="mt-0.5 size-5 shrink-0 text-slate-500"
               aria-hidden="true"
             />
 
             <span className="space-y-1">
-              <span
-                className="
-                  block text-sm font-semibold
-                  text-slate-900
-                "
-              >
-                {labels.draft}
+              <span className="block text-sm font-semibold text-slate-900">
+                {t("draft")}
               </span>
 
-              <span
-                className="
-                  block text-xs
-                  font-normal leading-5
-                  text-slate-500
-                "
-              >
-                {labels.draftDescription}
+              <span className="block text-xs font-normal leading-5 text-slate-500">
+                {t("draftDescription")}
               </span>
             </span>
           </Label>
@@ -179,14 +104,8 @@ export default function ArticlePublishing({
                 p-4 transition-colors
               `,
               status === "published"
-                ? `
-                    border-blue-300
-                    bg-blue-50/60
-                  `
-                : `
-                    border-slate-200
-                    hover:bg-slate-50
-                  `,
+                ? "border-blue-300 bg-blue-50/60"
+                : "border-slate-200 hover:bg-slate-50",
             )}
           >
             <RadioGroupItem
@@ -196,41 +115,24 @@ export default function ArticlePublishing({
             />
 
             <CircleCheck
-              className="
-                mt-0.5 size-5 shrink-0
-                text-blue-700
-              "
+              className="mt-0.5 size-5 shrink-0 text-blue-700"
               aria-hidden="true"
             />
 
             <span className="space-y-1">
-              <span
-                className="
-                  block text-sm font-semibold
-                  text-slate-900
-                "
-              >
-                {labels.published}
+              <span className="block text-sm font-semibold text-slate-900">
+                {t("published")}
               </span>
 
-              <span
-                className="
-                  block text-xs
-                  font-normal leading-5
-                  text-slate-500
-                "
-              >
-                {labels.publishedDescription}
+              <span className="block text-xs font-normal leading-5 text-slate-500">
+                {t("publishedDescription")}
               </span>
             </span>
           </Label>
         </RadioGroup>
 
         {errors.status && (
-          <p
-            role="alert"
-            className="text-sm font-medium text-red-600"
-          >
+          <p role="alert" className="text-sm font-medium text-red-600">
             {errors.status}
           </p>
         )}
@@ -239,13 +141,8 @@ export default function ArticlePublishing({
       <div className="border-t border-slate-200" />
 
       <div className="space-y-3">
-        <p
-          className="
-            text-sm font-semibold
-            text-slate-900
-          "
-        >
-          {labels.visibility}
+        <p className="text-sm font-semibold text-slate-900">
+          {t("visibility")}
         </p>
 
         <div
@@ -280,24 +177,18 @@ export default function ArticlePublishing({
             <div>
               <Label
                 htmlFor="article-active"
-                className="
-                  text-sm font-semibold
-                  text-slate-900
-                "
+                className="text-sm font-semibold text-slate-900"
               >
-                {labels.active}
+                {t("active")}
               </Label>
 
               <p
                 id="article-active-description"
-                className="
-                  mt-1 text-xs leading-5
-                  text-slate-500
-                "
+                className="mt-1 text-xs leading-5 text-slate-500"
               >
                 {active
-                  ? labels.activeDescription
-                  : labels.inactiveDescription}
+                  ? t("activeDescription")
+                  : t("inactiveDescription")}
               </p>
             </div>
           </div>
@@ -311,10 +202,7 @@ export default function ArticlePublishing({
         </div>
 
         {errors.active && (
-          <p
-            role="alert"
-            className="text-sm font-medium text-red-600"
-          >
+          <p role="alert" className="text-sm font-medium text-red-600">
             {errors.active}
           </p>
         )}

@@ -124,7 +124,6 @@
         "description": "New projects will appear here when they are published."
       }
     },
-
     "AboutPreview": {
       "label": "About",
       "title": "Building practical technology with purpose.",
@@ -150,6 +149,19 @@
       },
       "philosophyQuote": "Knowledge becomes truly valuable when it is shared, applied, and used to make a positive difference.",
       "philosophy": "Philosophy"
+    },
+    "ArticlePreviewCard": {
+      "readArticle": "Read article",
+      "readArticleLabel": "Read article: {title}",
+      "noCoverImage": "No cover image"
+    },
+    "ProjectPreviewCard": {
+      "viewProject": "View project",
+      "viewProjectLabel": "View project: {title}",
+      "noProjectImage": "No project image",
+      "technologiesLabel": "Technologies used",
+      "liveDemoLabel": "Visit the live demo for {title}",
+      "githubLabel": "View {title} source code on GitHub"
     },
 
     "Newsletter": {
@@ -1011,5 +1023,153 @@
       "deleteDescription": "This will permanently delete {email}. This action cannot be undone.",
       "unsubscribeDescription": "{email} will be unsubscribed and will no longer be considered an active subscriber."
     }
+  },
+  "EditorLinkButton": {
+    "addLink": "Add link",
+    "editLink": "Edit link",
+    "urlHint": "Enter the URL for the selected text.",
+    "urlLabel": "URL",
+    "remove": "Remove",
+    "cancel": "Cancel",
+    "apply": "Apply"
+  },
+  "ConfirmDialog": {
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "processing": "Processing..."
+  },
+  "ContentDeleted": {
+    "articleTitle": "Article deleted",
+    "articleDescription": "This article has been deleted and is no longer available for editing.",
+    "title": "{component} deleted",
+    "description": "The {component} you're looking for has been deleted and is no longer available for editing.",
+    "back": "Back to {component}s"
+  },
+  "ContentNotFound": {
+    "title": "{component} not found",
+    "articleDescription": "The article you're looking for does not exist or may have been deleted.",
+    "description": "The {component} you're looking for does not exist or may have been deleted.",
+    "back": "Back to {component}s"
+  },
+  "ArticlePublishing": {
+    "status": "Publishing status",
+    "draft": "Draft",
+    "draftDescription": "Save the article without publishing it on the website.",
+    "published": "Published",
+    "publishedDescription": "Make the article available for publication.",
+    "visibility": "Visibility",
+    "active": "Active article",
+    "activeDescription": "An active article can be displayed on the website.",
+    "inactiveDescription": "This article is currently hidden from the website."
+  },
+  "EditArticleForm": {
+    "sections": {
+      "basic": {
+        "title": "Basic information",
+        "description": "Update the article's basic information."
+      },
+      "content": {
+        "title": "Article content",
+        "description": "Update the English and French versions."
+      },
+      "cover": {
+        "title": "Cover image",
+        "description": "Keep the current image or select a new one."
+      }
+    },
+    "validation": {
+      "articleIdMissing": "Article ID is missing.",
+      "englishTitleRequired": "English title is required.",
+      "frenchTitleRequired": "French title is required."
+    },
+    "messages": {
+      "saveError": "An error occurred while saving the article.",
+      "publishError": "An error occurred while publishing the article."
+    }
+  },
+  "ArticleSummary": {
+    "empty": "No article summaries are currently available.",
+    "heading": "Article summaries",
+    "untitled": "Untitled article",
+    "noContent": "No content is available for this article.",
+    "readFullArticle": "Read full article",
+    "readFullArticleLabel": "Read the full article: {title}"
+  },
+  "AuthorAbout": {
+    "heading": "About the author",
+    "introduction": "I build modern applications, explore data, and share practical knowledge around technology, entrepreneurship, and personal development.",
+    "skillsHeading": "Core skills",
+    "focus": {
+      "softwareDevelopment": {
+        "title": "Software development",
+        "description": "Building modern, maintainable web applications around real user needs and practical business requirements."
+      },
+      "dataAnalytics": {
+        "title": "Data and analytics",
+        "description": "Turning raw data into useful insights that help explain problems and support better decisions."
+      },
+      "problemSolving": {
+        "title": "Problem solving",
+        "description": "Using structured thinking to transform complex ideas into practical and measurable solutions."
+      },
+      "entrepreneurship": {
+        "title": "Entrepreneurship",
+        "description": "Exploring ideas, building projects, and learning how useful businesses are created and sustained."
+      }
+    }
+  },
+  "AuthorArticles": {
+    "emptyTitle": "No published articles",
+    "emptyDescription": "Articles published by this author will appear here.",
+    "heading": "Published articles",
+    "articleCount": "{count, plural, =0 {No articles} =1 {1 article} other {# articles}}",
+    "untitled": "Untitled article",
+    "viewCount": "{count, plural, =0 {0 views} =1 {1 view} other {# views}}",
+    "readArticle": "Read article",
+    "readArticleLabel": "Read article: {title}"
+  },
+  "AuthorHero": {
+    "unknownAuthor": "Unknown author",
+    "eyebrow": "About the creator",
+    "defaultTitle": "Software Engineer · Builder · Entrepreneur",
+    "defaultDescription": "I build practical digital products, explore data-driven solutions, and share lessons from technology, entrepreneurship, and continuous learning.",
+    "profileImageAlt": "{name}'s profile picture",
+    "skillsLabel": "Professional skills",
+    "socialLinksLabel": "{name}'s social and contact links",
+    "githubLabel": "Visit {name}'s GitHub profile",
+    "linkedinLabel": "Visit {name}'s LinkedIn profile",
+    "websiteLabel": "Visit {name}'s website",
+    "emailLabel": "Send an email to {name}",
+    "visitWebsite": "Visit personal website"
+  },
+  "AuthorProjects": {
+    "emptyTitle": "No published projects",
+    "emptyDescription": "Projects published by this author will appear here.",
+    "heading": "Published projects",
+    "projectCount": "{count, plural, =0 {No projects} =1 {1 project} other {# projects}}",
+    "untitled": "Untitled project",
+    "technologiesLabel": "Technologies used",
+    "viewCount": "{count, plural, =0 {0 views} =1 {1 view} other {# views}}",
+    "published": "Published",
+    "draft": "Draft",
+    "sourceCodeLabel": "View {title} source code on GitHub",
+    "liveDemoLabel": "Open the live demo for {title}",
+    "liveDemo": "Live demo",
+    "viewProjectLabel": "View project: {title}",
+    "viewProject": "View project"
+  },
+  "AuthorStats": {
+    "heading": "Author statistics",
+    "articles": "Articles",
+    "projects": "Projects",
+    "views": "Views",
+    "subscribers": "Subscribers"
+  },
+  "AuthorTabs": {
+    "heading": "Author content",
+    "sectionsLabel": "Author profile sections",
+    "articles": "Articles",
+    "projects": "Projects",
+    "about": "About"
   }
 }

@@ -86,7 +86,6 @@ export default function ContentContactForm({
       setSubmitted(true);
       reset();
     } catch (error) {
-      console.error("Content contact submission failed:", error);
       setSubmissionError(true);
     }
   };

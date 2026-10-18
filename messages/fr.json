@@ -162,7 +162,19 @@
       "philosophyQuote": "La connaissance devient véritablement précieuse lorsqu'elle est partagée, appliquée et utilisée pour apporter une contribution positive.",
       "philosophy": "Philosophie"
     },
-
+    "ArticlePreviewCard": {
+      "readArticle": "Lire l’article",
+      "readArticleLabel": "Lire l’article : {title}",
+      "noCoverImage": "Aucune image de couverture"
+    },
+    "ProjectPreviewCard": {
+      "viewProject": "Voir le projet",
+      "viewProjectLabel": "Voir le projet : {title}",
+      "noProjectImage": "Aucune image du projet",
+      "technologiesLabel": "Technologies utilisées",
+      "liveDemoLabel": "Visiter la démonstration en ligne de {title}",
+      "githubLabel": "Voir le code source de {title} sur GitHub"
+    },
     "Newsletter": {
       "label": "Newsletter",
       "title": "Restez informé et inspiré",
@@ -1023,6 +1035,153 @@
       "deleteDescription": "L’abonné {email} sera définitivement supprimé. Cette action est irréversible.",
       "unsubscribeDescription": "L’adresse {email} sera désabonnée et ne sera plus considérée comme un abonnement actif."
     }
-
+  },
+  "EditorLinkButton": {
+    "addLink": "Ajouter un lien",
+    "editLink": "Modifier le lien",
+    "urlHint": "Saisissez l’URL du texte sélectionné.",
+    "urlLabel": "URL",
+    "remove": "Supprimer",
+    "cancel": "Annuler",
+    "apply": "Appliquer"
+  },
+  "ConfirmDialog": {
+    "confirm": "Confirmer",
+    "cancel": "Annuler",
+    "processing": "Traitement en cours..."
+  },
+  "ContentDeleted": {
+    "articleTitle": "Article supprimé",
+    "articleDescription": "Cet article a été supprimé et n’est plus disponible pour modification.",
+    "title": "{component} supprimé",
+    "description": "Le contenu « {component} » que vous recherchez a été supprimé et n’est plus disponible pour modification.",
+    "back": "Retour aux {component}s"
+  },
+  "ContentNotFound": {
+    "title": "{component} introuvable",
+    "articleDescription": "L’article que vous recherchez n’existe pas ou a peut-être été supprimé.",
+    "description": "Le {component} que vous recherchez n’existe pas ou a peut-être été supprimé.",
+    "back": "Retour aux {component}s"
+  },
+  "ArticlePublishing": {
+    "status": "Statut de publication",
+    "draft": "Brouillon",
+    "draftDescription": "Enregistrez l’article sans le publier sur le site.",
+    "published": "Publié",
+    "publishedDescription": "Rendez l’article disponible pour publication.",
+    "visibility": "Visibilité",
+    "active": "Article actif",
+    "activeDescription": "Un article actif peut être affiché sur le site.",
+    "inactiveDescription": "Cet article est actuellement masqué du site."
+  },
+  "EditArticleForm": {
+    "sections": {
+      "basic": {
+        "title": "Informations principales",
+        "description": "Modifiez les informations principales de l’article."
+      },
+      "content": {
+        "title": "Contenu de l’article",
+        "description": "Modifiez les versions anglaise et française."
+      },
+      "cover": {
+        "title": "Image de couverture",
+        "description": "Conservez l’image actuelle ou sélectionnez-en une nouvelle."
+      }
+    },
+    "validation": {
+      "articleIdMissing": "L’identifiant de l’article est manquant.",
+      "englishTitleRequired": "Le titre en anglais est obligatoire.",
+      "frenchTitleRequired": "Le titre en français est obligatoire."
+    },
+    "messages": {
+      "saveError": "Une erreur est survenue lors de l’enregistrement de l’article.",
+      "publishError": "Une erreur est survenue lors de la publication de l’article."
+    }
+  },
+  "ArticleSummary": {
+    "empty": "Aucun résumé d’article n’est disponible.",
+    "heading": "Résumés des articles",
+    "untitled": "Article sans titre",
+    "noContent": "Aucun contenu n’est disponible pour cet article.",
+    "readFullArticle": "Lire l’article complet",
+    "readFullArticleLabel": "Lire l’article complet : {title}"
+  },
+  "AuthorAbout": {
+    "heading": "À propos de l’auteur",
+    "introduction": "Je conçois des applications modernes, j’explore les données et je partage des connaissances pratiques autour de la technologie, de l’entrepreneuriat et du développement personnel.",
+    "skillsHeading": "Compétences principales",
+    "focus": {
+      "softwareDevelopment": {
+        "title": "Développement logiciel",
+        "description": "Conception d’applications web modernes, maintenables et centrées sur les besoins réels des utilisateurs."
+      },
+      "dataAnalytics": {
+        "title": "Données et analyse",
+        "description": "Transformation des données brutes en informations utiles pour mieux comprendre les problèmes et guider les décisions."
+      },
+      "problemSolving": {
+        "title": "Résolution de problèmes",
+        "description": "Approche structurée pour transformer des idées complexes en solutions pratiques et mesurables."
+      },
+      "entrepreneurship": {
+        "title": "Entrepreneuriat",
+        "description": "Exploration d’idées, création de projets et apprentissage continu autour de la construction d’entreprises utiles."
+      }
+    }
+  },
+  "AuthorArticles": {
+    "emptyTitle": "Aucun article publié",
+    "emptyDescription": "Les articles publiés par cet auteur apparaîtront ici.",
+    "heading": "Articles publiés",
+    "articleCount": "{count, plural, =0 {Aucun article} =1 {1 article} other {# articles}}",
+    "untitled": "Article sans titre",
+    "viewCount": "{count, plural, =0 {0 vue} =1 {1 vue} other {# vues}}",
+    "readArticle": "Lire l’article",
+    "readArticleLabel": "Lire l’article : {title}"
+  },
+  "AuthorHero": {
+    "unknownAuthor": "Auteur inconnu",
+    "eyebrow": "À propos du créateur",
+    "defaultTitle": "Ingénieur logiciel · Créateur · Entrepreneur",
+    "defaultDescription": "Je crée des produits numériques pratiques, explore des solutions fondées sur les données et partage mes apprentissages en technologie, entrepreneuriat et apprentissage continu.",
+    "profileImageAlt": "Photo de profil de {name}",
+    "skillsLabel": "Compétences professionnelles",
+    "socialLinksLabel": "Liens sociaux et coordonnées de {name}",
+    "githubLabel": "Consulter le profil GitHub de {name}",
+    "linkedinLabel": "Consulter le profil LinkedIn de {name}",
+    "websiteLabel": "Visiter le site web de {name}",
+    "emailLabel": "Envoyer un e-mail à {name}",
+    "visitWebsite": "Visiter le site web personnel"
+  },
+  "AuthorProjects": {
+    "emptyTitle": "Aucun projet publié",
+    "emptyDescription": "Les projets publiés par cet auteur apparaîtront ici.",
+    "heading": "Projets publiés",
+    "projectCount": "{count, plural, =0 {Aucun projet} =1 {1 projet} other {# projets}}",
+    "untitled": "Projet sans titre",
+    "technologiesLabel": "Technologies utilisées",
+    "viewCount": "{count, plural, =0 {0 vue} =1 {1 vue} other {# vues}}",
+    "published": "Publié",
+    "draft": "Brouillon",
+    "sourceCodeLabel": "Voir le code source de {title} sur GitHub",
+    "liveDemoLabel": "Ouvrir la démonstration en ligne de {title}",
+    "liveDemo": "Démo en ligne",
+    "viewProjectLabel": "Voir le projet : {title}",
+    "viewProject": "Voir le projet"
+  },
+  "AuthorStats": {
+    "heading": "Statistiques de l’auteur",
+    "articles": "Articles",
+    "projects": "Projets",
+    "views": "Vues",
+    "subscribers": "Abonnés"
+  },
+  "AuthorTabs": {
+    "heading": "Contenu de l’auteur",
+    "sectionsLabel": "Sections du profil de l’auteur",
+    "articles": "Articles",
+    "projects": "Projets",
+    "about": "À propos"
   }
 }
