@@ -3,11 +3,9 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 
-import {
-  LogOut,
-  Menu,
-} from "lucide-react";
+import { LogOut, Menu } from "lucide-react";
 
 import {
   Sheet,
@@ -24,7 +22,7 @@ import { cn } from "@/lib/utils";
 import { dashboardNavigation } from "@/features/dashboard/constants/dashboardNavigation";
 import { logoutAction } from "@/features/auth/actions/auth.actions";
 
-type SupportedLocale = "en" | "fr";
+import type { SupportedLocale } from "@/lib/dates/localizedValue";
 
 interface DashboardMobileNavProps {
   locale: SupportedLocale;
@@ -35,6 +33,7 @@ export default function DashboardMobileNav({
 }: DashboardMobileNavProps) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const t = useTranslations("DashboardSidebar");
 
   return (
     <header
@@ -51,43 +50,30 @@ export default function DashboardMobileNav({
         href={`/${locale}/dashboard`}
         className="
           text-lg font-bold tracking-tight
-          text-slate-950
-          transition-colors
+          text-slate-950 transition-colors
           hover:text-orange-600
           focus-visible:outline-none
-          focus-visible:ring-2
-          focus-visible:ring-orange-500
+          focus-visible:ring-2 focus-visible:ring-orange-500
           focus-visible:ring-offset-2
         "
       >
         Norrechel
       </Link>
 
-      <Sheet
-        open={open}
-        onOpenChange={setOpen}
-      >
+      <Sheet open={open} onOpenChange={setOpen}>
         <SheetTrigger asChild>
           <Button
             type="button"
             variant="ghost"
             size="icon"
-            aria-label={
-              locale === "fr"
-                ? "Ouvrir la navigation"
-                : "Open navigation"
-            }
+            aria-label={t("openNavigation")}
             className="
               text-slate-700
-              hover:bg-slate-100
-              hover:text-orange-600
+              hover:bg-slate-100 hover:text-orange-600
               focus-visible:ring-orange-500
             "
           >
-            <Menu
-              className="size-5"
-              aria-hidden="true"
-            />
+            <Menu className="size-5" aria-hidden="true" />
           </Button>
         </SheetTrigger>
 
@@ -123,16 +109,12 @@ export default function DashboardMobileNav({
               </SheetTitle>
 
               <SheetDescription className="text-xs font-medium uppercase tracking-[0.18em] text-slate-400">
-                Administration
+                {t("administration")}
               </SheetDescription>
             </SheetHeader>
 
             <nav
-              aria-label={
-                locale === "fr"
-                  ? "Navigation mobile du tableau de bord"
-                  : "Mobile dashboard navigation"
-              }
+              aria-label={t("mobileNavigationLabel")}
               className="flex-1 space-y-1 overflow-y-auto px-3 py-5"
             >
               {dashboardNavigation.map((item) => {
@@ -147,12 +129,10 @@ export default function DashboardMobileNav({
 
                 return (
                   <Link
-                    key={item.href}
+                    key={item.key}
                     href={href}
                     onClick={() => setOpen(false)}
-                    aria-current={
-                      isActive ? "page" : undefined
-                    }
+                    aria-current={isActive ? "page" : undefined}
                     className={cn(
                       `
                         flex min-h-11 items-center gap-3
@@ -160,19 +140,11 @@ export default function DashboardMobileNav({
                         text-sm font-semibold
                         transition-all duration-200
                         focus-visible:outline-none
-                        focus-visible:ring-2
-                        focus-visible:ring-orange-400
+                        focus-visible:ring-2 focus-visible:ring-orange-400
                       `,
                       isActive
-                        ? `
-                            bg-orange-600 text-white
-                            shadow-lg shadow-orange-950/20
-                          `
-                        : `
-                            text-slate-300
-                            hover:bg-white/10
-                            hover:text-white
-                          `,
+                        ? "bg-orange-600 text-white shadow-lg shadow-orange-950/20"
+                        : "text-slate-300 hover:bg-white/10 hover:text-white",
                     )}
                   >
                     <Icon
@@ -180,9 +152,7 @@ export default function DashboardMobileNav({
                       aria-hidden="true"
                     />
 
-                    <span>
-                      {item.label[locale]}
-                    </span>
+                    <span>{t(`items.${item.key}`)}</span>
                   </Link>
                 );
               })}
@@ -196,8 +166,19 @@ export default function DashboardMobileNav({
                   value={locale}
                 />
 
-                <button type="submit">
-                  Logout
+                <button
+                  type="submit"
+                  className="
+                    flex min-h-11 w-full items-center gap-3
+                    rounded-xl px-3 py-2.5
+                    text-sm font-semibold text-slate-300
+                    transition-colors hover:bg-white/10 hover:text-white
+                    focus-visible:outline-none
+                    focus-visible:ring-2 focus-visible:ring-orange-400
+                  "
+                >
+                  <LogOut className="size-5" aria-hidden="true" />
+                  {t("logout")}
                 </button>
               </form>
             </footer>

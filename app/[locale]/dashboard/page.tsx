@@ -19,7 +19,7 @@ import {
 
 import { requireAuthenticatedUser } from "@/features/auth/lib/requireAuthenticatedUser";
 
-type SupportedLocale = "en" | "fr";
+import type { SupportedLocale } from "@/lib/dates/localizedValue";
 
 interface DashboardPageProps {
   params: Promise<{

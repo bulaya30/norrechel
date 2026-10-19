@@ -2,23 +2,23 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 import { cn } from "@/lib/utils";
 import { logoutAction } from "@/features/auth/actions/auth.actions";
-
 import { dashboardNavigation } from "@/features/dashboard/constants/dashboardNavigation";
 
-type SupportedLocale = "en" | "fr";
+import type { SupportedLocale } from "@/lib/dates/localizedValue";
 
 interface DashboardSidebarProps {
   locale: SupportedLocale;
 }
 
-
 export default function DashboardSidebar({
   locale,
 }: DashboardSidebarProps) {
   const pathname = usePathname();
+  const t = useTranslations("DashboardSidebar");
 
   return (
     <aside
@@ -54,34 +54,22 @@ export default function DashboardSidebar({
             className="
               inline-flex items-center
               text-xl font-bold tracking-tight
-              transition-colors
-              hover:text-orange-400
+              transition-colors hover:text-orange-400
               focus-visible:outline-none
-              focus-visible:ring-2
-              focus-visible:ring-orange-400
+              focus-visible:ring-2 focus-visible:ring-orange-400
             "
           >
             Norrechel
           </Link>
 
-          <p
-            className="
-              mt-1 text-xs font-medium
-              uppercase tracking-[0.18em]
-              text-slate-400
-            "
-          >
-            Administration
+          <p className="mt-1 text-xs font-medium uppercase tracking-[0.18em] text-slate-400">
+            {t("administration")}
           </p>
         </header>
 
         <nav
-          aria-label={
-            locale === "fr"
-              ? "Navigation du tableau de bord"
-              : "Dashboard navigation"
-          }
-          className="flex-1 space-y-1 px-3 py-5"
+          aria-label={t("navigationLabel")}
+          className="flex-1 space-y-1 overflow-y-auto px-3 py-5"
         >
           {dashboardNavigation.map((item) => {
             const href = `/${locale}${item.href}`;
@@ -95,7 +83,7 @@ export default function DashboardSidebar({
 
             return (
               <Link
-                key={item.href}
+                key={item.key}
                 href={href}
                 aria-current={isActive ? "page" : undefined}
                 className={cn(
@@ -105,19 +93,11 @@ export default function DashboardSidebar({
                     text-sm font-semibold
                     transition-all duration-200
                     focus-visible:outline-none
-                    focus-visible:ring-2
-                    focus-visible:ring-orange-400
+                    focus-visible:ring-2 focus-visible:ring-orange-400
                   `,
                   isActive
-                    ? `
-                        bg-orange-600 text-white
-                        shadow-lg shadow-orange-950/20
-                      `
-                    : `
-                        text-slate-300
-                        hover:bg-white/10
-                        hover:text-white
-                      `,
+                    ? "bg-orange-600 text-white shadow-lg shadow-orange-950/20"
+                    : "text-slate-300 hover:bg-white/10 hover:text-white",
                 )}
               >
                 <Icon
@@ -125,7 +105,7 @@ export default function DashboardSidebar({
                   aria-hidden="true"
                 />
 
-                <span>{item.label[locale]}</span>
+                <span>{t(`items.${item.key}`)}</span>
               </Link>
             );
           })}
@@ -139,8 +119,18 @@ export default function DashboardSidebar({
               value={locale}
             />
 
-            <button type="submit">
-              Logout
+            <button
+              type="submit"
+              className="
+                flex min-h-11 w-full items-center
+                rounded-xl px-3 py-2.5
+                text-sm font-semibold text-slate-300
+                transition-colors hover:bg-white/10 hover:text-white
+                focus-visible:outline-none
+                focus-visible:ring-2 focus-visible:ring-orange-400
+              "
+            >
+              {t("logout")}
             </button>
           </form>
         </footer>

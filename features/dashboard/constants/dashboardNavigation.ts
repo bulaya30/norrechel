@@ -6,71 +6,53 @@ import {
   MailPlus,
   UserRound,
   Layers3,
-  MessageSquare
+  MessageSquare,
+  Users,
 } from "lucide-react";
 
 export const dashboardNavigation = [
   {
-    label: {
-      en: "Dashboard",
-      fr: "Tableau de bord",
-    },
+    key: "dashboard",
     href: "/dashboard",
     icon: Home,
   },
   {
-    label: {
-      en: "Notifications",
-      fr: "Notifications",
-    },
+    key: "notifications",
     href: "/dashboard/notifications",
     icon: Bell,
   },
   {
-    label: {
-      en: "Categories",
-      fr: "Categories"
-    },
+    key: "categories",
     href: "/dashboard/categories",
     icon: Layers3,
   },
   {
-    label: {
-      en: "Articles",
-      fr: "Articles",
-    },
+    key: "articles",
     href: "/dashboard/articles",
     icon: BookOpen,
   },
   {
-    label: {
-      en: "Projects",
-      fr: "Projets",
-    },
+    key: "projects",
     href: "/dashboard/projects",
     icon: FolderKanban,
   },
   {
-    label: {
-      en: "Contacts",
-      fr: "Contactes",
-    },
+    key: "contacts",
     href: "/dashboard/contacts",
     icon: MessageSquare,
   },
   {
-    label: {
-      en: "Subscribers",
-      fr:"Abonnées",
-    },
+    key: "subscribers",
     href: "/dashboard/subscribers",
     icon: MailPlus,
   },
   {
-    label: {
-      en: "Profile",
-      fr: "Profil",
-    },
+    key: "visitors",
+    href: "/dashboard/visitors",
+    icon: Users,
+  },
+  {
+    key: "profile",
     href: "/dashboard/profile",
     icon: UserRound,
   },
