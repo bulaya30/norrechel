@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useTranslations } from "next-intl";
@@ -13,7 +12,6 @@ interface ArticleCTAProps {
   href?: string;
   onClick?: () => void;
 
-  // Provide these when the CTA refers to a specific article or project.
   contentType?: ContentType;
   contentId?: string;
   contentTitle?: string;
@@ -37,8 +35,9 @@ export default function ArticleCTA({
   const ctaDescription = description ?? t("description");
   const ctaButtonLabel = buttonLabel ?? t("buttonLabel");
 
-  const hasContentReference =
-    Boolean(contentType && contentId && contentTitle && sourcePage);
+  const hasContentReference = Boolean(
+    contentType && contentId && contentTitle && sourcePage,
+  );
 
   const contactHref =
     href ??
@@ -53,6 +52,55 @@ export default function ArticleCTA({
           },
         }
       : "/contact");
+
+  function handleContactClick() {
+    // Preserve any callback supplied by the parent.
+    onClick?.();
+
+    if (!contentType || !contentId) {
+      return;
+    }
+
+    try {
+      // Use the visitor identifier created by your visitor tracker.
+      const visitorId =
+        localStorage.getItem("visitorId") ??
+        localStorage.getItem("visitor_id");
+
+      if (!visitorId) {
+        return;
+      }
+
+      const payload = {
+        visitor_id: visitorId,
+        content_id: contentId,
+        content_type: contentType,
+        event_type: "contact_click",
+        event_value: 1,
+        metadata: {
+          content_title: contentTitle ?? ctaTitle,
+          source_page: sourcePage ?? window.location.pathname,
+          destination: "/contact",
+          cta: "article_cta",
+        },
+        date: new Date().toISOString(),
+      };
+
+      // keepalive helps the request finish while the browser navigates.
+      void fetch("/api/engagements/track", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+        keepalive: true,
+      }).catch(() => {
+        // Tracking failures should not prevent contact-page navigation.
+      });
+    } catch {
+      // Tracking is non-critical; navigation must still work.
+    }
+  }
 
   return (
     <section
@@ -73,7 +121,7 @@ export default function ArticleCTA({
 
         <Link
           href={contactHref}
-          onClick={onClick}
+          onClick={handleContactClick}
           className="mt-6 inline-flex items-center justify-center rounded-md bg-orange-600 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-orange-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-600 focus-visible:ring-offset-2"
         >
           {ctaButtonLabel}

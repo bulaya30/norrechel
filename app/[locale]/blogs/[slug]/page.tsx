@@ -15,7 +15,7 @@ import { getCachedArticleBySlug } from "@/features/articles/queries/article.quer
 import { normalizeDate } from "@/lib/dates/utils";
 import { getAuthenticatedUser } from "@/features/auth/lib/getAuthenticatedUser";
 
-type SupportedLocale = "en" | "fr";
+import type { SupportedLocale } from "@/lib/dates/localizedValue";
 
 interface ArticlePageProps {
   params: Promise<{

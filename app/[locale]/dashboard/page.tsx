@@ -76,6 +76,7 @@ export default async function DashboardPage({
     period,
   );
 
+
   return (
     <>
       <DashboardPageHeader

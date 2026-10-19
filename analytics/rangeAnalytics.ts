@@ -231,8 +231,7 @@ export function getRangeAnalytics(
   const viewCount = currentViews.length;
   const engagementCount = currentEngagements.length;
 
-  const uniqueVisitors =
-    getUniqueVisitors(currentViews);
+  const uniqueVisitors = getUniqueVisitors(currentViews);
 
   /*
    * Audience quality
