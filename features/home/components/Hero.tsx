@@ -13,29 +13,6 @@ import DecorativeBackground from "@/components/ui/DecorativeBackground";
 export default async function Hero() {
   const t = await getTranslations("Home");
 
-  const featuredTopics = [
-    {
-      title: t("FeaturedTopics.practicalInsights.title"),
-      content: t("FeaturedTopics.practicalInsights.content"),
-      icon: <BookOpen className="size-6" aria-hidden="true" />,
-    },
-    {
-      title: t("FeaturedTopics.dataDrivenSolutions.title"),
-      content: t("FeaturedTopics.dataDrivenSolutions.content"),
-      icon: (
-        <ChartColumnIncreasing
-          className="size-6"
-          aria-hidden="true"
-        />
-      ),
-    },
-    {
-      title: t("FeaturedTopics.softwareThatSolvesProblems.title"),
-      content: t("FeaturedTopics.softwareThatSolvesProblems.content"),
-      icon: <CodeXml className="size-6" aria-hidden="true" />,
-    },
-  ];
-
   return (
     <>
       <section
@@ -173,6 +150,17 @@ export default async function Hero() {
                   "
                 >
                   {t("Hero.articlesButton")}
+                </Link>
+
+                <Link
+                  href="/contact"
+                  className="inline-flex min-h-12 items-center justify-center gap-2 rounded-lg
+                    border border-orange-400/40 bg-orange-500/10 px-6 py-3
+                    text-sm font-semibold text-orange-200 transition-colors
+                    hover:bg-orange-500/20"
+                >
+                  Discuss a Project
+                  <ArrowRight className="size-4" aria-hidden="true" />
                 </Link>
               </div>
 

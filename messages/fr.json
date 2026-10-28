@@ -1,6 +1,7 @@
 {
   "Navigation": {
     "home": "Accueil",
+    "services": "Services",
     "blogs": "Articles",
     "projects": "Projets",
     "about": "À propos",
@@ -79,6 +80,14 @@
         "title": "Connaissances & écriture",
         "description": "Des idées et des enseignements pratiques issus de la technologie, du travail et du développement personnel."
       }
+    },
+
+    "ProjectCTA": {
+      "eyebrow": "Vous avez un projet en tête ?",
+      "title": "Créons ensemble des solutions utiles.",
+      "description": "J’aide les entreprises à résoudre des problèmes concrets grâce à des sites web professionnels, des logiciels sur mesure et des systèmes numériques de gestion. Que vous ayez besoin d’un nouveau site web, d’un tableau de bord professionnel ou d’un système pour gérer vos activités quotidiennes, discutons de votre projet.",
+      "button": "Discutons de votre projet",
+      "supportingText": "Parlez-moi de votre entreprise et de vos besoins."
     },
 
     "Expertise": {
@@ -1233,5 +1242,103 @@
     },
     "openNavigation": "Ouvrir la navigation",
     "mobileNavigationLabel": "Navigation mobile du tableau de bord"
+  },
+  "ServicesPage": {
+    "hero": {
+      "eyebrow": "Services et compétences",
+      "title": "Des solutions numériques concrètes pour",
+      "titleAccent": "les vrais problèmes des entreprises.",
+      "description": "Je conçois des sites web, des logiciels sur mesure et des outils professionnels pour résoudre des problèmes concrets, simplifier les opérations et aider les entreprises à travailler plus efficacement.",
+      "cta": "Discutons de votre projet",
+      "secondaryCta": "Découvrir mes projets"
+    },
+    "overview": {
+      "eyebrow": "Comment je peux vous aider",
+      "title": "Transformer les idées en solutions",
+      "note": "Chaque projet commence par la compréhension du problème, des personnes concernées et du résultat recherché."
+    },
+    "servicesSection": {
+      "eyebrow": "Domaines d'intervention",
+      "title": "Ce que je peux vous aider à créer",
+      "description": "La solution adaptée dépend de vos objectifs. Voici les principaux domaines dans lesquels je développe des solutions numériques.",
+      "outcomeLabel": "Objectif"
+    },
+    "services": {
+      "websites": {
+        "title": "Sites web professionnels",
+        "shortDescription": "Une présence en ligne professionnelle pour votre entreprise.",
+        "description": "Des sites web adaptatifs qui présentent clairement votre entreprise, expliquent vos services et permettent à vos clients potentiels de vous contacter facilement.",
+        "outcome": "Aider vos clients à comprendre votre activité et à passer à l'étape suivante."
+      },
+      "software": {
+        "title": "Logiciels sur mesure",
+        "shortDescription": "Des systèmes numériques adaptés aux besoins de votre entreprise.",
+        "description": "Des applications web conçues autour de vos processus, de vos données et de vos difficultés opérationnelles, plutôt que de vous imposer un fonctionnement générique.",
+        "outcome": "Organiser les activités de votre entreprise dans un système adapté à vos méthodes de travail."
+      },
+      "dashboards": {
+        "title": "Tableaux de bord et rapports",
+        "shortDescription": "Une vision plus claire de l'activité et des performances de votre entreprise.",
+        "description": "Des tableaux de bord et des outils de reporting qui regroupent les informations importantes afin de suivre l'activité et de prendre des décisions mieux éclairées.",
+        "outcome": "Faciliter la compréhension des informations essentielles et leur utilisation dans la prise de décision."
+      }
+    },
+    "featured": {
+      "eyebrow": "Projet en développement",
+      "status": "Reconstruction en cours",
+      "title": "Système numérique de gestion avicole",
+      "description": "DPMS est une application de gestion avicole que je reconstruis afin d'explorer comment les outils numériques peuvent aider les éleveurs à organiser leurs données, suivre leurs stocks, planifier les vaccinations et gérer les ventes sur plusieurs sites.",
+      "cta": "Découvrir mes projets",
+      "panelTitle": "Conçu pour les activités avicoles",
+      "panelSubtitle": "Fonctionnalités prévues",
+      "capabilities": {
+        "birds": {
+          "title": "Gestion des volailles",
+          "description": "Organiser les données et les quantités de volailles."
+        },
+        "inventory": {
+          "title": "Stocks et inventaire",
+          "description": "Suivre les stocks d'aliments, d'œufs et d'autres produits."
+        },
+        "vaccinations": {
+          "title": "Planification des vaccinations",
+          "description": "Organiser les calendriers de vaccination et les tâches à venir."
+        },
+        "sales": {
+          "title": "Ventes et rapports",
+          "description": "Enregistrer les ventes et consulter les informations opérationnelles."
+        }
+      },
+      "disclaimer": "DPMS est en cours de reconstruction. Les fonctionnalités présentées correspondent au périmètre prévu du projet et ne signifient pas qu'un système de production finalisé est actuellement disponible."
+    },
+    "process": {
+      "eyebrow": "Ma méthode de travail",
+      "title": "Du problème à une solution concrète",
+      "description": "Une méthode claire permet de concentrer le travail sur les besoins réels de votre entreprise.",
+      "steps": {
+        "understand": {
+          "title": "Comprendre",
+          "description": "Échanger sur vos objectifs, vos difficultés actuelles et les personnes qui utiliseront la solution."
+        },
+        "plan": {
+          "title": "Planifier",
+          "description": "Définir les fonctionnalités essentielles, les priorités et une approche de travail adaptée."
+        },
+        "build": {
+          "title": "Développer",
+          "description": "Créer la solution par étapes et examiner les progrès tout au long du projet."
+        },
+        "refine": {
+          "title": "Améliorer",
+          "description": "Tester le résultat, corriger les problèmes et améliorer l'expérience avant la livraison."
+        }
+      }
+    },
+    "cta": {
+      "eyebrow": "Un problème à résoudre ?",
+      "title": "Parlons de votre idée.",
+      "description": "Parlez-moi de votre entreprise, de ce qui ne fonctionne pas ou de ce que vous souhaitez créer. Nous pourrons explorer ensemble une solution adaptée.",
+      "button": "Discutons de votre projet"
+    }
   }
 }

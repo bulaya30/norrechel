@@ -1,12 +1,19 @@
 export interface NavItem {
-  translationKey: "home" | "blogs" | "projects" | "about" | "contact";
+  translationKey:
+    | "home"
+    | "services"
+    | "blogs"
+    | "projects"
+    | "about"
+    | "contact";
   path: string;
 }
 
 export const navItems: NavItem[] = [
   { translationKey: "home", path: "/" },
-  { translationKey: "blogs", path: "/blogs" },
+  { translationKey: "services", path: "/services" },
   { translationKey: "projects", path: "/projects" },
+  { translationKey: "blogs", path: "/blogs" },
   { translationKey: "about", path: "/about" },
   { translationKey: "contact", path: "/contact" },
 ];

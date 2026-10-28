@@ -6,6 +6,7 @@ import HeaderWrapper from "@/components/header/Header";
 import VisitorTracker from "@/features/visitors/components/VisitorTracker";
 
 import Hero from "@/features/home/components/Hero";
+import ProjectCTA from "@/features/home/components/ProjectCTA";
 import Expertise from "@/features/home/components/ExpertiseSection";
 import LatestArticles from "@/features/home/components/LatestArticles";
 import SelectedProjects from "@/features/home/components/SelectedProjects";
@@ -39,19 +40,22 @@ export default async function Page() {
 
       <div className="relative z-10">
         <Hero />
-
+        
         <Expertise />
 
-        <LatestArticles
-          articles={articles}
-          locale={locale}
-        />
 
         <SelectedProjects
           projects={projects}
           locale={locale}
         />
 
+        <ProjectCTA />
+
+        <LatestArticles
+          articles={articles}
+          locale={locale}
+        />
+        
         <AboutPreview />
 
         <NewsletterSection />

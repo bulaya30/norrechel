@@ -1,7 +1,8 @@
 {
   "Navigation": {
     "home": "Home",
-    "blogs": "Blogs",
+    "services": "Services",
+    "blogs": "Articles",
     "projects": "Projects",
     "about": "About",
     "contact": "Contact"
@@ -102,6 +103,14 @@
         "description": "Sharing practical lessons and ideas from software development, technology, entrepreneurship, and personal growth."
       },
       "technologiesLabel": "Technologies I work with"
+    },
+
+    "ProjectCTA": {
+      "eyebrow": "Have a project in mind?",
+      "title": "Let's Build Something Useful.",
+      "description": "I help businesses solve real-world problems through professional websites, custom software, and digital management systems. Whether you need a new website, a business dashboard, or a system to manage your daily operations, let's discuss your idea.",
+      "button": "Discuss a Project",
+      "supportingText": "Tell me about your business and what you need."
     },
 
     "LatestArticles": {
@@ -1221,5 +1230,103 @@
     },
     "openNavigation": "Open navigation",
     "mobileNavigationLabel": "Mobile dashboard navigation"
+  },
+  "ServicesPage": {
+    "hero": {
+      "eyebrow": "Services & Capabilities",
+      "title": "Practical digital solutions for",
+      "titleAccent": "real business problems.",
+      "description": "I build websites, custom software, and business tools designed to solve practical problems, simplify operations, and help businesses work more effectively.",
+      "cta": "Discuss a Project",
+      "secondaryCta": "Explore My Projects"
+    },
+    "overview": {
+      "eyebrow": "What I Can Help With",
+      "title": "Turning Ideas into Solutions",
+      "note": "Every project starts with understanding the problem, the people involved, and the outcome that matters."
+    },
+    "servicesSection": {
+      "eyebrow": "Areas of Focus",
+      "title": "What I Can Help You Build",
+      "description": "The right solution depends on your goals. These are the main areas where I focus my development work.",
+      "outcomeLabel": "The Goal"
+    },
+    "services": {
+      "websites": {
+        "title": "Business Websites",
+        "shortDescription": "A professional online presence for your business.",
+        "description": "Responsive websites that present your business clearly, explain your services, and make it easier for potential customers to reach you.",
+        "outcome": "Help customers understand your business and take the next step."
+      },
+      "software": {
+        "title": "Custom Software",
+        "shortDescription": "Digital systems built around your business needs.",
+        "description": "Web applications designed around specific workflows, records, and operational challenges rather than forcing your business into a generic process.",
+        "outcome": "Organize business operations in a system suited to your workflow."
+      },
+      "dashboards": {
+        "title": "Dashboards & Reporting",
+        "shortDescription": "A clearer view of business activity and performance.",
+        "description": "Dashboards and reporting tools that bring important information together so teams can monitor activity and make better-informed decisions.",
+        "outcome": "Make key information easier to understand and act on."
+      }
+    },
+    "featured": {
+      "eyebrow": "Project in Development",
+      "status": "Rebuild in Progress",
+      "title": "Digital Poultry Management System",
+      "description": "DPMS is a poultry management application I am rebuilding to explore how digital tools can help farmers organize records, monitor stock, schedule vaccinations, and manage sales across multiple branches.",
+      "cta": "Explore My Projects",
+      "panelTitle": "Designed Around Farm Operations",
+      "panelSubtitle": "Planned System Capabilities",
+      "capabilities": {
+        "birds": {
+          "title": "Bird Management",
+          "description": "Organize bird records and quantities."
+        },
+        "inventory": {
+          "title": "Stock & Inventory",
+          "description": "Track feed, eggs, and other inventory records."
+        },
+        "vaccinations": {
+          "title": "Vaccination Scheduling",
+          "description": "Organize vaccination schedules and upcoming tasks."
+        },
+        "sales": {
+          "title": "Sales & Reporting",
+          "description": "Record sales and review operational information."
+        }
+      },
+      "disclaimer": "DPMS is being rebuilt. The capabilities described here reflect the project scope and are not a claim that a finished production system is currently available."
+    },
+    "process": {
+      "eyebrow": "How I Approach Projects",
+      "title": "From Problem to Practical Solution",
+      "description": "A clear process helps keep the work focused on what your business actually needs.",
+      "steps": {
+        "understand": {
+          "title": "Understand",
+          "description": "Discuss your goals, current challenges, and the people who will use the solution."
+        },
+        "plan": {
+          "title": "Plan",
+          "description": "Define the essential features, priorities, and a practical approach to the work."
+        },
+        "build": {
+          "title": "Build",
+          "description": "Develop the solution in focused stages and review progress along the way."
+        },
+        "refine": {
+          "title": "Refine",
+          "description": "Test the result, address issues, and improve the experience before delivery."
+        }
+      }
+    },
+    "cta": {
+      "eyebrow": "Have a Problem to Solve?",
+      "title": "Let's Discuss Your Idea.",
+      "description": "Tell me about your business, what is not working, or what you want to build. We can explore a practical way forward.",
+      "button": "Discuss a Project"
+    }
   }
 }
