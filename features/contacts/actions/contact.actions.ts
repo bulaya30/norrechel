@@ -1,6 +1,8 @@
 
 "use server";
 
+import { requireAuthenticatedUser } from "@/features/auth/lib/requireAuthenticatedUser";
+
 import { updateTag } from "next/cache";
 
 import { contactService } from "@/lib/container/contact.container";
@@ -170,8 +172,90 @@ export async function submitContactAction(
 
     return { success: true };
   } catch (error) {
-    console.error("Contact submission failed:", error);
-
     return { success: false, error: "SUBMISSION_FAILED" };
   }
 }
+
+
+export async function markContactAsRepliedAction(
+  id: string,
+): Promise<{ success: boolean; message: string }> {
+  try {
+    const user = await requireAuthenticatedUser();
+
+    if (user.role.toLowerCase() !== "admin") {
+      return {
+        success: false,
+        message: "You are not authorized to perform this action.",
+      };
+    }
+
+    if (!id?.trim()) {
+      return {
+        success: false,
+        message: "Contact ID is required.",
+      };
+    }
+
+    await contactService.markContactAsReplied(user.userId, id);
+
+    updateTag("contacts");
+
+    return {
+      success: true,
+      message: "Contact marked as replied.",
+    };
+  } catch (error) {
+    console.error("Mark contact as replied error:", error);
+
+    return {
+      success: false,
+      message:
+        error instanceof Error
+          ? error.message
+          : "Failed to update contact.",
+    };
+  }
+}
+
+export async function deleteContactAction(
+  id: string,
+): Promise<{ success: boolean; message: string }> {
+  try {
+    const user = await requireAuthenticatedUser();
+
+    if (user.role.toLowerCase() !== "admin") {
+      return {
+        success: false,
+        message: "You are not authorized to perform this action.",
+      };
+    }
+
+    if (!id?.trim()) {
+      return {
+        success: false,
+        message: "Contact ID is required.",
+      };
+    }
+
+    await contactService.deleteContact(id);
+
+    updateTag("contacts");
+
+    return {
+      success: true,
+      message: "Contact deleted successfully.",
+    };
+  } catch (error) {
+    console.error("Delete contact error:", error);
+
+    return {
+      success: false,
+      message:
+        error instanceof Error
+          ? error.message
+          : "Failed to delete contact.",
+    };
+  }
+}
+

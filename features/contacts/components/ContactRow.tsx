@@ -1,10 +1,14 @@
 
 "use client";
 
-import Link from "next/link";
 import { useState, useTransition } from "react";
-import { Eye, Mail, MoreHorizontal, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import {
+  Eye,
+  Mail,
+  MoreHorizontal,
+  Trash2,
+} from "lucide-react";
 
 import {
   deleteContactAction,
@@ -12,33 +16,27 @@ import {
 } from "@/features/contacts/actions/contact.actions";
 
 import StatusBadge from "@/components/StatusBadge";
-
 import { readableDate } from "@/lib/dates/utils";
 
 import type { Contact } from "@/features/interfaces/contact";
 import type { SupportedLocale } from "../schema/contact.schema";
 
 interface ContactRowProps {
-  locale: SupportedLocale
+  locale: SupportedLocale;
   contact: Contact;
 }
 
 export default function ContactRow({
-    locale,
+  locale,
   contact,
 }: ContactRowProps) {
   const router = useRouter();
 
-  const [isPending, startTransition] =
-    useTransition();
-
-  const [showActions, setShowActions] =
-    useState(false);
+  const [isPending, startTransition] = useTransition();
+  const [showActions, setShowActions] = useState(false);
 
   function handleView() {
-    if (!contact.id) {
-      return;
-    }
+    if (!contact.id) return;
 
     router.push(
       `/${locale}/dashboard/contacts/${contact.id}`,
@@ -46,50 +44,56 @@ export default function ContactRow({
   }
 
   function handleMarkAsReplied() {
-    if (!contact.id) {
-      return;
-    }
+    if (!contact.id || isPending) return;
+
+    setShowActions(false);
 
     startTransition(async () => {
-      const response =
-        await markContactAsRepliedAction(
+      try {
+        const response = await markContactAsRepliedAction(
           contact.id!,
         );
 
-      if (!response.success) {
-        console.error(response.message);
-        return;
-      }
+        if (!response.success) {
+          window.alert(response.message);
+          return;
+        }
 
-      router.refresh();
+        router.refresh();
+      } catch (error) {
+        console.error("Failed to update contact:", error);
+        window.alert("Unable to update this contact. Please try again.");
+      }
     });
   }
 
   function handleDelete() {
-    if (!contact.id) {
-      return;
-    }
+    if (!contact.id || isPending) return;
 
     const confirmed = window.confirm(
-      "Are you sure you want to delete this contact?",
+      `Are you sure you want to delete the contact from ${contact.name}?`,
     );
 
-    if (!confirmed) {
-      return;
-    }
+    if (!confirmed) return;
+
+    setShowActions(false);
 
     startTransition(async () => {
-      const response =
-        await deleteContactAction(
+      try {
+        const response = await deleteContactAction(
           contact.id!,
         );
 
-      if (!response.success) {
-        console.error(response.message);
-        return;
-      }
+        if (!response.success) {
+          window.alert(response.message);
+          return;
+        }
 
-      router.refresh();
+        router.refresh();
+      } catch (error) {
+        console.error("Failed to delete contact:", error);
+        window.alert("Unable to delete this contact. Please try again.");
+      }
     });
   }
 
@@ -142,6 +146,7 @@ export default function ContactRow({
       {/* Source */}
       <td className="px-6 py-4">
         <span
+          title={contact.source_page}
           className="
             inline-flex
             max-w-[180px]
@@ -152,7 +157,6 @@ export default function ContactRow({
             text-xs font-medium
             text-slate-600
           "
-          title={contact.source_page}
         >
           {contact.source_page}
         </span>
@@ -182,6 +186,7 @@ export default function ContactRow({
               disabled={isPending}
               aria-label={`Actions for ${contact.name}`}
               aria-expanded={showActions}
+              aria-haspopup="true"
               className="
                 flex size-9
                 items-center justify-center
@@ -190,7 +195,6 @@ export default function ContactRow({
                 transition
                 hover:bg-slate-100
                 hover:text-slate-900
-                hover:cursor-pointer
                 disabled:cursor-not-allowed
                 disabled:opacity-50
               "
@@ -221,6 +225,7 @@ export default function ContactRow({
                     setShowActions(false);
                     handleView();
                   }}
+                  disabled={isPending || !contact.id}
                   className="
                     flex w-full
                     items-center gap-3
@@ -229,34 +234,23 @@ export default function ContactRow({
                     text-slate-700
                     transition
                     hover:bg-slate-50
+                    disabled:cursor-not-allowed
+                    disabled:opacity-50
                   "
                 >
-
-                    <Link
-                        href={`/${locale}/dashboard/contacts/${contact.id}`}
-                        className="
-                            flex items-center gap-2
-                        "
-                    >
-                        <Eye
-                            className="size-4"
-                            aria-hidden="true"
-                        />
-                        <span>
-                            View contact
-                        </span>
-                    </Link>
+                  <Eye
+                    className="size-4"
+                    aria-hidden="true"
+                  />
+                  <span>View contact</span>
                 </button>
 
                 {/* Mark as replied */}
-                {contact?.status === "new" && (
+                {contact.status === "new" && (
                   <button
                     type="button"
-                    onClick={() => {
-                      setShowActions(false);
-                      handleMarkAsReplied();
-                    }}
-                    disabled={isPending}
+                    onClick={handleMarkAsReplied}
+                    disabled={isPending || !contact.id}
                     className="
                       flex w-full
                       items-center gap-3
@@ -274,18 +268,15 @@ export default function ContactRow({
                       aria-hidden="true"
                     />
 
-                    Mark as replied
+                    <span>Mark as replied</span>
                   </button>
                 )}
 
                 {/* Delete */}
                 <button
                   type="button"
-                  onClick={() => {
-                    setShowActions(false);
-                    handleDelete();
-                  }}
-                  disabled={isPending}
+                  onClick={handleDelete}
+                  disabled={isPending || !contact.id}
                   className="
                     flex w-full
                     items-center gap-3
@@ -303,7 +294,7 @@ export default function ContactRow({
                     aria-hidden="true"
                   />
 
-                  Delete
+                  <span>Delete</span>
                 </button>
               </div>
             )}
@@ -313,4 +304,3 @@ export default function ContactRow({
     </tr>
   );
 }
-
