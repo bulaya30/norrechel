@@ -23,7 +23,6 @@ export interface ContentContactContext {
   contentType: "article" | "project";
   contentId: string;
   title: string;
-  sourcePage: string;
 }
 
 interface ContentContactFormProps {
@@ -74,8 +73,6 @@ export default function ContentContactForm({
       const result = await submitContactAction(data, locale, {
         contentType: context.contentType,
         contentId: context.contentId,
-        sourcePage: context.sourcePage,
-        title: context.title,
       });
 
       if (!result.success) {
@@ -85,7 +82,7 @@ export default function ContentContactForm({
 
       setSubmitted(true);
       reset();
-    } catch (error) {
+    } catch {
       setSubmissionError(true);
     }
   };

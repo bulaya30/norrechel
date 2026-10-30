@@ -1,3 +1,4 @@
+
 import "server-only";
 
 import { getLocale } from "next-intl/server";
@@ -13,6 +14,7 @@ import { getCachedPublishedProjects } from "@/features/projects/queries/project.
 
 type SupportedLocale = "en" | "fr";
 type ContentType = "article" | "project";
+type ContactPurpose = "general" | "business";
 
 interface ContactPageProps {
   searchParams: Promise<
@@ -53,6 +55,10 @@ export default async function ContactPage({
 
   const typeParam = getSingleParam(params.type);
   const contentId = getSingleParam(params.id);
+  const purposeParam = getSingleParam(params.purpose);
+
+  const initialPurpose: ContactPurpose =
+    purposeParam === "business" ? "business" : "general";
 
   const contentType: ContentType | undefined =
     typeParam === "article" || typeParam === "project"
@@ -70,22 +76,13 @@ export default async function ContactPage({
       );
 
       if (article) {
-        const title = getLocalizedValue(
-          article.title,
-          locale,
-        );
-
-        const slug = getLocalizedValue(
-          article.slug,
-          locale,
-        );
+        const title = getLocalizedValue(article.title, locale);
 
         if (title) {
           context = {
             contentType: "article",
             contentId,
             title,
-            sourcePage: `/${locale}/blogs/${slug || contentId}`,
           };
         }
       }
@@ -99,22 +96,13 @@ export default async function ContactPage({
       );
 
       if (project) {
-        const title = getLocalizedValue(
-          project.title,
-          locale,
-        );
-
-        const slug = getLocalizedValue(
-          project.slug,
-          locale,
-        );
+        const title = getLocalizedValue(project.title, locale);
 
         if (title) {
           context = {
             contentType: "project",
             contentId,
             title,
-            sourcePage: `/${locale}/projects/${slug || contentId}`,
           };
         }
       }
@@ -135,7 +123,10 @@ export default async function ContactPage({
             context={context}
           />
         ) : (
-          <ContactForm locale={locale} />
+          <ContactForm
+            locale={locale}
+            initialPurpose={initialPurpose}
+          />
         )}
       </div>
     </main>

@@ -1340,5 +1340,51 @@
       "description": "Parlez-moi de votre entreprise, de ce qui ne fonctionne pas ou de ce que vous souhaitez créer. Nous pourrons explorer ensemble une solution adaptée.",
       "button": "Discutons de votre projet"
     }
+  },
+  "BusinessContactForm": {
+    "eyebrow": "Demande professionnelle",
+    "title": "Discutons de votre projet",
+    "description": "Expliquez-moi ce que vous souhaitez créer ou améliorer. Partagez quelques détails sur votre projet et je vous répondrai.",
+    "nameLabel": "Nom complet",
+    "namePlaceholder": "Entrez votre nom complet",
+    "emailLabel": "Adresse e-mail",
+    "emailPlaceholder": "vous@exemple.com",
+    "businessNameLabel": "Nom de l'entreprise ou de l'organisation",
+    "businessNamePlaceholder": "Entrez le nom de votre entreprise",
+    "optional": "Facultatif",
+    "projectTypeLabel": "De quoi avez-vous besoin ?",
+    "projectTypePlaceholder": "Sélectionnez un type de projet",
+    "projectTypes": {
+      "website": "Site web professionnel",
+      "custom-software": "Logiciel sur mesure",
+      "dashboard": "Tableau de bord et rapports",
+      "management-system": "Système de gestion d'entreprise",
+      "other": "Autre"
+    },
+    "budgetLabel": "Budget estimé",
+    "budgetPlaceholder": "Sélectionnez une fourchette de budget",
+    "budgets": {
+      "under-500k": "Moins de 500 000 UGX",
+      "500k-1m": "500 000 à 1 million UGX",
+      "1m-3m": "1 à 3 millions UGX",
+      "3m-5m": "3 à 5 millions UGX",
+      "5m-10m": "5 à 10 millions UGX",
+      "above-10m": "Plus de 10 millions UGX",
+      "not-sure": "Pas encore décidé"
+    },
+    "messageLabel": "Parlez-moi de votre projet",
+    "messagePlaceholder": "Décrivez ce que vous souhaitez créer, le problème que vous cherchez à résoudre et vos principales exigences...",
+    "messageHint": "Précisez vos objectifs, les fonctionnalités souhaitées et les difficultés que vous souhaitez résoudre.",
+    "privacy": "Vos informations seront uniquement utilisées pour répondre à votre demande.",
+    "submit": "Envoyer la demande",
+    "submitting": "Envoi en cours...",
+    "successTitle": "Demande envoyée avec succès",
+    "successMessage": "Merci pour ces informations sur votre projet. Je vais examiner votre demande et vous répondre.",
+    "submissionError": "Votre demande n'a pas pu être envoyée. Veuillez réessayer."
+  },
+  "ContactTypeSelector": {
+    "label": "Choisissez comment vous souhaitez me contacter",
+    "general": "Contact général",
+    "business": "Demande professionnelle"
   }
 }

@@ -1,9 +1,34 @@
+
 import "server-only";
 
 import ContactRepository from "@/features/contacts/repositories/contact.repository";
-import type { Contact, CreateContactInput, Status } from "@/features/interfaces/contact";
+
+import type {
+  Contact,
+  CreateContactInput,
+  ProjectType,
+  ProjectBudget,
+} from "@/features/interfaces/contact";
 
 import { Timestamp } from "firebase-admin/firestore";
+
+const VALID_PROJECT_TYPES: ProjectType[] = [
+  "website",
+  "custom-software",
+  "dashboard",
+  "management-system",
+  "other",
+];
+
+const VALID_PROJECT_BUDGETS: ProjectBudget[] = [
+  "under-500k",
+  "500k-1m",
+  "1m-3m",
+  "3m-5m",
+  "5m-10m",
+  "above-10m",
+  "not-sure",
+];
 
 export default class ContactService {
   constructor(private contactRepository: ContactRepository) {}
@@ -20,8 +45,6 @@ export default class ContactService {
     return await this.contactRepository.findById(id);
   }
 
-  
-  
   async createContact(input: CreateContactInput): Promise<Contact> {
     if (!input) {
       throw new Error("Contact data is required");
@@ -36,53 +59,104 @@ export default class ContactService {
       throw new Error("Name, email, and message are required");
     }
 
-    let source_page = "/contact";
-    let content_id = "";
-    let content_type: Contact["content_type"] = "general";
+    const now = Timestamp.now();
 
-    if (
-      "source_page" in input &&
-      "content_id" in input &&
-      "content_type" in input
-    ) {
+    // Business enquiry
+    if ("purpose" in input && input.purpose === "business") {
+      if (!VALID_PROJECT_TYPES.includes(input.projectType)) {
+        throw new Error("Invalid project type");
+      }
+
+      if (
+        input.budget !== undefined &&
+        !VALID_PROJECT_BUDGETS.includes(input.budget)
+      ) {
+        throw new Error("Invalid project budget");
+      }
+
+      const payload: Omit<Contact, "id"> = {
+        name,
+        email,
+        subject,
+        message,
+
+        purpose: "business",
+        businessName: input.businessName?.trim() || "",
+        projectType: input.projectType,
+        ...(input.budget && { budget: input.budget }),
+
+        source_page: "/contact?purpose=business",
+        content_id: "",
+        content_type: "general",
+
+        status: "new",
+        submittedAt: now,
+        date: now,
+      };
+
+      return await this.contactRepository.create(payload);
+    }
+
+    // Article or project enquiry
+    if ("content_type" in input) {
       const sourcePage = input.source_page?.trim();
       const contentId = input.content_id?.trim();
-      const contentType = input.content_type;
 
       if (
         !sourcePage ||
         !contentId ||
-        (contentType !== "article" && contentType !== "project")
+        !sourcePage.startsWith("/") ||
+        sourcePage.startsWith("//") ||
+        sourcePage.includes("\\") ||
+        (input.content_type !== "article" &&
+          input.content_type !== "project")
       ) {
         throw new Error("Invalid content reference");
       }
 
-      source_page = sourcePage;
-      content_id = contentId;
-      content_type = contentType;
+      const payload: Omit<Contact, "id"> = {
+        name,
+        email,
+        subject,
+        message,
+
+        purpose: "general",
+        source_page: sourcePage,
+        content_id: contentId,
+        content_type: input.content_type,
+
+        status: "new",
+        submittedAt: now,
+        date: now,
+      };
+
+      return await this.contactRepository.create(payload);
     }
 
-    const now = Timestamp.now();
-
+    // General contact
     const payload: Omit<Contact, "id"> = {
       name,
       email,
       subject,
       message,
-      source_page,
-      content_id,
-      content_type,
+
+      purpose: "general",
+      source_page: "/contact",
+      content_id: "",
+      content_type: "general",
+
       status: "new",
       submittedAt: now,
       date: now,
     };
 
-    return this.contactRepository.create(payload);
+    return await this.contactRepository.create(payload);
   }
 
-
-
-  async updateContact(id: string, data: Partial<Contact>): Promise<boolean> {
+  async updateContact(
+    id: string,
+    data: Partial<Contact>,
+  ): Promise<boolean> {
     if (!id) {
       throw new Error("Contact id is required");
     }

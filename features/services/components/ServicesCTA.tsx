@@ -26,7 +26,7 @@ export default async function ServicesCTA() {
           </div>
 
           <Link
-            href="/contact"
+            href="/contact?purpose=business"
             className="inline-flex min-h-12 items-center justify-center gap-2 self-start rounded-lg bg-white px-5 py-3 text-sm font-semibold text-slate-950 transition-colors hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-orange-600 md:self-center"
           >
             {t("cta.button")}

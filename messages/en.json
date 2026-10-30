@@ -1328,5 +1328,51 @@
       "description": "Tell me about your business, what is not working, or what you want to build. We can explore a practical way forward.",
       "button": "Discuss a Project"
     }
-  }
+  },
+  "BusinessContactForm": {
+    "eyebrow": "Business Enquiry",
+    "title": "Let's discuss your project",
+    "description": "Tell me what you are looking to build or improve. Share a few details about your project, and I'll get back to you.",
+    "nameLabel": "Full name",
+    "namePlaceholder": "Enter your full name",
+    "emailLabel": "Email address",
+    "emailPlaceholder": "you@example.com",
+    "businessNameLabel": "Business or organization name",
+    "businessNamePlaceholder": "Enter your business name",
+    "optional": "Optional",
+    "projectTypeLabel": "What do you need?",
+    "projectTypePlaceholder": "Select a project type",
+    "projectTypes": {
+      "website": "Business website",
+      "custom-software": "Custom software",
+      "dashboard": "Dashboard and reporting",
+      "management-system": "Business management system",
+      "other": "Other"
+    },
+    "budgetLabel": "Estimated budget",
+    "budgetPlaceholder": "Select a budget range",
+    "budgets": {
+      "under-500k": "Below UGX 500,000",
+      "500k-1m": "UGX 500,000 – 1 million",
+      "1m-3m": "UGX 1 million – 3 million",
+      "3m-5m": "UGX 3 million – 5 million",
+      "5m-10m": "UGX 5 million – 10 million",
+      "above-10m": "Above UGX 10 million",
+      "not-sure": "Not sure yet"
+    },
+    "messageLabel": "Tell me about your project",
+    "messagePlaceholder": "Describe what you want to build, the problem you are trying to solve, and any important requirements...",
+    "messageHint": "Include your project goals, expected features, and any challenges you want to address.",
+    "privacy": "Your information will only be used to respond to your enquiry.",
+    "submit": "Send enquiry",
+    "submitting": "Sending...",
+    "successTitle": "Enquiry sent successfully",
+    "successMessage": "Thank you for sharing your project. I'll review your enquiry and get back to you.",
+    "submissionError": "We couldn't send your enquiry. Please try again."
+  },
+  "ContactTypeSelector": {
+    "label": "Choose how you'd like to contact me",
+    "general": "General Contact",
+    "business": "Business Enquiry"
+  }       
 }
